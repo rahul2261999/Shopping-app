@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import AriaModal from 'react-aria-modal'
+import ModalTemplate from '../../utilities/ModalTemplate/ModalTemplate'
 import { FcGoogle } from 'react-icons/fc'
 import { FaFacebook } from 'react-icons/fa'
-import { IoClose } from 'react-icons/io5'
 
 import {
     requireField,
@@ -13,16 +12,14 @@ import {
 } 
 from '../../utilities/helperFunction'
 import {
-    ModalBody,
-    ModalHeader,
     ModalMainContent,
     FormWrapper,
     AuthBUtton,
     Row,
     ModalFooter,
-    Icon,
     FooterRight,
-    Span
+    Span,
+    Icon
 }
 from './style'
 
@@ -78,12 +75,7 @@ const Auth = props =>{
     }
 
     const signUpFrom = (
-        <ModalBody>
-             <ModalHeader>
-                <div>Sign Up</div>
-                <Icon as={IoClose} onClick={()=>props.isModal(false)} />
-            </ModalHeader>
-            <ModalMainContent>
+        <ModalMainContent>
                 <Row>
                 <FormWrapper>
                     <FormWrapper.Group widths='equal'>
@@ -147,16 +139,10 @@ const Auth = props =>{
                     </ModalFooter>
                 </Row>
             </ModalMainContent>
-        </ModalBody>
     )
 
     const signInFrom = (
-        <ModalBody>
-            <ModalHeader>
-                <div>Sign In</div>
-                <Icon as={IoClose} onClick={()=>props.isModal(false)} />
-            </ModalHeader>
-            <ModalMainContent>
+        <ModalMainContent>
                 <Row>
                 <FormWrapper>
                     <FormWrapper.Group widths='equal'>
@@ -211,19 +197,19 @@ const Auth = props =>{
                     </ModalFooter>
                 </Row>
             </ModalMainContent>
-        </ModalBody>
+       
     )
 
     return (
-        <AriaModal
-         titleText="Auth Modal"
-         mounted={props.isMount}
-         focusDialog
-         verticallyCenter
-         underlayClickExits
+        <ModalTemplate
+         modalTitle="Auth Modal"
+         isMount={props.isMount}
+         maxWidth="450px"
+         Headertitle={props.isSignup?'Sign Up':'Sign In'}
+         isModalOpen={props.isModal}
         >
            {isSignup?signUpFrom:signInFrom}
-        </AriaModal>
+        </ModalTemplate>
     )
 }
 

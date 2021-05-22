@@ -24,15 +24,32 @@ export const ProductTitle = styled.div`
     font-weight: 400;
     font-variant: tabular-nums
 `
-export const PriceCateg = styled.div`
+export const DetailWrapper = styled.div`
     display:flex;
     justify-content:space-between;
-    padding:15px 0;
+    align-items:center;
+    padding-top:10px;
     font-size: 1.2rem;
     font-weight: 400;
     font-variant: tabular-nums
 `
-export const PreviewDetails = styled.div`
-    display:flex;
-    justify-content:space-around;
+
+export const CartIcon = styled.span`
+    padding: 8px 20px;
+    border: 1px solid #ccc;
+    box-sizing: content-box;
+    border-radius: 10px;
+    &:hover{
+        background:#000000;
+        color:#ffffff;
+        cursor:pointer;
+    }
+`
+
+export const Price = styled.div`
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:1.6rem;
+ padding-top:15px;
 `

@@ -1,23 +1,6 @@
 import styled from 'styled-components'
 import {Form,Input} from 'semantic-ui-react'
 
-export const ModalBody = styled.div`
-    display:flex;
-    flex-direction:column;
-    width:90vw;
-    max-width:450px;
-    background-color:#ffffff;
-`
-
-export const ModalHeader  = styled.div`
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:20px 25px;
-    border-bottom:1px solid #ccc;
-    font-size:1.6rem
-`
-
 export const ModalMainContent = styled.div`
     display:flex;
     flex-direction:column;

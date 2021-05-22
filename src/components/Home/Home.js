@@ -6,7 +6,7 @@ import shoes from '../../assests/banner/shoes.jpg'
 
 import ContainerWrapper from '../../hoc/Wrapper'
 import ProductLayout from '../ProductPageLayout/ProductPageLayout'
-import Card from '../../utilities/ProductCard/ProductCard'
+import {Product} from '../../assests/raw-data/raw-data'
 
 import {
     Wrapper,
@@ -29,14 +29,7 @@ const Home = props =>{
                     <PromotionCard bgImage={shoes} ><Text>Branded Shoes</Text></PromotionCard>
                 </CardContainer>
             </Wrapper>
-            <ProductLayout title="All Categories" products={null} />
-
-           <div style={{display:'flex',flexWrap:'wrap'}}>
-           <Card/>
-            <Card/>
-           </div>
-
-
+            <ProductLayout title="All Categories" products={Product} />
         </ContainerWrapper>
     )
 }

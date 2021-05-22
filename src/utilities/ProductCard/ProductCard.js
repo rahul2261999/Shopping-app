@@ -1,26 +1,30 @@
 import React from 'react'
-import pod from '../../assests/banner/femal.jpg'
 import{
     Card,
     CardContainer,
     DetailBody,
     ProductTitle,
-    PriceCateg,
-    PreviewDetails
+    DetailWrapper,
+    CartIcon,
+    Price
 
 } from './style'
+import {FaShoppingBag,FaRupeeSign} from 'react-icons/fa'
 const ProductCard = props =>{
+    const { title,image,category,price,openPreviewModal } = props
     return(
         <Card>
             <CardContainer>
-                <img src={pod} alt="prod1" height="350px" />
+                <img src={image} alt="prod1" height="350px" width="300px" />
                 <DetailBody>
-                    <ProductTitle>Zara soft cotton stuff t-shirt</ProductTitle>
-                    <PriceCateg>
-                        <span>Rs. 22,000</span>
-                        <span>Unisex</span>
-                    </PriceCateg>
-                    <PreviewDetails>preview   cart</PreviewDetails>
+                    <ProductTitle>{title}</ProductTitle>
+                    <DetailWrapper>
+                        <span>{category}</span>
+                        <CartIcon as={FaShoppingBag} onClick={openPreviewModal} />
+                    </DetailWrapper>
+                    <Price>
+                       <FaRupeeSign/> {price}
+                    </Price>
                 </DetailBody>
             </CardContainer>
         </Card>
