@@ -205,7 +205,7 @@ const Auth = props =>{
          modalTitle="Auth Modal"
          isMount={props.isMount}
          maxWidth="450px"
-         Headertitle={props.isSignup?'Sign Up':'Sign In'}
+         headerTitle={props.isSignup?'Sign Up':'Sign In'}
          isModalOpen={props.isModal}
         >
            {isSignup?signUpFrom:signInFrom}
