@@ -1,5 +1,6 @@
 import React from 'react'
 import Wrapper from '../../hoc/Wrapper'
+import {FaShoppingBag} from'react-icons/fa'
 import {
     NavBar,
     NavLogo,
@@ -20,6 +21,7 @@ const NavigationBar  = props =>{
                 </NavList>
 
                 <NavListRight>
+                    <ListRightItem><FaShoppingBag/></ListRightItem>
                     <ListRightItem onClick={()=>props.toggleModal(true)}>Login</ListRightItem>
                     {/* progile section todo */}
                 </NavListRight>

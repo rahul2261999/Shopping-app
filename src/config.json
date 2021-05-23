@@ -1,6 +1,8 @@
 {
     "headerSize":"2rem",
-    "border-color":"#e5e3db",
+    "borderColor":"#e5e3db",
     "heading":"1.5rem",
-    "sub-heading":"1.2rem"
+    "subHeading":"1.2rem",
+    "textColor":"#878787",
+    "buttonHoverColor":"#000000d1"
 }

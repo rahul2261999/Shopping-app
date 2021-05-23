@@ -27,9 +27,11 @@ export const NavListItem = styled(NavLink)`
 
 export const NavListRight = styled.div`
   display:flex;
+  align-items:center;
   padding-right:10px;
 `
 
 export const ListRightItem = styled.div`
-  cursor:pointer
+  cursor:pointer;
+  padding:0 10px;
 `

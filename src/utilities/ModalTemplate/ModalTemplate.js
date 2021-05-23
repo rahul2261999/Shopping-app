@@ -24,7 +24,7 @@ const ModalTemplate = props=>{
             <ModalBody maxWidth={maxWidth}>
                 <ModalHeader>
                     <div>{headerTitle}</div>
-                    <Icon as={IoClose} onClick={()=>isModalOpen(false)} />
+                    <Icon as={IoClose} onClick={isModalOpen} />
                 </ModalHeader>
                 {props.children}
             </ModalBody>

@@ -3,8 +3,7 @@ import Wrapper from '../../hoc/Wrapper'
 
 import ProductCard from '../../utilities/ProductCard/ProductCard'
 import ModalTemplate from '../../utilities/ModalTemplate/ModalTemplate'
-import Men from '../../assests/banner/men.jpg'
-import {FaMinus,FaPlus} from 'react-icons/fa'
+import {FaMinus,FaPlus,FaRupeeSign} from 'react-icons/fa'
 
 import {
     HeaderTag,
@@ -27,9 +26,39 @@ import {
 
 const ProductPage = props =>{
 
-    const [isPreview,setIsPreview] = useState(false)
+    const [previewModal,setPreviewModal] = useState({
+        modalOpen:false,
+        selectedProduct:null
+    })
+
+    const [productQuantity,setProductQuantity]  = useState(1)
 
     const {title,products} = props
+    const {modalOpen,selectedProduct} = previewModal
+
+    const modalPreviewHandler = (id) =>{
+        const selectedProduct = products.find(item=>item.product_id===id)
+        console.log(selectedProduct)
+        setPreviewModal({modalOpen:true,selectedProduct:selectedProduct})
+    }
+
+    const closeModal = ()=>{
+        setPreviewModal({...previewModal,modalOpen:false})
+    }
+
+    const prodQuantityHandler = type =>{
+        if(productQuantity>1){
+            if(type==="DEC"){
+                setProductQuantity(prevState=>prevState-1)
+            }
+        }
+
+        if(selectedProduct.stock>productQuantity){
+            if(type==="INC"){
+                setProductQuantity(prevState=>prevState+1)
+            }
+        }
+    }
 
 
     const ShowProduct = products.map(item=>{
@@ -40,7 +69,7 @@ const ProductPage = props =>{
                 image={item.product_image}
                 price={item.product_price}
                 category={item.product_cate}
-                openPreviewModal={()=>setIsPreview(true)}
+                openPreviewModal={()=>modalPreviewHandler(item.product_id)}
             />
         )
     })
@@ -48,33 +77,37 @@ const ProductPage = props =>{
         <Wrapper>
             <HeaderTag>{title}</HeaderTag>
             <ProductContainer>{ShowProduct}</ProductContainer>
-            {isPreview?
+            {modalOpen?
                 <ModalTemplate
                     modalTitle="Product Preview"
                     headerTitle="Product Details"
-                    isMount={isPreview}
-                    isModalOpen={setIsPreview}
+                    isMount={modalOpen}
+                    isModalOpen={closeModal}
                 >
                     <WrapperData>
-                        <ProductImage src={Men}/>
+                        <ProductImage src={selectedProduct.product_image}/>
         
                         <ProductDetails>
-                                <ProductTitle>Product Title Here</ProductTitle>
+                                <ProductTitle>{selectedProduct.product_name}</ProductTitle>
                                 <Container>
                                     <div>
                                         <ProductLabel>Category</ProductLabel>
-                                        <DetailText>Unisex</DetailText>
+                                        <DetailText>{selectedProduct.product_cate}</DetailText>
+                                    </div>
+                                    <div>
+                                        <ProductLabel>Price</ProductLabel>
+                                        <DetailText><FaRupeeSign/>{selectedProduct.product_price}</DetailText>
                                     </div>
                                     <div>
                                         <ProductLabel>Stock Availabel</ProductLabel>
-                                        <DetailText>10 Pieces</DetailText>
+                                        <DetailText>{selectedProduct.stock} Pieces</DetailText>
                                     </div>
                                 </Container>
                                 <Container>
                                     <AddItem>
-                                        <Icon as={FaMinus} />
-                                        <Input value="0" />
-                                        <Icon as={FaPlus} />
+                                        <Icon as={FaMinus} onClick={()=>prodQuantityHandler("DEC")}  />
+                                        <Input value={productQuantity} />
+                                        <Icon as={FaPlus} onClick={()=>prodQuantityHandler("INC")} />
                                         <Button>Add To Cart</Button>
                                     </AddItem>
                                 </Container>
@@ -83,9 +116,7 @@ const ProductPage = props =>{
                                         <ProductLabel>Product Description</ProductLabel>
                                         <ScrollBar>
                                             <Description>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+                                                {selectedProduct.product_desc}
                                             </Description>
                                         </ScrollBar>
                                     </div>

@@ -56,7 +56,9 @@ export const ProductLabel = styled.div`
 
 `
 export const DetailText = styled.div`
-    color:#ccc;
+    color:#878787;
+    display:flex;
+    align-items:center;
 `
 export const Icon = styled.div`
     border-radius: 50%;
