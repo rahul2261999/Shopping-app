@@ -27,11 +27,13 @@ require('./strategy/jwtStrategy')(passport)
 // import routes
 const auth = require('./routes/auth')
 const user = require('./routes/user')
+const product = require('./routes/products')
 
 
 
 // config routes
 app.use('/api',auth)
 app.use('/api',user)
+app.use('/api',product)
 
 app.listen(port,()=>console.log(`app is running at port ${port}`))
