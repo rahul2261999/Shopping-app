@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken")
 const User = require("../models/user/user")
 const {validationResult} = require("express-validator")
+const {errorHandler}  = require('./helperFunction/helper')
 
 
 exports.signUp = (req,res) => {
@@ -11,16 +12,16 @@ exports.signUp = (req,res) => {
     }
     
     User.findOne({email:req.body.email}).exec((err,user)=>{
-        if(err) throw err
-        if(user){
-           return res.status(400).json({error:'user already exist with this email'})
+        if(err||user){
+          return errorHandler(res,{error:err,data:user,msg:"User already registerd with this email"})
         }
         const newUser = new User(req.body)
         newUser.save((err,user)=>{
             if(err){
-            return res.status(400).json({error:'user not able to save'})
+            return errorHandler(res,{error:err})
             }
-            res.json({user})
+            const {_id,first_name,last_name,email,isEmailVerified} = user
+            res.json({_id,first_name,last_name,email,isEmailVerified})
         })
     })
 }
@@ -32,10 +33,10 @@ exports.signIn =  (req,res) => {
     }
     User.findOne({email:req.body.email}).exec((err,user)=>{
         if(err||!user){
-            return res.status(400).json({error:"user not found"})
+            return errorHandler(res,{error:err,data:!user,msg:"User not found with this email"})
         }
         if(!user.authenticated(req.body.password)){
-            return res.json({user:"user login successfully"})
+            return errorHandler(res,{data:true,msg:"Please enter correct password"})
         }
        
         const {_id,first_name,last_name,email} = user
@@ -49,9 +50,9 @@ exports.signIn =  (req,res) => {
 }
 
 exports.isAdmin = (req,res,next) =>{
-    if(!req.user.isAdmin===1){
-        return res.status(400).json({error:'Admin access required'})
+    const check = req.user.isAdmin===1
+    if(!check){
+        return errorHandler(res,{data:!check})
     }
     next()
-
 }

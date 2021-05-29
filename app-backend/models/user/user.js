@@ -29,7 +29,7 @@ const userModel = new Schema({
         type:Boolean,
         default:false,
     }
-})
+},{timestamps:true})
 
 userModel.virtual('password')
 .set(function(password){
