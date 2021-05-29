@@ -14,7 +14,7 @@ const Layout = props =>{
             <NavigationBar toggleModal={setModalOpen} />
             <AuthModal isMount={isModalOpen} isModal={()=>setModalOpen(false)} />
             <ContentContainer>{props.children}</ContentContainer>
-            <Cart addedProduct={Product}/>
+            {/* <Cart addedProduct={Product}/> */}
         </Wrapper>
     )
 }

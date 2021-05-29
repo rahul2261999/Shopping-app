@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React from 'react'
 import {FaShoppingBag} from 'react-icons/fa'
 import {IoClose} from 'react-icons/io5'
 import CartCard from '../../utilities/CartCard/CartCard'
