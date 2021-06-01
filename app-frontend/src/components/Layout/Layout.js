@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import Wrapper from '../../hoc/Wrapper'
 import NavigationBar from '../../utilities/NavigationBar/NavigationBar'
 import AuthModal from '../Auth/Auth'
@@ -8,11 +8,12 @@ import {Product} from '../../assests/raw-data/raw-data'
 import {ContentContainer} from './styled'
 
 const Layout = props =>{
-    const [isModalOpen,setModalOpen] = useState(false);
+    
+
     return(
         <Wrapper>
-            <NavigationBar toggleModal={setModalOpen} />
-            <AuthModal isMount={isModalOpen} isModal={()=>setModalOpen(false)} />
+            <NavigationBar  />
+            <AuthModal />
             <ContentContainer>{props.children}</ContentContainer>
             {/* <Cart addedProduct={Product}/> */}
         </Wrapper>

@@ -2,9 +2,27 @@ import {
     USER_SIGNIN_INITIATE,
     USER_SIGNIN_SUCCESS,
     USER_SIGNUP_INITIATE,
-    USER_SIGNUP_SUCCESS,
-    USER_SIGNOUT
+    USER_SIGNOUT,
+    OPEN_AUTH_MODAL,
+    CLOSE_AUTH_MODAL,
+    AUTHENTICATE_USER_START,
+    AUTHENTICATE_USER_SUCCESS,
+    AUTHENTICATE_USER_FAIL
 } from '../actionTypes'
+
+export const openAuthModal = data =>{
+    return {
+        type:OPEN_AUTH_MODAL,
+        payload:data,
+    }
+}
+
+export const closeAuthModal = data =>{
+    return {
+        type:CLOSE_AUTH_MODAL,
+        payload:data,
+    }
+}
 
 export const userSignup = formData => {
     return{
@@ -13,19 +31,7 @@ export const userSignup = formData => {
     }
 }
 
-export const userSignupSuccess = user =>{
-   return{
-    type:USER_SIGNUP_SUCCESS,
-    payload:user
-   }
-}
-
-// export const userSignupFailure = error =>{
-//     return {
-//         type:USER_SIGNUP_FAIL,    
-//     }
-// }
-export const userLoginInitiate = formData =>{
+export const userSignInInitiate = formData =>{
     return {
         type:USER_SIGNIN_INITIATE,
         payload:formData
@@ -42,5 +48,22 @@ export const userLoginSucess = user =>{
 export const userSignoutInitiate = () =>{
     return {
         type:USER_SIGNOUT
+    }
+}
+export const isAuthenticated = () =>{
+    return {
+        type:AUTHENTICATE_USER_START
+    }
+}
+
+export const authenticationSuceess = data =>{
+    return {
+        type:AUTHENTICATE_USER_SUCCESS,
+        payload:data
+    }
+}
+export const authenticationFail = () =>{
+    return {
+        type:AUTHENTICATE_USER_FAIL,
     }
 }
