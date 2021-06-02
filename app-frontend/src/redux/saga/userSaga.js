@@ -34,15 +34,15 @@ export function* userSignout(action){
     yield call([localStorage,'clear'])
 }
 
-export function* isAuthenticated(action){
+export function* isAuthenticated(){
     if(typeof window == undefined){
         return false
       }
       if(localStorage.getItem("token")&&localStorage.getItem("user")){
         const token = yield localStorage.getItem("token")
         const user = yield JSON.parse(localStorage.getItem("user"))
-        put(authenticationSuceess({token,user})) 
+        yield put(authenticationSuceess({token,user})) 
       }else{
-          put(authenticationFail())
+         yield put(authenticationFail())
       }
 }

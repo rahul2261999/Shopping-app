@@ -6,7 +6,7 @@ import shoes from '../../assests/banner/shoes.jpg'
 
 import ContainerWrapper from '../../hoc/Wrapper'
 import ProductLayout from '../ProductPageLayout/ProductPageLayout'
-import {Product} from '../../assests/raw-data/raw-data'
+import {useSelector} from 'react-redux'
 
 import {
     Wrapper,
@@ -14,8 +14,10 @@ import {
     PromotionCard,
     Text,
 } from './style'
+import memoizedProducts from '../../redux/selector/products'
 
 const Home = props =>{
+    const {allProducts} = useSelector(memoizedProducts)
     return(
         <ContainerWrapper>
             <Wrapper>
@@ -29,7 +31,7 @@ const Home = props =>{
                     <PromotionCard bgImage={shoes} ><Text>Branded Shoes</Text></PromotionCard>
                 </CardContainer>
             </Wrapper>
-            <ProductLayout title="All Categories" products={Product} />
+            <ProductLayout title="All Categories" products={allProducts} />
         </ContainerWrapper>
     )
 }

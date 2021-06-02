@@ -12,7 +12,7 @@ import {
 } from './style'
 
 const Cart = props => {
-
+    const {show,closeCart} = props
     const addedItems = props.addedProduct.map(item=>{
         return <CartCard
                     key={item.product_id}
@@ -25,12 +25,12 @@ const Cart = props => {
                 />
     })
     return (
-        <Wrapper>
+        <Wrapper show={show?'show':false} >
             <CartHeader>
                 <div>
                     <Icon as={FaShoppingBag}/> Cart
                 </div>
-                <Icon as={IoClose} />
+                <Icon as={IoClose} onClick={closeCart} />
             </CartHeader>
             <ScrollBar>
                 <CartBody>

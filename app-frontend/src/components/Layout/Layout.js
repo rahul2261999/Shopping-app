@@ -1,22 +1,46 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect,useState} from 'react'
+import {useSelector,useDispatch} from 'react-redux'
 import Wrapper from '../../hoc/Wrapper'
-import NavigationBar from '../../utilities/NavigationBar/NavigationBar'
+import NavigationBar from '../../utilities/NavigationBar/TopBar/NavigationBar'
 import AuthModal from '../Auth/Auth'
 import Cart from '../Cart/Cart'
 import {Product} from '../../assests/raw-data/raw-data'
+import Sidebar from '../../utilities/NavigationBar/Sidebar/Sidebar'
 
-import {ContentContainer} from './styled'
+
+import {ContentContainer,FlexContainer} from './styled'
+import { memoizedUser } from '../../redux/selector/user'
+import { isAuthenticated, openAuthModal } from '../../redux/actions/user'
 
 const Layout = props =>{
-    
+    const {user,token}  =useSelector(memoizedUser)
+    const dispatch = useDispatch()
+    const [showCart,setShowCart] = useState(false)
+
+    const openModel = ()=>{
+        dispatch(openAuthModal(true))
+    }
+
+    const openCart = () =>{
+        setShowCart(prevState=>!prevState)
+    }
+
+    const closeCart = () =>{
+        setShowCart(false)
+    }
+
+
+    useEffect(()=>{
+        dispatch(isAuthenticated())
+    },[dispatch])
 
     return(
-        <Wrapper>
-            <NavigationBar  />
-            <AuthModal />
-            <ContentContainer>{props.children}</ContentContainer>
-            {/* <Cart addedProduct={Product}/> */}
-        </Wrapper>
+            <Wrapper>
+                <NavigationBar user={user} toggleCart={openCart} openModel={openModel}  />
+                <AuthModal />
+                <ContentContainer>{props.children}</ContentContainer>
+                {user&&token?<Cart show={showCart} closeCart={closeCart} addedProduct={Product}/>:null}    
+            </Wrapper>
     )
 }
 

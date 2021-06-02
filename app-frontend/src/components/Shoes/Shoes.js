@@ -1,12 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import memoizedProducts from '../../redux/selector/products'
 import ProductPage from '../ProductPageLayout/ProductPageLayout'
-import {Product} from '../../assests/raw-data/raw-data'
 
 
 
 const TShirt = props =>{
+    const {allProducts} = useSelector(memoizedProducts)
     return (
-        <ProductPage title="Shoes" products={Product} />
+        <ProductPage title="Shoes" products={allProducts} />
     )
 }
 

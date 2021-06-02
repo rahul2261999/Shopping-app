@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import style from '../../config.json'
 
 export const Wrapper = styled.div`
@@ -7,9 +7,10 @@ export const Wrapper = styled.div`
     width:500px;
     position:fixed;
     top:0;
-    right:0;
+    right:${props=>props.show?'0':'-100%'};
     bottom:0;
     background-color:#ffffff;
+    transition:all 1.2s ease-in-out;
 `
 
 export const CartHeader = styled.div`

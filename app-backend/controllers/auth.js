@@ -39,12 +39,12 @@ exports.signIn =  (req,res) => {
             return errorHandler(res,{data:true,msg:"Please enter correct password"})
         }
        
-        const {_id,first_name,last_name,email} = user
+        const {_id,first_name,last_name,email,isAdmin} = user
 
-        const token = jwt.sign({_id,first_name,last_name,email},process.env.TOKEN_SECRET,{expiresIn:3600})
+        const token = jwt.sign({_id,first_name,last_name,email,isAdmin},process.env.TOKEN_SECRET,{expiresIn:3600})
         res.json({
             token,
-            user:{_id,first_name,last_name,email}})
+            user:{_id,first_name,last_name,email,isAdmin}})
 
     })
 }
