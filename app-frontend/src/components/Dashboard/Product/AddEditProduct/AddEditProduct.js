@@ -1,7 +1,10 @@
 import React,{useEffect, useState} from 'react'
 import ModalTemplate from '../../../../utilities/ModalTemplate/ModalTemplate'
+import {requireField,isObjectEmpty} from '../../../../utilities/helperFunction'
 
 import {Button, FormContainer,FormWrapper} from './style'
+import {useDispatch} from 'react-redux'
+import { createProduct } from '../../../../redux/actions/product'
 
 const AddEditProduct = props =>{
     const {
@@ -10,23 +13,39 @@ const AddEditProduct = props =>{
         edit,
         filterProduct
     } = props
-    const [productDetails,setProductDetails] = useState({
-        prod_name:'',
-        prod_price:'',
-        prod_stock:'',
-        prod_image:'',
-        prod_category:'',
-        prod_desc:'',
-    })
 
+    const initialState = {
+        product:{
+            prod_name:'',
+            prod_price:0,
+            prod_stock:0,
+            prod_image:'',
+            prod_category:'',
+            prod_desc:'',
+        },
+
+       error:{
+        name:false,
+        category:false,
+       }
+    }
+    const {product,error} = initialState
+    const dispatch = useDispatch()
+    
+    const [productDetails,setProductDetails] = useState(product)
     const {prod_name,prod_price,prod_stock,prod_image,prod_category,prod_desc} = productDetails
 
+    const [productError,setProductError] = useState(error)
+    const {name,category} = productError
+
     const Category = [
-        { key: 'af', value: 'winter', text: 'Winter Collection' },
-        { key: 'ax', value: 'Summer', text: 'Summer Collection' },
+        { key: 'unisex', value: 'Unisex', text: 'Unisex Collection' },
+        { key: 'gents', value: 'Male', text: 'Gents Collection' },
+        { key: 'female', value: 'Female', text: 'Female Collection' },
     ]
 
     const {product_id,product_name,product_price,product_cate,product_desc,stock} = filterProduct
+    
     useEffect(()=>{
         if(edit){
             setProductDetails({
@@ -42,9 +61,34 @@ const AddEditProduct = props =>{
     },[product_id])
 
     const valueHandler = (e,{name,value}) =>{
+        if(name==="prod_price"|| name==="prod_stock"){
+            const regex = /^[0-9]*$/
+            if(regex.test(value)){
+            setProductDetails({...productDetails,[name]:value})
+            }
+        }else{
         setProductDetails({...productDetails,[name]:value})
+        }
     }
 
+    const validation =()=>{
+        setProductError(error)
+        const Proderror ={
+            name:requireField(prod_name,"Product name require"),
+            category:requireField(prod_category,"Please Select the Category"),
+        }
+        return Proderror
+    }
+
+
+    const formSubmitHandler = () =>{
+        const validateForm = validation()
+        if(isObjectEmpty(validateForm)){
+            edit?console.log("product edit"):dispatch(createProduct(productDetails))
+        }else{
+            setProductError(validateForm)
+        }
+    }
 
     return(
         <ModalTemplate
@@ -56,14 +100,21 @@ const AddEditProduct = props =>{
                
         >
             <FormContainer>
-                <FormWrapper>
+                <FormWrapper 
+                    onSubmit={(e)=>{
+                        e.preventDefault()
+                        formSubmitHandler()
+                        }
+                    }
+                    
+                 >
                     <FormWrapper.Input 
                         label="Product Name"
                         type="text"
                         name="prod_name"
                         value={prod_name}
                         onChange={valueHandler} 
-                        error={false}/>
+                        error={name}/>
 
                     <FormWrapper.Input 
                         label="Price"
@@ -71,15 +122,15 @@ const AddEditProduct = props =>{
                         name="prod_price"
                         value={prod_price}
                         onChange={valueHandler} 
-                        error={false}/>
+                       />
                     
                     <FormWrapper.Input 
                         label="Stock Available"
-                        type="number"
+                        type="text"
                         name="prod_stock"
                         value={prod_stock}
                         onChange={valueHandler} 
-                        error={false}/>
+                    />
                     
                     <FormWrapper.Input 
                         label="Product Image"
@@ -95,14 +146,13 @@ const AddEditProduct = props =>{
                         name="prod_category"
                         value={prod_category}
                         onChange={valueHandler} 
-                        error={false}/>
+                        error={category}/>
                     
                     <FormWrapper.TextArea 
                         label="Description"
                         name="prod_desc"
                         value={prod_desc}
-                        onChange={valueHandler} 
-                        error={false}/>
+                        onChange={valueHandler}/>
 
                     <Button>{edit?'Update Product':'Add Product'} </Button>
                 </FormWrapper>

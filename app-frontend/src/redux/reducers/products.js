@@ -1,5 +1,5 @@
 import {Product} from '../../assests/raw-data/raw-data'
-import { CLOSE_PRODUCT_MODAL, OPEN_PRODUCT_MODAL } from '../actionTypes'
+import { ADD_NEW_PRODUCT_SUCCESS, CLOSE_PRODUCT_MODAL, OPEN_PRODUCT_MODAL } from '../actionTypes'
 const initialState = {
     modal: false,
     allProducts: Product,
@@ -16,6 +16,12 @@ const productReducer = (state=initialState,action)=>{
             return {
                 ...state,
                 modal:false
+            }
+        case ADD_NEW_PRODUCT_SUCCESS:
+            const {payload} = action
+            return {
+                ...state,
+                allProducts:[...state.allProducts,payload]
             }
         default:
             return state
