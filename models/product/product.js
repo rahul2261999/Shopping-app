@@ -15,11 +15,12 @@ const productSchema = new Schema({
     },
     prod_image:{
         type:String,
-        required:true
+        // required:true
     },
     prod_color:{
         type:String,
     },
+    prod_description:String,
     prod_category:{
         type:String
     },
