@@ -21,7 +21,7 @@ exports.signUp = (req,res) => {
             return errorHandler(res,{error:err})
             }
             const {_id,first_name,last_name,email,isEmailVerified} = user
-            res.json({_id,first_name,last_name,email,isEmailVerified})
+            res.json({msg:"User signup successfully. Please signin"})
         })
     })
 }
