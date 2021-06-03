@@ -7,10 +7,12 @@ import { rootWatcher } from './saga'
 // import reducers
 import authReducer from './reducers/user'
 import productReducer from './reducers/products'
+import toasterReducer from './reducers/toaster'
 
 const rootReducer = combineReducers({
     user:authReducer,
-    products:productReducer
+    products:productReducer,
+    toaster:toasterReducer,
 })
 
 const sagaMiddleware = createSagaMiddleware()

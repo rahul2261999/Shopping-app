@@ -13,13 +13,16 @@ const CanAcess = ({component:Component,adminRoute,...rest}) =>{
             </DashLayout>
         )
         
-    }else{
+    }
+    if(!adminRoute){
         return (
             <Layout>
                 <Route {...rest} render={props=><Component {...props} />} />
             </Layout>
         )
     }
+
+    return <Redirect to="/" />
 
     
 }

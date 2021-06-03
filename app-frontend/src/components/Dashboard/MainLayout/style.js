@@ -5,5 +5,6 @@ export const FlexContainer = styled.div`
     flex-direction:row;
 `
 export const ContentContainer = styled.div`
-    margin:0px 30px
+    width:100%;
+    padding-left:200px;
 `

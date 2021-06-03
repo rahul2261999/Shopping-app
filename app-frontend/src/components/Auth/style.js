@@ -15,13 +15,6 @@ export const FormWrapper = styled(Form)`
 export const Row = styled.div`
     width:80%
 `
-
-export const SInput = styled(Input)`
-&.${props=>props.className}{
-    width:100%;
-}
-`
-
 export const AuthBUtton = styled.button`
     background-color:#000000;
     color:#ffffff;

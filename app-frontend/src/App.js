@@ -5,12 +5,14 @@ import {Provider} from 'react-redux'
 
 import MainRoutes from './routes/mainRoutes'
 import store from './redux/store'
+import Toaster from './utilities/Toaster/Toaster'
 
 const App = () => {
   return (
     <Provider store={store}>
         <BrowserRouter>
             <MainRoutes />
+            <Toaster/>
         </BrowserRouter>
     </Provider>
   )

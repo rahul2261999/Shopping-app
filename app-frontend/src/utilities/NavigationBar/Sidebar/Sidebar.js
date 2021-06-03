@@ -20,8 +20,7 @@ const Sidebar = props =>{
             </SidebarHeader>
             <SidebarList>
                 <ListItem to="/dashboard/profile" ><Icon as={FaAddressCard}/> Profile</ListItem>
-                <ListItem to="/dashboard" exact><Icon as={FaArchive}/> All Product</ListItem>
-                <ListItem to="/dashboard/addproduct" ><Icon as={FaNotesMedical}/> Add Product</ListItem>
+                <ListItem to="/dashboard" exact><Icon as={FaArchive}/>Product</ListItem>
                 <ListItem to="/dashboard/addcategory"><Icon as={BsFillTagFill} /> Add Category</ListItem>
                 <ListItem to="/dashboard/allusers"><Icon as={BsFillPeopleFill} /> All Users</ListItem>
                 <ListItem to="/dashboard/orders"><Icon as={FaTruckLoading} /> Orders </ListItem>

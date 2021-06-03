@@ -2,11 +2,12 @@ import styled from 'styled-components'
 import {NavLink} from 'react-router-dom' 
 
 export const Wrapper = styled.div`
-    width:300px;
+    width:200px;
     height:100vh;
     overflow:auto;
     padding:20px 0;
     background:#484848;
+    position:fixed;
 `
 export const SidebarHeader = styled.div`
     padding:0 20px;

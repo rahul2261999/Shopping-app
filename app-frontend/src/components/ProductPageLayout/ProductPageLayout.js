@@ -33,13 +33,12 @@ const ProductPage = props =>{
 
     const [productQuantity,setProductQuantity]  = useState(1)
 
-    const {title,products} = props
+    const {title,products,isAdmin,editProduct} = props
     const {modalOpen,selectedProduct} = previewModal
 
     const modalPreviewHandler = (id) =>{
         const selectedProduct = products.find(item=>item.product_id===id)
-        console.log(selectedProduct)
-        setPreviewModal({modalOpen:true,selectedProduct:selectedProduct})
+        setPreviewModal({...previewModal,modalOpen:true,selectedProduct:selectedProduct})
     }
 
     const closeModal = ()=>{
@@ -70,6 +69,8 @@ const ProductPage = props =>{
                 price={item.product_price}
                 category={item.product_cate}
                 openPreviewModal={()=>modalPreviewHandler(item.product_id)}
+                isAdmin={isAdmin}
+                onEdit={()=>editProduct(item.product_id)}
             />
         )
     })

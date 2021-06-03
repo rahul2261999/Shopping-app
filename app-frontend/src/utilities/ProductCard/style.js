@@ -36,6 +36,7 @@ export const DetailWrapper = styled.div`
 
 export const CartIcon = styled.span`
     padding: 8px 20px;
+    margin-right:10px;
     border: 1px solid #ccc;
     box-sizing: content-box;
     border-radius: 10px;
