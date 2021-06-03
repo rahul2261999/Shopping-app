@@ -1,5 +1,6 @@
 import {call, put} from 'redux-saga/effects'
 import axios from '../../axios'
+import { errorToaster, successToaster } from '../actions/toaster'
 import {
     userLoginSucess,
     closeAuthModal,
@@ -11,8 +12,10 @@ export function* signup(action){
     try {
         const response = yield axios.post('signup',action.payload)
         yield put(closeAuthModal(false))
+        yield put(successToaster(response.data.msg))
     } catch (error) {
-        console.log(error.response.data.error)
+        console.log("erroe")
+        yield put(errorToaster(error.response.data.error))
     }
 }
 

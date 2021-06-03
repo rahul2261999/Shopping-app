@@ -1,11 +1,11 @@
 import {MOUNT_TOASTER,UNMOUNT_TOASTER} from '../actionTypes'
 
-export const successToaster = data =>{
+export const successToaster = message =>{
     return {
         type:MOUNT_TOASTER,
         payload:{
             title:"SUCCESS",
-            msg:data.msg,
+            msg:message,
             mount:true
         }
     }

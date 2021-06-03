@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import ModalTemplate from '../../utilities/ModalTemplate/ModalTemplate'
 import { FcGoogle } from 'react-icons/fc'
@@ -53,11 +53,12 @@ const Auth = props =>{
         setFormValues({...formValues,[name]:value})
     }
 
-    const closeModal = () =>{
-        dispatch(closeAuthModal(false))
-    }
+    useEffect(()=>{
+        resetForm()
+        setSignup(false)
+    },[openModal])
 
-    const switchFrom = () =>{
+    const resetForm = () =>{
         setFormValues({
             first_name:'',
             last_name:'',
@@ -66,6 +67,14 @@ const Auth = props =>{
             confirm_password:''
         })
         setFromError('')
+    }
+
+    const closeModal = () =>{
+        dispatch(closeAuthModal(false))
+    }
+
+    const switchFrom = () =>{
+        resetForm()
         setSignup(prevState => !prevState)
     }
 
