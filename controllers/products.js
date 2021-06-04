@@ -1,5 +1,8 @@
 const Product = require('../models/product/product')
 const { errorHandler } = require('./helperFunction/helper')
+const formidable = require("formidable");
+const fs = require("fs")
+const url = require('url')
 
 exports.getProduct = (req,res,next,id)=>{
     Product.findById(id).exec((err,product)=>{
@@ -21,16 +24,31 @@ exports.getAllProducts = (req,res)=>{
 }
 
 exports.createProduct = (req,res)=>{
-    const newProduct = new Product(req.body)
-    newProduct.save((err,saveProd)=>{
+    
+    const form = new formidable.IncomingForm({keepExtensions:true})
+    form.parse(req,(err,fields,file)=>{
         if(err){
-            return errorHandler(res,{data:err,msg:"Product not able to save"})
+            return errorHandler(res,{data:err,msg:"Something wrong with image"})
         }
-        return res.status(200).json(saveProd)
+        const product = new Product(fields)
+        if(file.prod_image){
+            if(file.prod_image.size>10000000){
+                return errorHandler(res,{data:true,msg:"Image Size is too big"})
+            }
+            product.prod_image.name = fs.readFileSync(file.prod_image.path)
+            product.prod_image.contentType = file.prod_image.type
+        }
+        product.save((err,prod)=>{
+            if(err){
+                return errorHandler(res,{error:err})
+            }
+            res.status(200).json(prod)
+        })
     })
 }
 
 exports.getProductDetails = (req,res) =>{
+    const {prod_image} = req.product
     res.status(200).json(req.product)
 }
 
