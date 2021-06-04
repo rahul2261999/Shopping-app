@@ -67,14 +67,14 @@ export const fetchAllProductSuccess = prods =>{
     }
 }
 
-export const fetchSignleProduct = params =>{
+export const fetchSingleProduct = params =>{
     return {
         type:FETCH_SINGLE_PRODUCT_START,
         payload:params
     }
 }
 
-export const fetchSignleProductSuccess = prod =>{
+export const fetchSingleProductSuccess = prod =>{
     return {
         type:FETCH_SINGLE_PRODUCT_SUCCESS,
         payload:prod
