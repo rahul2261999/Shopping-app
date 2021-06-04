@@ -1,10 +1,10 @@
 import React,{useEffect, useState} from 'react'
 import ModalTemplate from '../../../../utilities/ModalTemplate/ModalTemplate'
-import {requireField,isObjectEmpty} from '../../../../utilities/helperFunction'
+import {requireField,isObjectEmpty, getUser} from '../../../../utilities/helperFunction'
 
 import {Button, FormContainer,FormWrapper} from './style'
 import {useDispatch} from 'react-redux'
-import { createProduct } from '../../../../redux/actions/product'
+import { createProduct, updateProduct } from '../../../../redux/actions/product'
 
 const AddEditProduct = props =>{
     const {
@@ -30,6 +30,7 @@ const AddEditProduct = props =>{
        }
     }
     const {product,error} = initialState
+    const {token,user} = getUser()
     const dispatch = useDispatch()
     
     const [productDetails,setProductDetails] = useState(product)
@@ -84,7 +85,7 @@ const AddEditProduct = props =>{
     const formSubmitHandler = () =>{
         const validateForm = validation()
         if(isObjectEmpty(validateForm)){
-            edit?console.log("product edit"):dispatch(createProduct(productDetails))
+            edit? dispatch(updateProduct(token,user._id,product_id,productDetails)):dispatch(createProduct(token,user._id,productDetails))
         }else{
             setProductError(validateForm)
         }

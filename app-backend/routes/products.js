@@ -1,9 +1,18 @@
 const express = require("express")
 const route = express.Router()
-const {getProduct,getAllProducts,createProduct} = require('../controllers/products')
+const passport = require("passport")
 
-route.param('/:productId',getProduct)
-route.get('/allproducts',getAllProducts);
-route.post('/addproduct',createProduct)
+const {getUserDetails} = require('../controllers/user')
+const {getProduct,getAllProducts,createProduct,getProductDetails,updateProduct,deleteProduct} = require('../controllers/products')
+const {isAdmin} = require('../controllers/auth')
+// params
+route.param('productId',getProduct)
+
+// routes
+route.get('/allproducts',getAllProducts)
+route.post('/addproduct/:userId',passport.authenticate('jwt',{session:false}),isAdmin,createProduct)
+route.get('/product/:productId',getProductDetails)
+route.put('/product/:productId/:userId',passport.authenticate('jwt',{session:false}),isAdmin,updateProduct)
+route.delete('/product/:productId/:userId',passport.authenticate('jwt',{session:false}),isAdmin,deleteProduct)
 
 module.exports = route

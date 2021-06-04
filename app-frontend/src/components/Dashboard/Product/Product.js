@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {HeaderBar,Icon} from './style'
 import {FaPlusSquare} from 'react-icons/fa'
-import AddEditModal from './AddEditProduct/AddEditProduct'
+import AddEditProdduct from './AddEditProduct/AddEditProduct'
 import memoizedProducts from '../../../redux/selector/products'
 import { closeModal, openModal } from '../../../redux/actions/product'
 import ProductPage from '../../ProductPageLayout/ProductPageLayout'
@@ -36,7 +36,7 @@ const Product = props =>{
              <Icon on as={FaPlusSquare} onClick={modalOpenHandler} /> Add New Product
         </HeaderBar>
         <ProductPage products={allProducts} isAdmin editProduct={editProductHandler} />
-        {modal&&<AddEditModal edit={editForm} filterProduct={filterProduct} openModal={modal} closeModal={modalCloseHandler} />}
+        {modal&&<AddEditProdduct edit={editForm} filterProduct={filterProduct} openModal={modal} closeModal={modalCloseHandler} />}
         </React.Fragment>
         
 

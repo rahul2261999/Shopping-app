@@ -4,7 +4,10 @@ import {
     USER_SIGNIN_INITIATE,
     USER_SIGNOUT,
     AUTHENTICATE_USER_START,
-    ADD_NEW_PRODUCT_START
+    ADD_NEW_PRODUCT_START,
+    EDIT_PRODUCT_START,
+    FETCH_ALLPRODUCT_START,
+    DELETE_SINGLE_PRODUCT_START
 } from './actionTypes'
 
 import {
@@ -14,7 +17,7 @@ import {
     userSignout
 } from './saga/userSaga'
 
-import {addNewProduct} from './saga/productSaga'
+import {addNewProduct, deleteProduct, getAllProduct, updateProduct} from './saga/productSaga'
 
 export function* rootWatcher(){
     yield all([
@@ -22,6 +25,9 @@ export function* rootWatcher(){
         takeEvery(USER_SIGNIN_INITIATE,userSignin),
         takeEvery(USER_SIGNOUT,userSignout),
         takeEvery(AUTHENTICATE_USER_START,isAuthenticated),
-        takeEvery(ADD_NEW_PRODUCT_START,addNewProduct)
+        takeEvery(ADD_NEW_PRODUCT_START,addNewProduct),
+        takeEvery(EDIT_PRODUCT_START,updateProduct),
+        takeEvery(FETCH_ALLPRODUCT_START,getAllProduct),
+        takeEvery(DELETE_SINGLE_PRODUCT_START,deleteProduct)
     ])
 }

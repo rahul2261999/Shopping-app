@@ -12,8 +12,8 @@ module.exports = passport =>{
             return done(err, false);
         }
         if (user) {
-            const {_id,first_name,last_name,email} = user
-            return done(null, {_id,first_name,last_name,email});
+            const {_id,first_name,last_name,email,isAdmin} = user
+            return done(null, {_id,first_name,last_name,email,isAdmin});
         } else {
             return done(null, false);
             // or you could create a new account

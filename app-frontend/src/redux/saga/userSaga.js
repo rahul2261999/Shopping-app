@@ -1,5 +1,6 @@
 import {call, put} from 'redux-saga/effects'
 import axios from '../../axios'
+import { getUser } from '../../utilities/helperFunction'
 import { errorToaster, successToaster } from '../actions/toaster'
 import {
     userLoginSucess,
@@ -38,14 +39,15 @@ export function* userSignout(action){
 }
 
 export function* isAuthenticated(){
-    if(typeof window == undefined){
-        return false
-      }
-      if(localStorage.getItem("token")&&localStorage.getItem("user")){
-        const token = yield localStorage.getItem("token")
-        const user = yield JSON.parse(localStorage.getItem("user"))
+    
+    if(getUser()){
+        const {token,user} = yield getUser()
         yield put(authenticationSuceess({token,user})) 
-      }else{
-         yield put(authenticationFail())
-      }
+    }
+    else{
+        yield put(authenticationFail())
+
+    }
+    
+      
 }

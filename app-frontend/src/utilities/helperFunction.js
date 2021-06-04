@@ -46,3 +46,16 @@ export const isObjectEmpty = (object) =>{
   
     return flag
 }
+
+export const getUser = () =>{
+    if(typeof window == undefined){
+       return false
+    }
+  if(localStorage.getItem("token")&&localStorage.getItem("user")){
+    const token = localStorage.getItem("token")
+    const user = JSON.parse(localStorage.getItem("user"))
+    return {token,user}
+  }
+
+  return false
+}
