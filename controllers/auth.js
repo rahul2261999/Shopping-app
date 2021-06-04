@@ -52,7 +52,7 @@ exports.signIn =  (req,res) => {
 exports.isAdmin = (req,res,next) =>{
     const check = req.user.isAdmin===1
     if(!check){
-        return errorHandler(res,{data:!check})
+        return errorHandler(res,{data:!check,msg:"Require admin access"})
     }
     next()
 }

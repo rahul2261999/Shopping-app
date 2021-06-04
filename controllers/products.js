@@ -29,3 +29,29 @@ exports.createProduct = (req,res)=>{
         return res.status(200).json(saveProd)
     })
 }
+
+exports.getProductDetails = (req,res) =>{
+    res.status(200).json(req.product)
+}
+
+exports.updateProduct = (req,res)=>{
+    Product.findOneAndUpdate(
+        {_id:req.product._id},
+        {$set:req.body},
+        {new:true}
+    ).exec((err,product)=>{
+        if(err||!product){
+            return errorHandler(res,{error:err,data:!product,msg:"Product not available"})
+        }
+        return res.status(200).json(product)
+    })
+}
+
+exports.deleteProduct = (req,res)=>{
+    Product.deleteOne({_id:req.product._id}).exec((err)=>{
+        if(err){
+            return errorHandler(res,{error:err})
+        }
+        return res.status(200).json({msg:"Product deleted successfully"})
+    })
+}
