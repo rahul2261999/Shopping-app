@@ -14,8 +14,8 @@ const productSchema = new Schema({
         required:true
     },
     prod_image:{
-        type:String,
-        // required:true
+        name:Buffer,
+        contentType:String
     },
     prod_color:{
         type:String,
