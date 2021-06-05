@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import female from '../../assests/banner/femal.jpg'
 import men from '../../assests/banner/men.jpg'
@@ -6,7 +6,8 @@ import shoes from '../../assests/banner/shoes.jpg'
 
 import ContainerWrapper from '../../hoc/Wrapper'
 import ProductLayout from '../ProductPageLayout/ProductPageLayout'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
+import {fetchAllProduct} from '../../redux/actions/product'
 
 import {
     Wrapper,
@@ -18,6 +19,10 @@ import memoizedProducts from '../../redux/selector/products'
 
 const Home = props =>{
     const {allProducts} = useSelector(memoizedProducts)
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(fetchAllProduct())
+    },[])
     return(
         <ContainerWrapper>
             <Wrapper>

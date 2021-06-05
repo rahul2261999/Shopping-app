@@ -45,7 +45,7 @@ const AddEditProduct = props =>{
         { key: 'female', value: 'Female', text: 'Female Collection' },
     ]
 
-    const {product_id,product_name,product_price,product_cate,product_desc,stock} = filterProduct
+    const {_id:product_id,product_name,product_price,product_category,product_description,product_stock} = filterProduct
     
     useEffect(()=>{
         if(edit){
@@ -53,10 +53,10 @@ const AddEditProduct = props =>{
                 ...productDetails,
                 prod_name:product_name,
                 prod_price:product_price,
-                prod_stock:stock,
+                prod_stock:product_stock,
                 prod_image:'',
-                prod_category:product_cate,
-                prod_desc:product_desc
+                prod_category:product_category,
+                prod_desc:product_description
             })
         }
     },[product_id])
@@ -80,7 +80,6 @@ const AddEditProduct = props =>{
         }
         return Proderror
     }
-
 
     const formSubmitHandler = () =>{
         const validateForm = validation()

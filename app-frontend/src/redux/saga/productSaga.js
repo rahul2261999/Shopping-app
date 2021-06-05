@@ -14,8 +14,14 @@ export function* getAllProduct(){
 }
 
 export function* addNewProduct(action){
+   const {token,userId,productData} = action.payload
    try {
-    const respone = yield axios.post('addproduct',action.payload)
+    const respone = yield axios.post(`addproduct/${userId}`,productData,{
+       'headers':{
+         "Content-Type":"multipart/form-data ",
+         "authorization":`Bearer ${token}`
+       }
+    })
     console.log(respone)
     yield put(createProductSuccess(respone.data))
     yield put(successToaster("Product added successfully"))
@@ -26,10 +32,10 @@ export function* addNewProduct(action){
 }
 
 export function* updateProduct(action){
-   const {token,userId,prodId,productData} = action.payload
-   console.log(action.payload.productData)
+   const {token,userId,productId,productData} = action.payload
+   console.log(action.payload)
    try {
-      const response = yield axios.put(`product/${prodId}/${userId}`,productData,{
+      const response = yield axios.put(`product/${productId}/${userId}`,productData,{
          headers:{
             "authorization":`Bearer ${token}`
          }
@@ -52,9 +58,13 @@ export function* getProductDetail(action){
 }
 
 export function* deleteProduct(action){
-   const {prodId,userId} = action.payload
+   const {token,prodId,userId} = action.payload
    try {
-      const response = yield axios.delete(`product/${prodId}/${userId}`)
+      const response = yield axios.delete(`product/${prodId}/${userId}`,{
+         headers:{
+            "authorization":`Bearer ${token}`
+         }
+      })
       yield put(deleteProductSuccess(response.data._id))
    } catch (error) {
       yield put(errorToaster(error.response.data.error))

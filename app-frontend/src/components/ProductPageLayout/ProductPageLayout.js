@@ -33,7 +33,7 @@ const ProductPage = props =>{
 
     const [productQuantity,setProductQuantity]  = useState(1)
 
-    const {title,products,isAdmin,editProduct} = props
+    const {title,products,isAdmin,editProduct,deletoProduct} = props
     const {modalOpen,selectedProduct} = previewModal
 
     const modalPreviewHandler = (id) =>{
@@ -63,14 +63,15 @@ const ProductPage = props =>{
     const ShowProduct = products.map(item=>{
         return (
             <ProductCard 
-                key={item.product_id}
+                key={item._id}
                 title={item.product_name}
-                image={item.product_image}
+                image={`data:${item.product_image.contentType};base64,${item.product_image.name}`}
                 price={item.product_price}
                 category={item.product_cate}
                 openPreviewModal={()=>modalPreviewHandler(item.product_id)}
                 isAdmin={isAdmin}
                 onEdit={()=>editProduct(item.product_id)}
+                onDelete={()=>deletoProduct(item._id)}
             />
         )
     })

@@ -4,15 +4,21 @@ import {HeaderBar,Icon} from './style'
 import {FaPlusSquare} from 'react-icons/fa'
 import AddEditProdduct from './AddEditProduct/AddEditProduct'
 import memoizedProducts from '../../../redux/selector/products'
-import { closeModal, openModal } from '../../../redux/actions/product'
+import { closeModal, deleteProduct, fetchAllProduct, openModal } from '../../../redux/actions/product'
 import ProductPage from '../../ProductPageLayout/ProductPageLayout'
+import { getUser } from '../../../utilities/helperFunction'
 
 const Product = props =>{
 
     const {modal,allProducts} = useSelector(memoizedProducts)
+    const {token,user} = getUser()
     
     const [editForm,setEditForm] = useState(false)
     const [filterProduct,setFilterProduct] = useState('')
+
+    useEffect(()=>{
+        dispatch(fetchAllProduct())
+    },[])
 
     const dispatch = useDispatch()
     const modalOpenHandler = ()=>{
@@ -30,13 +36,27 @@ const Product = props =>{
         dispatch(openModal())
     }
 
+    const deleteProductHandler = prodId =>{
+        dispatch(deleteProduct({token,userId:user._id,prodId}))
+    }
+
     return(
         <React.Fragment>
         <HeaderBar>
              <Icon on as={FaPlusSquare} onClick={modalOpenHandler} /> Add New Product
         </HeaderBar>
-        <ProductPage products={allProducts} isAdmin editProduct={editProductHandler} />
-        {modal&&<AddEditProdduct edit={editForm} filterProduct={filterProduct} openModal={modal} closeModal={modalCloseHandler} />}
+        <ProductPage 
+            products={allProducts} 
+            isAdmin 
+            editProduct={editProductHandler}
+            deletoProduct = {deleteProductHandler}
+        />
+        {modal&&<AddEditProdduct
+                    edit={editForm}
+                    filterProduct={filterProduct}
+                    openModal={modal}
+                    closeModal={modalCloseHandler}
+                    />}
         </React.Fragment>
         
 

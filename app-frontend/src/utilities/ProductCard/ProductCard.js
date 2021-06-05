@@ -11,7 +11,7 @@ import{
 } from './style'
 import {FaShoppingBag,FaRupeeSign,FaTrash,FaPen} from 'react-icons/fa'
 const ProductCard = props =>{
-    const { title,image,category,price,openPreviewModal,isAdmin,onEdit } = props
+    const { title,image,category,price,openPreviewModal,isAdmin,onEdit,onDelete } = props
     return(
         <Card>
             <CardContainer>
@@ -23,7 +23,7 @@ const ProductCard = props =>{
                         {isAdmin?
                         <div>
                             <CartIcon as={FaPen} onClick={onEdit} />
-                            <CartIcon as={FaTrash} onClick={()=>{}} />
+                            <CartIcon as={FaTrash} onClick={onDelete} />
                         </div>
                         :
                         <CartIcon as={FaShoppingBag} onClick={openPreviewModal} />}
