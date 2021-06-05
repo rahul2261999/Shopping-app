@@ -6,7 +6,7 @@ import {successToaster,errorToaster} from '../actions/toaster'
 
 export function* getAllProduct(){
    try {
-      const response = yield axios.get('product');
+      const response = yield axios.get('allproducts');
       yield put(fetchAllProductSuccess(response.data))
    } catch (error) {
       yield put(errorToaster("Network error"))

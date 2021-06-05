@@ -26,6 +26,33 @@ export const closeModal = () =>{
     }
 }
 
+export const fetchAllProduct = () =>{
+    return {
+        type:FETCH_ALLPRODUCT_START,
+    }
+}
+
+export const fetchAllProductSuccess = prods =>{
+    return {
+        type:FETCH_ALLPRODUCT_SUCCESS,
+        payload:prods
+    }
+}
+
+export const fetchSingleProduct = params =>{
+    return {
+        type:FETCH_SINGLE_PRODUCT_START,
+        payload:params
+    }
+}
+
+export const fetchSingleProductSuccess = prod =>{
+    return {
+        type:FETCH_SINGLE_PRODUCT_SUCCESS,
+        payload:prod
+    }
+}
+
 export const createProduct = (token,userId,productData) =>{
     return {
         type:ADD_NEW_PRODUCT_START,
@@ -54,32 +81,7 @@ export const updateProductSuccess = productData =>{
     }
 }
 
-export const fetchAllProduct = () =>{
-    return {
-        type:FETCH_ALLPRODUCT_START,
-    }
-}
 
-export const fetchAllProductSuccess = prods =>{
-    return {
-        type:FETCH_ALLPRODUCT_SUCCESS,
-        payload:prods
-    }
-}
-
-export const fetchSingleProduct = params =>{
-    return {
-        type:FETCH_SINGLE_PRODUCT_START,
-        payload:params
-    }
-}
-
-export const fetchSingleProductSuccess = prod =>{
-    return {
-        type:FETCH_SINGLE_PRODUCT_SUCCESS,
-        payload:prod
-    }
-}
 
 export const deleteProduct = params =>{
     return {

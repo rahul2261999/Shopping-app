@@ -1,4 +1,3 @@
-import {Product} from '../../assests/raw-data/raw-data'
 import {lastIndexOf,splice} from 'lodash'
 import { 
     ADD_NEW_PRODUCT_SUCCESS,
@@ -6,12 +5,13 @@ import {
     DELETE_ALL_PRODUCT_SUCCESS,
     DELETE_SINGLE_PRODUCT_SUCCESS,
     EDIT_PRODUCT_SUCCESS,
+    FETCH_ALLPRODUCT_SUCCESS,
     FETCH_SINGLE_PRODUCT_SUCCESS,
     OPEN_PRODUCT_MODAL } from '../actionTypes'
 
 const initialState = {
     modal: false,
-    allProducts: Product,
+    allProducts:[],
 }
 
 const productReducer = (state=initialState,action)=>{
@@ -25,6 +25,11 @@ const productReducer = (state=initialState,action)=>{
             return {
                 ...state,
                 modal:false
+            }
+        case FETCH_ALLPRODUCT_SUCCESS:
+            return {
+                ...state,
+                allProducts:action.payload
             }
         case FETCH_SINGLE_PRODUCT_SUCCESS:
             return{
