@@ -15,7 +15,15 @@ exports.getProduct = (req,res,next,id)=>{
 }
 
 exports.getAllProducts = (req,res)=>{
-    Product.find().exec((err,product)=>{
+    Product.find({},{
+  product_name:'$prod_name',
+  product_price:'$prod_price',
+  product_image:'$prod_image',
+  product_stock:'$prod_stock',
+  createdAt:1,
+  updatedAt:1,
+  
+}).exec((err,product)=>{
         if(err){
             return errorHandler(res,{error:err})
         }
