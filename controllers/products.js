@@ -16,12 +16,14 @@ exports.getProduct = (req,res,next,id)=>{
 
 exports.getAllProducts = (req,res)=>{
     Product.find({},{
-  product_name:'$prod_name',
-  product_price:'$prod_price',
-  product_image:'$prod_image',
-  product_stock:'$prod_stock',
-  createdAt:1,
-  updatedAt:1,
+        product_name:'$prod_name',
+        product_price:'$prod_price',
+        product_image:'$prod_image',
+        product_stock:'$prod_stock',
+        product_description:'$prod_description',
+        product_category:'$prod_category',
+        createdAt:1,
+        updatedAt:1,
   
 }).exec((err,product)=>{
         if(err){
