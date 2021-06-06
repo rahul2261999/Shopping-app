@@ -41,7 +41,7 @@ exports.signIn =  (req,res) => {
        
         const {_id,first_name,last_name,email,isAdmin} = user
 
-        const token = jwt.sign({_id,first_name,last_name,email,isAdmin},process.env.TOKEN_SECRET,{expiresIn:3600})
+        const token = jwt.sign({_id,first_name,last_name,email,isAdmin},process.env.TOKEN_SECRET)
         res.json({
             token,
             user:{_id,first_name,last_name,email,isAdmin}})
