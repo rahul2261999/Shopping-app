@@ -68,9 +68,9 @@ const ProductPage = props =>{
                 image={`data:${item.product_image.contentType};base64,${item.product_image.name}`}
                 price={item.product_price}
                 category={item.product_cate}
-                openPreviewModal={()=>modalPreviewHandler(item.product_id)}
+                openPreviewModal={()=>modalPreviewHandler(item._id)}
                 isAdmin={isAdmin}
-                onEdit={()=>editProduct(item.product_id)}
+                onEdit={()=>editProduct(item._id)}
                 onDelete={()=>deletoProduct(item._id)}
             />
         )

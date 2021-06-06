@@ -17,11 +17,12 @@ const AddEditProduct = props =>{
     const initialState = {
         product:{
             prod_name:'',
-            prod_price:0,
-            prod_stock:0,
+            prod_price:'',
+            prod_stock:'',
             prod_image:'',
             prod_category:'',
-            prod_desc:'',
+            prod_description:'',
+            form_data:null,
         },
 
        error:{
@@ -34,7 +35,7 @@ const AddEditProduct = props =>{
     const dispatch = useDispatch()
     
     const [productDetails,setProductDetails] = useState(product)
-    const {prod_name,prod_price,prod_stock,prod_image,prod_category,prod_desc} = productDetails
+    const {prod_name,prod_price,prod_stock,prod_image,prod_category,prod_description,form_data} = productDetails
 
     const [productError,setProductError] = useState(error)
     const {name,category} = productError
@@ -46,8 +47,9 @@ const AddEditProduct = props =>{
     ]
 
     const {_id:product_id,product_name,product_price,product_category,product_description,product_stock} = filterProduct
-    
+
     useEffect(()=>{
+        setProductDetails({...productDetails,form_data:new FormData()})
         if(edit){
             setProductDetails({
                 ...productDetails,
@@ -56,19 +58,29 @@ const AddEditProduct = props =>{
                 prod_stock:product_stock,
                 prod_image:'',
                 prod_category:product_category,
-                prod_desc:product_description
+                prod_description:product_description,
+                form_data:new FormData()
             })
         }
+        
+
     },[product_id])
 
     const valueHandler = (e,{name,value}) =>{
         if(name==="prod_price"|| name==="prod_stock"){
-            const regex = /^[0-9]*$/
+            const regex =/^$|^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/
             if(regex.test(value)){
-            setProductDetails({...productDetails,[name]:value})
+                setProductDetails({...productDetails,[name]:value})
+                form_data.set(name,value)
             }
+        }else if(name==="prod_image"){
+            setProductDetails({...productDetails,[name]:value})
+            console.log(name,e.target.files[0]);
+            form_data.set(name,e.target.files[0])
+
         }else{
-        setProductDetails({...productDetails,[name]:value})
+            setProductDetails({...productDetails,[name]:value})
+            form_data.set(name,value)
         }
     }
 
@@ -84,7 +96,7 @@ const AddEditProduct = props =>{
     const formSubmitHandler = () =>{
         const validateForm = validation()
         if(isObjectEmpty(validateForm)){
-            edit? dispatch(updateProduct(token,user._id,product_id,productDetails)):dispatch(createProduct(token,user._id,productDetails))
+            edit? dispatch(updateProduct(token,user._id,product_id,form_data)):dispatch(createProduct(token,user._id,form_data))
         }else{
             setProductError(validateForm)
         }
@@ -118,8 +130,9 @@ const AddEditProduct = props =>{
 
                     <FormWrapper.Input 
                         label="Price"
-                        type="number"
+                        type="text"
                         name="prod_price"
+                        placeholder="0"
                         value={prod_price}
                         onChange={valueHandler} 
                        />
@@ -128,6 +141,7 @@ const AddEditProduct = props =>{
                         label="Stock Available"
                         type="text"
                         name="prod_stock"
+                        placeholder="0"
                         value={prod_stock}
                         onChange={valueHandler} 
                     />
@@ -150,8 +164,8 @@ const AddEditProduct = props =>{
                     
                     <FormWrapper.TextArea 
                         label="Description"
-                        name="prod_desc"
-                        value={prod_desc}
+                        name="prod_description"
+                        value={prod_description}
                         onChange={valueHandler}/>
 
                     <Button>{edit?'Update Product':'Add Product'} </Button>

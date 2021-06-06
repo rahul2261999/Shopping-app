@@ -30,8 +30,9 @@ const Product = props =>{
     }
 
     const editProductHandler = id =>{
+        console.log(id)
         setEditForm(true)
-        const product = allProducts.find(prod=>prod.product_id===id)
+        const product = allProducts.find(prod=>prod._id===id)
         setFilterProduct(product);
         dispatch(openModal())
     }
