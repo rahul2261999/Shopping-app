@@ -51,15 +51,7 @@ exports.createProduct = (req,res)=>{
             if(err){
                 return errorHandler(res,{error:err})
             }
-            res.status(200).json({
-            product_name: product.prod_name,
-            product_price: product.prod_price,
-            product_image: product.prod_image,
-            product_stock: product.prod_stock,
-            product_description: product.prod_description,
-            product_category: product.prod_category,
-            createdAt: product.createdAt,
-            updatedAt:product.updatedAt,})
+            res.status(200).json({msg:'Product updated successfully'})
         })
     })
 }
@@ -91,25 +83,17 @@ exports.updateProduct = (req,res)=>{
             if(err||!product){
                 return errorHandler(res,{error:err,data:!product,msg:"Product not available"})
             }
-            return res.status(200).json({
-                product_name: product.prod_name,
-                product_price: product.prod_price,
-                product_image: product.prod_image,
-                product_stock: product.prod_stock,
-                product_description: product.prod_description,
-                product_category: product.prod_category,
-                createdAt: product.createdAt,
-                updatedAt:product.updatedAt,})
+            return res.status(200).json({msg:'Product updated successfully'})
         })
     })
     
 }
 
 exports.deleteProduct = (req,res)=>{
-    Product.deleteOne({_id:req.product._id}).exec((err)=>{
+    Product.deleteOne({_id:req.product._id}).exec((err,product)=>{
         if(err){
             return errorHandler(res,{error:err})
         }
-        return res.status(200).json({msg:"Product deleted successfully"})
+        return res.status(200).json({product,msg:"Product deleted successfully"})
     })
 }
