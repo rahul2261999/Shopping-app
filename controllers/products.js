@@ -2,7 +2,6 @@ const Product = require('../models/product/product')
 const { errorHandler } = require('./helperFunction/helper')
 const formidable = require("formidable");
 const fs = require("fs")
-const url = require('url')
 
 exports.getProduct = (req,res,next,id)=>{
     Product.findById(id).exec((err,product)=>{
@@ -34,10 +33,10 @@ exports.getAllProducts = (req,res)=>{
 }
 
 exports.createProduct = (req,res)=>{
-    
     const form = new formidable.IncomingForm({keepExtensions:true})
     form.parse(req,(err,fields,file)=>{
         if(err){
+            console.log(err)
             return errorHandler(res,{data:err,msg:"Something wrong with image"})
         }
         const product = new Product(fields)
@@ -48,31 +47,62 @@ exports.createProduct = (req,res)=>{
             product.prod_image.name = fs.readFileSync(file.prod_image.path)
             product.prod_image.contentType = file.prod_image.type
         }
-        product.save((err,prod)=>{
+        product.save((err,product)=>{
             if(err){
                 return errorHandler(res,{error:err})
             }
-            res.status(200).json(prod)
+            res.status(200).json({
+            product_name: product.prod_name,
+            product_price: product.prod_price,
+            product_image: product.prod_image,
+            product_stock: product.prod_stock,
+            product_description: product.prod_description,
+            product_category: product.prod_category,
+            createdAt: product.createdAt,
+            updatedAt:product.updatedAt,})
         })
     })
 }
 
 exports.getProductDetails = (req,res) =>{
-    const {prod_image} = req.product
     res.status(200).json(req.product)
 }
 
 exports.updateProduct = (req,res)=>{
-    Product.findOneAndUpdate(
-        {_id:req.product._id},
-        {$set:req.body},
-        {new:true}
-    ).exec((err,product)=>{
-        if(err||!product){
-            return errorHandler(res,{error:err,data:!product,msg:"Product not available"})
+    const form = new formidable.IncomingForm({keepExtensions:true})
+    form.parse(req,(err,fields,file)=>{
+        if(err){
+            return errorHandler(res,{data:err,msg:"Something wrong with image"})
         }
-        return res.status(200).json(product)
+        const updatedData = {...fields}
+        if(file.prod_image){
+            if(file.prod_image.size>10000000){
+                return errorHandler(res,{data:true,msg:"Image Size is too big"})
+            }
+            updatedData.prod_image ={}
+            updatedData.prod_image.name = fs.readFileSync(file.prod_image.path)
+            updatedData.prod_image.contentType = file.prod_image.type
+        }
+        Product.findOneAndUpdate(
+            {_id:req.product._id},
+            {$set:updatedData},
+            {new:true},
+        ).exec((err,product)=>{
+            if(err||!product){
+                return errorHandler(res,{error:err,data:!product,msg:"Product not available"})
+            }
+            return res.status(200).json({
+                product_name: product.prod_name,
+                product_price: product.prod_price,
+                product_image: product.prod_image,
+                product_stock: product.prod_stock,
+                product_description: product.prod_description,
+                product_category: product.prod_category,
+                createdAt: product.createdAt,
+                updatedAt:product.updatedAt,})
+        })
     })
+    
 }
 
 exports.deleteProduct = (req,res)=>{
