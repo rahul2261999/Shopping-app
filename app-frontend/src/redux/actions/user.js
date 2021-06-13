@@ -7,7 +7,8 @@ import {
     CLOSE_AUTH_MODAL,
     AUTHENTICATE_USER_START,
     AUTHENTICATE_USER_SUCCESS,
-    AUTHENTICATE_USER_FAIL
+    AUTHENTICATE_USER_FAIL,
+    USER_SIGNOUT_SUCCESS
 } from '../actionTypes'
 
 export const openAuthModal = data =>{
@@ -65,5 +66,17 @@ export const authenticationSuceess = data =>{
 export const authenticationFail = () =>{
     return {
         type:AUTHENTICATE_USER_FAIL,
+    }
+}
+
+export const signOut = ()=>{
+    return{
+        type:USER_SIGNOUT
+    }
+}
+
+export const signOutSuccess = ()=>{
+    return{
+        type:USER_SIGNOUT_SUCCESS
     }
 }

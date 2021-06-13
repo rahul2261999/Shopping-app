@@ -1,9 +1,10 @@
-import {USER_SIGNIN_SUCCESS, OPEN_AUTH_MODAL, CLOSE_AUTH_MODAL, AUTHENTICATE_USER_SUCCESS, AUTHENTICATE_USER_FAIL} from '../actionTypes'
+import {USER_SIGNIN_SUCCESS, OPEN_AUTH_MODAL, CLOSE_AUTH_MODAL, AUTHENTICATE_USER_SUCCESS, AUTHENTICATE_USER_FAIL, USER_SIGNOUT_SUCCESS, USER_SIGNOUT} from '../actionTypes'
 
 const initialState = {
     openModal:false,
     user:null,
-    token:null
+    token:null,
+    redirect:false,
 }
 
 const authReducer = (state=initialState,action)=>{
@@ -23,6 +24,7 @@ const authReducer = (state=initialState,action)=>{
                 ...state,
                 user:action.payload.user,
                 token:action.payload.token,
+                redirect:true,
             }
         case AUTHENTICATE_USER_SUCCESS:
             return{
@@ -33,6 +35,19 @@ const authReducer = (state=initialState,action)=>{
         case AUTHENTICATE_USER_FAIL:
             return{
                 ...initialState
+            }
+        case USER_SIGNOUT:
+            return{
+                ...state,
+                redirect:false
+            }
+        case USER_SIGNOUT_SUCCESS:
+            return{
+                ...initialState,
+                openModal:false,
+                user:null,
+                token:null,
+                redirect:true,
             }
         default:
             return state

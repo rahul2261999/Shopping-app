@@ -16,6 +16,10 @@ export const SidebarHeader = styled.div`
     flex-direction:column;
     align-items:center;
 `
+export const Heading = styled.div`
+    display:flex;
+    align-items:center;
+`
 
 export const ProfileImg = styled.img`
     width:70px;
@@ -48,4 +52,7 @@ export const ListItem = styled(NavLink)`
 export const Icon = styled.div`
     padding-right:10px;
     font-size:2rem;
+    margin-left:${props=>props.marginLeft?props.marginLeft:"0"};
+    color:${props=>props.color?props.color:"inherit"};
+    cursor:pointer;
 `

@@ -1,4 +1,4 @@
-import { all,takeEvery } from 'redux-saga/effects'
+import { all,take,takeEvery } from 'redux-saga/effects'
 import {
     USER_SIGNUP_INITIATE,
     USER_SIGNIN_INITIATE,
@@ -28,6 +28,7 @@ export function* rootWatcher(){
         takeEvery(ADD_NEW_PRODUCT_START,addNewProduct),
         takeEvery(EDIT_PRODUCT_START,updateProduct),
         takeEvery(FETCH_ALLPRODUCT_START,getAllProduct),
-        takeEvery(DELETE_SINGLE_PRODUCT_START,deleteProduct)
+        takeEvery(DELETE_SINGLE_PRODUCT_START,deleteProduct),
+        takeEvery(USER_SIGNOUT,userSignout)
     ])
 }
