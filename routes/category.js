@@ -13,7 +13,6 @@ const {
 
 // param
 router.param('cateId',findCategory)
-
 // routes
 router.get('/allCategories',passport.authenticate('jwt',{session:false}),isAdmin,getAllCategories);
 router.get('/category/:cateId',passport.authenticate('jwt',{session:false}),isAdmin,singleCategory);

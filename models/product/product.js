@@ -1,5 +1,6 @@
-const mongoose = require("mongoose")
-const {Schema,ObjectId} = mongoose
+const mongoose = require("mongoose");
+const {Schema,ObjectId} = mongoose;
+
 const productSchema = new Schema({
     prod_name:{
         type:String,
@@ -11,7 +12,8 @@ const productSchema = new Schema({
     },
     category:{
         type:ObjectId,
-        ref:'categories'
+        ref:'categories',
+        required:true
     },
     prod_image:{
         name:{

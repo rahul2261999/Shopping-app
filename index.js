@@ -31,6 +31,7 @@ const auth = require('./routes/auth')
 const user = require('./routes/user')
 const product = require('./routes/products')
 const category = require('./routes/category')
+const order = require('./routes/order')
 
 
 
@@ -39,5 +40,6 @@ app.use('/api',auth)
 app.use('/api',user)
 app.use('/api',product)
 app.use('/api',category)
+app.use('/api',order)
 
 app.listen(port,()=>console.log(`app is running at port ${port}`))
