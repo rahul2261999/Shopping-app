@@ -13,7 +13,7 @@ const DashLayout = props =>{
      
      useEffect(()=>{
         dispatch(isAuthenticated())
-     },[])
+     },[dispatch])
 
      const redirect = useSelector(state=>state.user.redirect)
      if(!getUser()&&redirect){

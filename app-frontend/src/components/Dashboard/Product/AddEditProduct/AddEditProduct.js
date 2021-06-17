@@ -43,10 +43,8 @@ const AddEditProduct = props =>{
     const {_id:product_id,product_name,product_price,product_category,product_description,product_stock} = filterProduct
 
     useEffect(()=>{
-        setProductDetails({...productDetails,form_data:new FormData()})
         if(edit){
             setProductDetails({
-                ...productDetails,
                 prod_name:product_name,
                 prod_price:product_price,
                 prod_stock:product_stock,
@@ -58,7 +56,7 @@ const AddEditProduct = props =>{
         }
         
 
-    },[product_id])
+    },[edit, product_category, product_description, product_id, product_name, product_price, product_stock])
 
     const valueHandler = (e,{name,value}) =>{
         if(name==="prod_price"|| name==="prod_stock"){

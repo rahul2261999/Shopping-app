@@ -19,7 +19,7 @@ const AddEditCategory = props =>{
         if(edit){
             setCategoryName(cateName)
         }
-    },[_id,cateName])
+    },[cateName,edit])
 
     const valueHandler = (e,{name,value})=>{
         setCategoryName(value.toUpperCase())

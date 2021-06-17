@@ -29,7 +29,7 @@ const Category = () => {
     useEffect(() => {
         dispatch(fetchAllCategories(token))
         return () => dispatch(resetCategory())
-    }, [])
+    }, [dispatch,token])
 
     const editProductHandler = id => {
         const editProd = allCategories.find(item => item._id === id)

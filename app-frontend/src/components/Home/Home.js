@@ -22,7 +22,7 @@ const Home = props =>{
     const dispatch = useDispatch()
     useEffect(()=>{
         dispatch(fetchAllProduct())
-    },[])
+    },[dispatch])
     return(
         <ContainerWrapper>
             <Wrapper>

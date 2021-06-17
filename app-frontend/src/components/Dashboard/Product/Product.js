@@ -10,8 +10,8 @@ import { getUser } from '../../../utilities/helperFunction'
 import { fetchAllCategories } from '../../../redux/actions/category'
 import { memoisedCategory } from '../../../redux/selector/category'
 
-const Product = props =>{
-
+const Product = () =>{
+    const dispatch = useDispatch()
     const {modal,allProducts} = useSelector(memoizedProducts)
     const {allCategories} = useSelector(memoisedCategory)
     const {token,user} = getUser()
@@ -24,9 +24,8 @@ const Product = props =>{
         dispatch(fetchAllProduct())
         dispatch(fetchAllCategories(token))
         return ()=>dispatch(resetProduct())
-    },[])
+    },[dispatch,token])
 
-    const dispatch = useDispatch()
     const modalOpenHandler = ()=>{
         setEditForm(false)
         dispatch(openModal())
