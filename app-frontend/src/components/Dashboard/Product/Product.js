@@ -22,6 +22,7 @@ const Product = props =>{
 
     const dispatch = useDispatch()
     const modalOpenHandler = ()=>{
+        setEditForm(false)
         dispatch(openModal())
     }
     const modalCloseHandler = ()=>{
