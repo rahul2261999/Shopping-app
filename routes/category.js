@@ -14,7 +14,7 @@ const {
 // param
 router.param('cateId',findCategory)
 // routes
-router.get('/allCategories',passport.authenticate('jwt',{session:false}),isAdmin,getAllCategories);
+router.get('/allcategories',passport.authenticate('jwt',{session:false}),isAdmin,getAllCategories);
 router.get('/category/:cateId',passport.authenticate('jwt',{session:false}),isAdmin,singleCategory);
 router.post('/category/create',passport.authenticate('jwt',{session:false}),isAdmin,createCategory);
 router.put('/category/update/:cateId',passport.authenticate('jwt',{session:false}),isAdmin,updateCategory)
