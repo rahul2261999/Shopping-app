@@ -12,7 +12,7 @@ import { FaPlusSquare } from 'react-icons/fa'
 
 import DefaultCard from '../../../utilities/DefaultCard/DefaultCard'
 import { getUser } from '../../../utilities/helperFunction'
-import { closeCateModal, fetchAllCategories, openCateModal, removeCategory } from '../../../redux/actions/category'
+import { closeCateModal, fetchAllCategories, openCateModal, removeCategory, resetCategory } from '../../../redux/actions/category'
 import { memoisedCategory } from '../../../redux/selector/category'
 import { FaTrashAlt, FaPen } from 'react-icons/fa'
 import AddEditCategory from './AddEditCategory/AddEditCategory'
@@ -28,6 +28,7 @@ const Category = () => {
 
     useEffect(() => {
         dispatch(fetchAllCategories(token))
+        return () => dispatch(resetCategory())
     }, [])
 
     const editProductHandler = id => {

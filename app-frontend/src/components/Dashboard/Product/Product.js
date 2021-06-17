@@ -4,20 +4,26 @@ import {HeaderBar,Icon} from './style'
 import {FaPlusSquare} from 'react-icons/fa'
 import AddEditProdduct from './AddEditProduct/AddEditProduct'
 import memoizedProducts from '../../../redux/selector/products'
-import { closeModal, deleteProduct, fetchAllProduct, openModal } from '../../../redux/actions/product'
+import { closeModal, deleteProduct, fetchAllProduct, openModal, resetProduct } from '../../../redux/actions/product'
 import ProductPage from '../../ProductPageLayout/ProductPageLayout'
 import { getUser } from '../../../utilities/helperFunction'
+import { fetchAllCategories } from '../../../redux/actions/category'
+import { memoisedCategory } from '../../../redux/selector/category'
 
 const Product = props =>{
 
     const {modal,allProducts} = useSelector(memoizedProducts)
+    const {allCategories} = useSelector(memoisedCategory)
     const {token,user} = getUser()
     
     const [editForm,setEditForm] = useState(false)
     const [filterProduct,setFilterProduct] = useState('')
+    const categories = allCategories.map(cate=>{return {key:cate._id,value:cate._id,text:cate.category_name}})
 
     useEffect(()=>{
         dispatch(fetchAllProduct())
+        dispatch(fetchAllCategories(token))
+        return ()=>dispatch(resetProduct())
     },[])
 
     const dispatch = useDispatch()
@@ -56,6 +62,7 @@ const Product = props =>{
         {modal&&<AddEditProdduct
                     edit={editForm}
                     filterProduct={filterProduct}
+                    categories={categories}
                     openModal={modal}
                     closeModal={modalCloseHandler}
                     />}

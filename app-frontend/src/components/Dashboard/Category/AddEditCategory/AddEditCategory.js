@@ -22,7 +22,7 @@ const AddEditCategory = props =>{
     },[_id,cateName])
 
     const valueHandler = (e,{name,value})=>{
-        setCategoryName(value)
+        setCategoryName(value.toUpperCase())
     }
 
     const submitFormHandler = () =>{
@@ -41,6 +41,7 @@ const AddEditCategory = props =>{
             isMount={modal}
             headerTitle={edit ?"Edit Category":"Add Category"}
             isModalOpen={closeModalHandler}
+            maxWidth="300px"
         >
             <FormContainer>
                 <FormWrapper onSubmit = {(e)=>{

@@ -6,7 +6,8 @@ import {
     EDIT_PRODUCT_SUCCESS,
     FETCH_ALLPRODUCT_SUCCESS,
     FETCH_SINGLE_PRODUCT_SUCCESS,
-    OPEN_PRODUCT_MODAL } from '../actionTypes'
+    OPEN_PRODUCT_MODAL, 
+    RESET_PRODUCT} from '../actionTypes'
 
 const initialState = {
     modal: false,
@@ -70,6 +71,11 @@ const productReducer = (state=initialState,action)=>{
                     ...state,
                     allProducts:[]
                 }
+        case RESET_PRODUCT:{
+            return{
+                ...initialState
+            }
+        }
 
         default:
             return state

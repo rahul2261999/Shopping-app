@@ -1,4 +1,4 @@
-import { ADD_CATEGORY, ADD_CATEGORY_SUCCESS, CLOSE_CATEGORY_MODAL, EDIT_CATEGORY, EDIT_CATEGORY_SUCCESS, FETCH_ALL_CATEGORY, FETCH_ALL_CATEGORY_SUCESS, OPEN_CATEGORY_MODAL, REMOVE_CATEGORY, REMOVE_CATEGORY_SUCCESS } from "../actionTypes"
+import { ADD_CATEGORY, ADD_CATEGORY_SUCCESS, CLOSE_CATEGORY_MODAL, EDIT_CATEGORY, EDIT_CATEGORY_SUCCESS, FETCH_ALL_CATEGORY, FETCH_ALL_CATEGORY_SUCESS, OPEN_CATEGORY_MODAL, REMOVE_CATEGORY, REMOVE_CATEGORY_SUCCESS, RESET_CATEGORY } from "../actionTypes"
 
 export const fetchAllCategories = token =>{
     return {
@@ -64,5 +64,11 @@ export const openCateModal = () => {
 export const closeCateModal = () => {
     return {
         type:CLOSE_CATEGORY_MODAL
+    }
+}
+
+export const resetCategory = () =>{
+    return {
+        type:RESET_CATEGORY
     }
 }

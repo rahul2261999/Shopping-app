@@ -12,7 +12,8 @@ import {
     FETCH_ALLPRODUCT_SUCCESS,
     FETCH_SINGLE_PRODUCT_START,
     FETCH_SINGLE_PRODUCT_SUCCESS,
-    OPEN_PRODUCT_MODAL } from "../actionTypes"
+    OPEN_PRODUCT_MODAL, 
+    RESET_PRODUCT} from "../actionTypes"
 
 export const openModal = () =>{
     return {
@@ -106,5 +107,11 @@ export const deleteAllProduct = () =>{
 export const deleteAllProductSuccess = () =>{
     return {
         type:DELETE_ALL_PRODUCT_SUCCESS,
+    }
+}
+
+export const resetProduct = () =>{
+    return{
+        type:RESET_PRODUCT
     }
 }

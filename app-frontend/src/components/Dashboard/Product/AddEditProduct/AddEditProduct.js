@@ -11,7 +11,8 @@ const AddEditProduct = props =>{
         openModal,
         closeModal,
         edit,
-        filterProduct
+        filterProduct,
+        categories,
     } = props
 
     const initialState = {
@@ -39,13 +40,6 @@ const AddEditProduct = props =>{
 
     const [productError,setProductError] = useState(error)
     const {name,category} = productError
-
-    const Category = [
-        { key: 'unisex', value: 'Unisex', text: 'Unisex Collection' },
-        { key: 'gents', value: 'Male', text: 'Gents Collection' },
-        { key: 'female', value: 'Female', text: 'Female Collection' },
-    ]
-
     const {_id:product_id,product_name,product_price,product_category,product_description,product_stock} = filterProduct
 
     useEffect(()=>{
@@ -156,7 +150,7 @@ const AddEditProduct = props =>{
 
                     <FormWrapper.Select 
                         label="Category"
-                        options={Category}
+                        options={categories}
                         name="prod_category"
                         value={prod_category}
                         onChange={valueHandler} 
