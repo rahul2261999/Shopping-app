@@ -1,6 +1,6 @@
 import axios from '../../axios'
 import {put} from 'redux-saga/effects'
-import { createProductSuccess, fetchAllProductSuccess, updateProductSuccess,fetchSingleProductSuccess, deleteProductSuccess } from '../actions/product'
+import {fetchAllProductSuccess,fetchSingleProductSuccess, deleteProductSuccess, closeModal, fetchAllProduct } from '../actions/product'
 import {successToaster,errorToaster} from '../actions/toaster'
 
 
@@ -16,17 +16,17 @@ export function* getAllProduct(){
 export function* addNewProduct(action){
    const {token,userId,productData} = action.payload
    try {
-    const respone = yield axios.post(`addproduct/${userId}`,productData,{
-       'headers':{
-         "Content-Type":"multipart/form-data ",
+    const response = yield axios.post(`addproduct/${userId}`,productData,{
+       headers:{
+         "Content-Type":"multipart/form-data",
          "authorization":`Bearer ${token}`
        }
     })
-    console.log(respone)
-    yield put(createProductSuccess(respone.data))
-    yield put(successToaster("Product added successfully"))
+    yield put(closeModal())
+    yield put(successToaster(response.data.msg))
+    yield put(fetchAllProduct())
    } catch (error) {
-    yield put(errorToaster(error.respone.data.error))
+    yield put(errorToaster(error.response.data.error))
    }
 
 }
@@ -37,11 +37,13 @@ export function* updateProduct(action){
    try {
       const response = yield axios.put(`product/${productId}/${userId}`,productData,{
          headers:{
+            "Content-Type":"multipart/form-data ",
             "authorization":`Bearer ${token}`
          }
       })
-      yield put(updateProductSuccess(response.data))
-      yield put (successToaster("Product edited successfully"))
+      yield put(closeModal())
+      yield put (successToaster(response.data.msg))
+      yield put(fetchAllProduct())
    } catch (error) {
       yield put(errorToaster(error.response.data.error))
    }
@@ -65,7 +67,8 @@ export function* deleteProduct(action){
             "authorization":`Bearer ${token}`
          }
       })
-      yield put(deleteProductSuccess(response.data._id))
+      yield put(successToaster(response.data.msg))
+      yield put(deleteProductSuccess(prodId))
    } catch (error) {
       yield put(errorToaster(error.response.data.error))
       

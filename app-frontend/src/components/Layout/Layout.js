@@ -5,10 +5,9 @@ import NavigationBar from '../../utilities/NavigationBar/TopBar/NavigationBar'
 import AuthModal from '../Auth/Auth'
 import Cart from '../Cart/Cart'
 import {Product} from '../../assests/raw-data/raw-data'
-import Sidebar from '../../utilities/NavigationBar/Sidebar/Sidebar'
 
 
-import {ContentContainer,FlexContainer} from './styled'
+import {ContentContainer} from './styled'
 import { memoizedUser } from '../../redux/selector/user'
 import { isAuthenticated, openAuthModal } from '../../redux/actions/user'
 

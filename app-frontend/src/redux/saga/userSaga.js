@@ -6,7 +6,8 @@ import {
     userLoginSucess,
     closeAuthModal,
     authenticationSuceess,
-    authenticationFail
+    authenticationFail,
+    signOutSuccess
 } from '../actions/user'
 
 export function* signup(action){   
@@ -34,8 +35,9 @@ export function* userSignin(action){
     }
 }
 
-export function* userSignout(action){
+export function* userSignout(){
     yield call([localStorage,'clear'])
+    yield put(signOutSuccess())
 }
 
 export function* isAuthenticated(){

@@ -8,9 +8,11 @@ import { rootWatcher } from './saga'
 import authReducer from './reducers/user'
 import productReducer from './reducers/products'
 import toasterReducer from './reducers/toaster'
+import categoryReducer from './reducers/category'
 
 const rootReducer = combineReducers({
     user:authReducer,
+    category:categoryReducer,
     products:productReducer,
     toaster:toasterReducer,
 })

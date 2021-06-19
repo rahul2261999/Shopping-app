@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import ModalTemplate from '../../utilities/ModalTemplate/ModalTemplate'
 import { FcGoogle } from 'react-icons/fc'
 import { FaFacebook } from 'react-icons/fa'
+import {Redirect} from 'react-router-dom'
 
 import {
     requireField,
@@ -33,7 +34,7 @@ import { memoizedUser } from '../../redux/selector/user'
 
 
 const Auth = props =>{
-    const {openModal} = useSelector(memoizedUser)
+    const {openModal,redirect} = useSelector(memoizedUser)
 
     const [isSignup,setSignup] = useState(false)
     const [formValues,setFormValues] = useState({
@@ -99,6 +100,9 @@ const Auth = props =>{
             setFromError(error)
             console.log(error)
         }
+    }
+    if(redirect){
+        return <Redirect to="/" />
     }
 
     const signUpFrom = (

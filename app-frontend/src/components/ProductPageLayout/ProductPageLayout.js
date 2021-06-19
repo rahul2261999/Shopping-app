@@ -37,7 +37,7 @@ const ProductPage = props =>{
     const {modalOpen,selectedProduct} = previewModal
 
     const modalPreviewHandler = (id) =>{
-        const selectedProduct = products.find(item=>item.product_id===id)
+        const selectedProduct = products.find(item=>item._id===id)
         setPreviewModal({...previewModal,modalOpen:true,selectedProduct:selectedProduct})
     }
 
@@ -52,7 +52,7 @@ const ProductPage = props =>{
             }
         }
 
-        if(selectedProduct.stock>productQuantity){
+        if(selectedProduct.product_stock>productQuantity){
             if(type==="INC"){
                 setProductQuantity(prevState=>prevState+1)
             }
@@ -68,9 +68,9 @@ const ProductPage = props =>{
                 image={`data:${item.product_image.contentType};base64,${item.product_image.name}`}
                 price={item.product_price}
                 category={item.product_cate}
-                openPreviewModal={()=>modalPreviewHandler(item.product_id)}
+                openPreviewModal={()=>modalPreviewHandler(item._id)}
                 isAdmin={isAdmin}
-                onEdit={()=>editProduct(item.product_id)}
+                onEdit={()=>editProduct(item._id)}
                 onDelete={()=>deletoProduct(item._id)}
             />
         )
@@ -87,14 +87,14 @@ const ProductPage = props =>{
                     isModalOpen={closeModal}
                 >
                     <WrapperData>
-                        <ProductImage src={selectedProduct.product_image}/>
+                        <ProductImage src={`data:${selectedProduct.product_image.contentType};base64,${selectedProduct.product_image.name}`}/>
         
                         <ProductDetails>
                                 <ProductTitle>{selectedProduct.product_name}</ProductTitle>
                                 <Container>
                                     <div>
                                         <ProductLabel>Category</ProductLabel>
-                                        <DetailText>{selectedProduct.product_cate}</DetailText>
+                                        <DetailText>{selectedProduct.product_category}</DetailText>
                                     </div>
                                     <div>
                                         <ProductLabel>Price</ProductLabel>
@@ -102,7 +102,7 @@ const ProductPage = props =>{
                                     </div>
                                     <div>
                                         <ProductLabel>Stock Availabel</ProductLabel>
-                                        <DetailText>{selectedProduct.stock} Pieces</DetailText>
+                                        <DetailText>{selectedProduct.product_stock} Pieces</DetailText>
                                     </div>
                                 </Container>
                                 <Container>
@@ -118,7 +118,7 @@ const ProductPage = props =>{
                                         <ProductLabel>Product Description</ProductLabel>
                                         <ScrollBar>
                                             <Description>
-                                                {selectedProduct.product_desc}
+                                                {selectedProduct.product_description}
                                             </Description>
                                         </ScrollBar>
                                     </div>

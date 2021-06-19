@@ -1,4 +1,3 @@
-import {lastIndexOf,splice} from 'lodash'
 import { 
     ADD_NEW_PRODUCT_SUCCESS,
     CLOSE_PRODUCT_MODAL,
@@ -7,11 +6,13 @@ import {
     EDIT_PRODUCT_SUCCESS,
     FETCH_ALLPRODUCT_SUCCESS,
     FETCH_SINGLE_PRODUCT_SUCCESS,
-    OPEN_PRODUCT_MODAL } from '../actionTypes'
+    OPEN_PRODUCT_MODAL, 
+    RESET_PRODUCT} from '../actionTypes'
 
 const initialState = {
     modal: false,
     allProducts:[],
+    updateProduct:[],
 }
 
 const productReducer = (state=initialState,action)=>{
@@ -46,18 +47,19 @@ const productReducer = (state=initialState,action)=>{
                 }
             }
         case EDIT_PRODUCT_SUCCESS:{
-            const products = [...state.allProducts]
-            const index = lastIndexOf(products,(o)=>o._id===action.payload._id)
-            const updateProductList = splice(products,index,1)
+            // const products = [...state.allProducts]
+            // const index = lastIndexOf(products,(o)=>o._id===action.payload._id)
+            // const updateProductList = splice(products,index,1)
+            const filteredList = state.allProducts.filter(item=>item._id!==action.payload._id)
             return {
                 ...state,
-                allProducts:updateProductList
+                allProducts:[...filteredList,action.payload]
             }
 
         }
 
         case DELETE_SINGLE_PRODUCT_SUCCESS:{
-            const newList = state.allProducts.filter(prod=>prod._id!==action.payload_id)
+            const newList = state.allProducts.filter(prod=>prod._id!==action.payload)
             return{
                 ...state,
                 allProducts:newList
@@ -69,6 +71,11 @@ const productReducer = (state=initialState,action)=>{
                     ...state,
                     allProducts:[]
                 }
+        case RESET_PRODUCT:{
+            return{
+                ...initialState
+            }
+        }
 
         default:
             return state

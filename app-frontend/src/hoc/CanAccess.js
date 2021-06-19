@@ -1,11 +1,10 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
-import { memoizedUser } from '../redux/selector/user'
 import {Redirect, Route} from 'react-router-dom'
 import DashLayout from '../components/Dashboard/MainLayout/DashLayout'
 import Layout from '../components/Layout/Layout'
+import { getUser } from '../utilities/helperFunction'
 const CanAcess = ({component:Component,adminRoute,...rest}) =>{
-    const {token,user} = useSelector(memoizedUser)
+    const {token,user} = getUser()
     if(token&&user&&user.isAdmin===1){
         return (
             <DashLayout>
@@ -13,18 +12,15 @@ const CanAcess = ({component:Component,adminRoute,...rest}) =>{
             </DashLayout>
         )
         
-    }
-    if(!adminRoute){
+    }else if(!adminRoute){
         return (
             <Layout>
                 <Route {...rest} render={props=><Component {...props} />} />
             </Layout>
         )
+    }else{
+       return <Redirect to="/" />
     }
-
-    return <Redirect to="/" />
-
-    
 }
 
 export default CanAcess

@@ -1,5 +1,6 @@
-const mongoose = require("mongoose")
-const {Schema} = mongoose
+const mongoose = require("mongoose");
+const {Schema,ObjectId} = mongoose;
+
 const productSchema = new Schema({
     prod_name:{
         type:String,
@@ -9,21 +10,27 @@ const productSchema = new Schema({
         type:String,
         required:true
     },
+    category:{
+        type:ObjectId,
+        ref:'categories',
+        required:true
+    },
+    prod_image:{
+        name:{
+            type:Buffer,
+            required:true
+        },
+        contentType:{
+            type:String,
+            required:true
+        }
+    },
     prod_stock:{
         type:String,
         required:true
     },
-    prod_image:{
-        name:Buffer,
-        contentType:String
-    },
-    prod_color:{
-        type:String,
-    },
     prod_description:String,
-    prod_category:{
-        type:String
-    },
+    
 },{timestamps:true})
 
 module.exports = mongoose.model("products",productSchema)
