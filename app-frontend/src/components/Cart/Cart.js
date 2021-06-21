@@ -12,15 +12,15 @@ import {
 } from './style'
 
 const Cart = props => {
-    const {show,closeCart} = props
-    const addedItems = props.addedProduct.map(item=>{
+    const {show,closeCart,addedProduct} = props
+    const addedItems = addedProduct.map(item=>{
         return <CartCard
-                    key={item.product_id}
+                    key={item._id}
                     title={item.product_name}
-                    image={item.product_image}
+                    image={`data:${item.product_image.contentType};base64,${item.product_image.name}`}
                     price={item.product_price}
-                    quantity={1}
-                    totalPrice={item.product_price}
+                    quantity={item.quantity}
+                    totalPrice={item.product_price*item.quantity}
                     changeQty = {()=>{}}
                 />
     })
@@ -37,7 +37,9 @@ const Cart = props => {
                     {addedItems}
                 </CartBody>
             </ScrollBar>
-            <CartFooter>Checkout</CartFooter>
+            <CartFooter disabled={!addedProduct.length} >Checkout (Total Amount Rs. : {
+                    addedProduct.map(item=>item.product_price*item.quantity).reduce((sum,val)=>sum+val,0)
+                })</CartFooter>
         </Wrapper>
     )
 }

@@ -28,7 +28,7 @@ export const Icon = styled.svg`
 `
 
 export const ScrollBar = styled.div`
-    height:calc(100vh - 200px);
+    height:calc(100vh - 120px);
     overflow-y:auto;
 `
 export const CartBody = styled.div``

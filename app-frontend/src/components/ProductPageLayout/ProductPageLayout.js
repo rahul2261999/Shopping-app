@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Wrapper from '../../hoc/Wrapper'
-
+import {useDispatch} from 'react-redux'
 import ProductCard from '../../utilities/ProductCard/ProductCard'
 import ModalTemplate from '../../utilities/ModalTemplate/ModalTemplate'
 import {FaMinus,FaPlus,FaRupeeSign} from 'react-icons/fa'
@@ -23,9 +23,10 @@ import {
     Description
 
 } from './style'
+import { addItemToCart } from '../../redux/actions/cartorder'
 
 const ProductPage = props =>{
-
+    const dispatch = useDispatch()
     const [previewModal,setPreviewModal] = useState({
         modalOpen:false,
         selectedProduct:null
@@ -35,6 +36,7 @@ const ProductPage = props =>{
 
     const {title,products,isAdmin,editProduct,deletoProduct} = props
     const {modalOpen,selectedProduct} = previewModal
+
 
     const modalPreviewHandler = (id) =>{
         const selectedProduct = products.find(item=>item._id===id)
@@ -46,18 +48,43 @@ const ProductPage = props =>{
     }
 
     const prodQuantityHandler = type =>{
-        if(productQuantity>1){
+        if(productQuantity>0){
             if(type==="DEC"){
                 setProductQuantity(prevState=>prevState-1)
             }
         }
-
+        
         if(selectedProduct.product_stock>productQuantity){
             if(type==="INC"){
                 setProductQuantity(prevState=>prevState+1)
             }
         }
     }
+
+    const addToCartHandler = () =>{
+        let newCart = []
+    if (localStorage.getItem("cart")) {
+        const oldCart = JSON.parse(localStorage.getItem("cart"))
+        const itemExist =oldCart.some(item => item._id === selectedProduct._id)
+        if (itemExist) {
+            newCart = oldCart.map(item => {
+                if (item._id === selectedProduct._id) {
+                    item.quantity = productQuantity
+                }
+                return item
+            })
+        } else {
+            newCart = [...oldCart, { ...selectedProduct,quantity:productQuantity }]
+        }
+    } else {
+        newCart.push({ ...selectedProduct, productQuantity })
+    }
+        dispatch(addItemToCart(newCart))
+    }
+
+    useEffect(()=>{
+        setProductQuantity(0)
+    },[modalOpen])
 
 
     const ShowProduct = products.map(item=>{
@@ -67,7 +94,7 @@ const ProductPage = props =>{
                 title={item.product_name}
                 image={`data:${item.product_image.contentType};base64,${item.product_image.name}`}
                 price={item.product_price}
-                category={item.product_cate}
+                category={item.product_category.category_name}
                 openPreviewModal={()=>modalPreviewHandler(item._id)}
                 isAdmin={isAdmin}
                 onEdit={()=>editProduct(item._id)}
@@ -94,7 +121,7 @@ const ProductPage = props =>{
                                 <Container>
                                     <div>
                                         <ProductLabel>Category</ProductLabel>
-                                        <DetailText>{selectedProduct.product_category}</DetailText>
+                                        <DetailText>{selectedProduct.product_category.category_name}</DetailText>
                                     </div>
                                     <div>
                                         <ProductLabel>Price</ProductLabel>
@@ -110,7 +137,7 @@ const ProductPage = props =>{
                                         <Icon as={FaMinus} onClick={()=>prodQuantityHandler("DEC")}  />
                                         <Input value={productQuantity} />
                                         <Icon as={FaPlus} onClick={()=>prodQuantityHandler("INC")} />
-                                        <Button>Add To Cart</Button>
+                                        <Button onClick={addToCartHandler} disabled={!productQuantity>0}>Add To Cart</Button>
                                     </AddItem>
                                 </Container>
                                 <Container>

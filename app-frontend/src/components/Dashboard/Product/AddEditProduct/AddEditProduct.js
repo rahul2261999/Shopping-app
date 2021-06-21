@@ -49,7 +49,7 @@ const AddEditProduct = props =>{
                 prod_price:product_price,
                 prod_stock:product_stock,
                 prod_image:'',
-                prod_category:product_category,
+                prod_category:product_category._id,
                 prod_description:product_description,
                 form_data:new FormData()
             })

@@ -7,7 +7,7 @@ const productSchema = new Schema({
         required:true
     },
     prod_price:{
-        type:String,
+        type:Number,
         required:true
     },
     prod_category:{
@@ -26,8 +26,9 @@ const productSchema = new Schema({
         }
     },
     prod_stock:{
-        type:String,
-        required:true
+        type:Number,
+        required:true,
+        default:0
     },
     prod_description:String,
     
