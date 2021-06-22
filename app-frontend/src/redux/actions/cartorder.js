@@ -1,4 +1,4 @@
-import { ADDED_TO_CART, ADD_TO_CART, INIT_CART, INIT_CART_SUCCESS, REMOVE_FORM_CART } from "../actionTypes"
+import { ADDED_TO_CART, ADD_TO_CART, INIT_CART, INIT_CART_SUCCESS, REMOVE_FORM_CART, REMOVE_FORM_CART_SUCCESS } from "../actionTypes"
 
 export const initializeCart = () =>{
     return {
@@ -30,5 +30,11 @@ export const removeItemFormCart = id =>{
     return{
         type:REMOVE_FORM_CART,
         payload:id
+    }
+}
+export const removeItemFormCartSuccess = data =>{
+    return{
+        type:REMOVE_FORM_CART_SUCCESS,
+        payload:data
     }
 }

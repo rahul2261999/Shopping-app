@@ -7,6 +7,7 @@ import Shoes from '../components/Shoes/Shoes'
 import Dashboard from '../components/Dashboard/Dashboard'
 import Product from '../components/Dashboard/Product/Product'
 import Category from '../components/Dashboard/Category/Category'
+import Checkout from '../components/Checkout/Checkout'
 
 const mainRoutes = props =>{
     return(
@@ -14,6 +15,7 @@ const mainRoutes = props =>{
                 <Routes path="/" exact component={Home} />
                 <Routes path="/tshirt" component={TShirt} />
                 <Routes path="/shoes" component={Shoes} />
+                <Routes path="/checkout/orderinformation" isLoggedIn component={Checkout} />
                 <Routes path="/dashboard" exact adminRoute component={Product} />
                 <Routes path="/dashboard/addcategory" adminRoute component={Category} />
                 <Routes path="/dashboard/allusers" adminRoute component={Dashboard} />

@@ -13,7 +13,8 @@ import {
     EDIT_CATEGORY,
     REMOVE_CATEGORY,
     ADD_TO_CART,
-    INIT_CART
+    INIT_CART,
+    REMOVE_FORM_CART
 } from './actionTypes'
 
 import {
@@ -36,7 +37,7 @@ import {
     getAllProduct,
     updateProduct
 } from './saga/productSaga'
-import { initCart,addCart } from './saga/cartorderSaga'
+import { initCart,addCart, removeFromCart } from './saga/cartorderSaga'
 
 export function* rootWatcher() {
     yield all([
@@ -56,7 +57,8 @@ export function* rootWatcher() {
         takeEvery(REMOVE_CATEGORY,removeCategory),
         // -------------Cart------------------
         takeEvery(ADD_TO_CART,addCart),
-        takeEvery(INIT_CART,initCart)
+        takeEvery(INIT_CART,initCart),
+        takeEvery(REMOVE_FORM_CART,removeFromCart)
         
     ])
 }

@@ -1,4 +1,4 @@
-import { ADDED_TO_CART, INIT_CART_SUCCESS } from "../actionTypes"
+import { ADDED_TO_CART, INIT_CART_SUCCESS, REMOVE_FORM_CART_SUCCESS } from "../actionTypes"
 
 const initalState = {
     cartItems:[]
@@ -13,7 +13,11 @@ const CartOrder = (state=initalState,action)=>{
         case ADDED_TO_CART:
             return{
                 cartItems:action.payload
-            }  
+            } 
+        case REMOVE_FORM_CART_SUCCESS:
+            return{
+                cartItems:action.payload
+            } 
         default:
             return state
     }
