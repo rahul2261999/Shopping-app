@@ -87,6 +87,7 @@ const ProductPage = props => {
                 isAdmin={isAdmin}
                 onEdit={() => editProduct(item._id)}
                 onDelete={() => deletoProduct(item._id)}
+
             />
         )
     })
@@ -122,9 +123,9 @@ const ProductPage = props => {
                             </Container>
                             <Container>
                                 <AddItem>
-                                    <Icon as={FaMinus} onClick={() => prodQuantityHandler("DEC")} />
+                                    {productQuantity > 0 ? <Icon as={FaMinus} onClick={() => prodQuantityHandler("DEC")} /> : null}
                                     <Input value={productQuantity} />
-                                    <Icon as={FaPlus} onClick={() => prodQuantityHandler("INC")} />
+                                    {selectedProduct.product_stock > productQuantity ? <Icon as={FaPlus} onClick={() => prodQuantityHandler("INC")} /> : null}
                                     <Button onClick={addToCartHandler} disabled={!productQuantity > 0}>Add To Cart</Button>
                                 </AddItem>
                             </Container>

@@ -39,6 +39,7 @@ export function* createOrder(action) {
         })
         yield delay(4000)
         yield put(orderCreated(orderRes.data))
+        yield localStorage.removeItem('cart')
         yield put(successToaster("Order Created"))
     } catch (error) {
        throw error

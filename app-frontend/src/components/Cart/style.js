@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
     display:flex;
     flex-direction:column;
     position:fixed;
+    width:350px;
     top:0;
     right:${props=>props.show?'0':'-100%'};
     bottom:0;
@@ -48,4 +49,11 @@ export const CartFooter = styled.button`
     &:hover{
         background-color:#000000d1
     }
+`
+export const Text = styled.div`
+    display:flex;
+    padding-top:20px;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
 `

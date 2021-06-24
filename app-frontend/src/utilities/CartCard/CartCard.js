@@ -23,7 +23,8 @@ const CartCard = props => {
         totalPrice,
         changeQty,
         removeProduct,
-        isCart
+        isCart,
+        stock
     } = props
     return (
         <Card>
@@ -39,7 +40,7 @@ const CartCard = props => {
                         <ButtonContainer>
                             <Control as={FaMinus} onClick={() => { changeQty("DEC") }} />
                             <Input>{quantity}</Input>
-                            <Control as={FaPlus} onClick={() => changeQty("INC")} />
+                            {stock>quantity?<Control as={FaPlus} onClick={() => changeQty("INC")} />:null}
                         </ButtonContainer>
                     </ProductDetails>
                     <TotalPrice><FaRupeeSign />{totalPrice}</TotalPrice>

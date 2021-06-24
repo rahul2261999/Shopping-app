@@ -19,7 +19,11 @@ import {
     Select,
     OrderButton,
     ButtonContainer,
-    Text
+    Text,
+    ScrollBar,
+    ChargesContainer,
+    ChargesValue,
+    ChargesLabel
 } from './style'
 // import { Input } from 'semantic-ui-react'
 const Checkout = () => {
@@ -115,10 +119,12 @@ const Checkout = () => {
             totalPrice={item.product_price * item.quantity}
         />
     })
+
+    const grandTotal = cartItems.map(item => item.product_price * item.quantity).reduce((sum, val) => sum + val, 0)
     return (
         <React.Fragment>
             {!loading && redirect ? <Redirect to="/orders" /> : null}
-            {loading?<Loader/>:null}
+            {loading ? <Loader /> : null}
             <CheckoutContainer>
                 <Container>
                     <MainHeading>Checkout Cart</MainHeading>
@@ -250,7 +256,25 @@ const Checkout = () => {
                         </FormContainer>
 
                         <CartDetail>
-                            {cartProdList.length > 0 ? cartProdList : <Text>"No item added to cart!!!"</Text>}
+                            {cartProdList.length > 0 ?
+                                <React.Fragment>
+                                    <ScrollBar>
+                                        {cartProdList}
+                                    </ScrollBar>
+                                    <ChargesContainer>
+                                        <ChargesLabel>
+                                            <div>Grand Total</div>
+                                            <div>Delivery Charges</div>
+                                        </ChargesLabel>
+                                        <ChargesValue>
+                                            <div>{grandTotal}</div>
+                                            <div>Free</div>
+                                        </ChargesValue>
+                                    </ChargesContainer>
+                                </React.Fragment>
+
+                                : <Text>"No item added to cart!!!"</Text>
+                            }
                         </CartDetail>
                     </FlexWrapper>
                 </Container>

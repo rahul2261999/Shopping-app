@@ -104,3 +104,26 @@ export const Text = styled.div`
     font-size:12px;
 
 `
+
+export const ScrollBar = styled.div`
+    max-height:600px;
+    overflow-y:auto;
+`
+
+export const ChargesContainer = styled.div`
+display:flex;
+    padding:10px 20px;
+`
+export const ChargesLabel = styled.div`
+display:flex;
+flex-direction: column;
+align-items: flex-end;
+`
+export const ChargesValue = styled.div`
+    display:flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex:1
+}
+
+`
