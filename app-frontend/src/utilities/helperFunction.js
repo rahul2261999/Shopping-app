@@ -5,7 +5,7 @@ export const validateEmail = (email) => {
   return validEmail
 }
 
-export const requireField = (name, msg = '') => {
+export const requireField = (name, msg = true) => {
   const validField = name.length > 0 ? false : msg
   return validField
 }
@@ -19,6 +19,20 @@ export const validatePassword = (password) => {
 export const validateConfirmPassWord = (Confirmpass, password) => {
   return Confirmpass === password && Confirmpass.length > 1 ? false : 'Invalid confirm password'
 
+}
+
+export const mobileNumberValidator = (number) => {
+  if (number.length <= 0) {
+    return true
+  }
+  return number.length === 10 ? false : true
+}
+
+export const zipCodeValidator = (code) => {
+  if (code.length <= 0) {
+    return true
+  }
+  return code.length === 6 ?false:true
 }
 
 export const isObjectEmpty = (object) => {
@@ -60,7 +74,7 @@ export const getUser = () => {
   return false
 }
 
-export const cartHelper = (selectedProduct,productQuantity) => {
+export const cartHelper = (selectedProduct, productQuantity) => {
   let newCart = []
   if (localStorage.getItem("cart")) {
     const oldCart = JSON.parse(localStorage.getItem("cart"))

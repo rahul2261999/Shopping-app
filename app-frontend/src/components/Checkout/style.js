@@ -52,7 +52,7 @@ export const Sublabel = styled.div`
         margin-right: 1.8rem;
     }
 `
-export const Label = styled.div`
+export const Label = styled.label`
     color:#464646;
     font-weight:500;
 `
@@ -62,6 +62,7 @@ export const Input = styled(semanticInput)`
  background:#ffffff;
  padding: 9.5px 14px;
  border-radius:8px;
+ ${props=>props.error?css`border:2px solid #f8908d;`:null}
 `
 export const Select = styled(semanticSelect)`
  margin:10px 0 15px 0;
@@ -73,8 +74,8 @@ export const ButtonContainer = styled.div`
     display:flex;
 `
 
-export const OrderButton = styled.div`
-background:${props=>props.secondary?null:"#000000"};
+export const OrderButton = styled.button`
+background:${props=>props.secondary?"none":"#000000"};
 padding: 10px 50px;
 color:${props=>props.secondary?null:"#ffffff"};
 text-align: center;
@@ -83,6 +84,7 @@ text-transform:uppercase;
 cursor:pointer;
 margin-right:10px;
 border-radius:8px;
+border:0;
 ${props=>props.secondary?css`
     &:hover{
         background:#000000;

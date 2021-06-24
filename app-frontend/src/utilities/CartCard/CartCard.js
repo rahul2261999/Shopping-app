@@ -23,24 +23,37 @@ const CartCard = props => {
         totalPrice,
         changeQty,
         removeProduct,
-        hideButton
+        isCart
     } = props
     return (
         <Card>
             <Image>
                 <img src={image} alt="Item" width="100%" height="100%" />
             </Image>
-            <ProductDetails>
-                <ProductTitle>{title}</ProductTitle>
-                <Price><FaRupeeSign />{price}</Price>
-                {!hideButton&&<ButtonContainer>
-                    <Control as={FaMinus} onClick={() => { changeQty("DEC") }} />
-                    <Input>{quantity}</Input>
-                    <Control as={FaPlus} onClick={() => changeQty("INC")} />
-                </ButtonContainer>}
-            </ProductDetails>
-            <TotalPrice><FaRupeeSign />{totalPrice}</TotalPrice>
-            <DeleteIcon as={FaTrash} onClick={removeProduct} />
+            {isCart ? (
+                <>
+                    <ProductDetails>
+                        <ProductTitle>{title}</ProductTitle>
+
+                        <Price><FaRupeeSign />{price}</Price>
+                        <ButtonContainer>
+                            <Control as={FaMinus} onClick={() => { changeQty("DEC") }} />
+                            <Input>{quantity}</Input>
+                            <Control as={FaPlus} onClick={() => changeQty("INC")} />
+                        </ButtonContainer>
+                    </ProductDetails>
+                    <TotalPrice><FaRupeeSign />{totalPrice}</TotalPrice>
+                    <DeleteIcon as={FaTrash} onClick={removeProduct} />
+                </>
+            ) :
+                (
+                    <ProductDetails>
+                        <ProductTitle>{title}</ProductTitle>
+                        <Price><FaRupeeSign />{price} x {quantity} = {totalPrice}</Price>
+                    </ProductDetails>
+                )
+            }
+            { }
         </Card>
     )
 }

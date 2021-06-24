@@ -1,6 +1,7 @@
-import { put } from '@redux-saga/core/effects'
-import { addedToCart, initializeCartSuccess, removeItemFormCartSuccess } from '../actions/cartorder'
-
+import { put,delay } from '@redux-saga/core/effects'
+import axios from '../../axios'
+import { addedToCart, initializeCartSuccess, orderCreated, removeItemFormCartSuccess } from '../actions/cartorder'
+import { successToaster, errorToaster } from '../actions/toaster'
 export function* initCart() {
     let cart = []
     if (localStorage.getItem("cart")) {
@@ -23,7 +24,23 @@ export function* removeFromCart(action) {
         const newCart = oldCart.filter(item => item._id !== action.payload)
         yield localStorage.setItem('cart', JSON.stringify(newCart))
         yield put(removeItemFormCartSuccess(newCart))
-    }else{
+    } else {
         yield put(removeItemFormCartSuccess(oldCart))
+    }
+}
+
+export function* createOrder(action) {
+    const { orderData, token } = action.payload
+    try {
+        const orderRes = yield axios.post('/order/create', orderData, {
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        })
+        yield delay(4000)
+        yield put(orderCreated(orderRes.data))
+        yield put(successToaster("Order Created"))
+    } catch (error) {
+       throw error
     }
 }
