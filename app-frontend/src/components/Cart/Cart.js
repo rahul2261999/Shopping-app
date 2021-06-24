@@ -23,7 +23,7 @@ const Cart = props => {
                     totalPrice={item.product_price*item.quantity}
                     changeQty = {(type)=>changeQty(item,type)}
                     removeProduct={()=>removeProduct(item._id)}
-                    iscart
+                    isCart
                 />
     })
     const totalAmount = addedProduct.map(item=>item.product_price*item.quantity).reduce((sum,val)=>sum+val,0)

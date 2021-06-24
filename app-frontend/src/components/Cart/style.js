@@ -4,13 +4,15 @@ import style from '../../config.json'
 export const Wrapper = styled.div`
     display:flex;
     flex-direction:column;
-    width:500px;
     position:fixed;
     top:0;
     right:${props=>props.show?'0':'-100%'};
     bottom:0;
     background-color:#ffffff;
+    box-shadow:0px 0px 4px 0px #1e1d1db8;
+    border-left:1px solid #c7c3c3;
     transition:all 1.2s ease-in-out;
+    padding:0 10px;
 `
 
 export const CartHeader = styled.div`
@@ -35,7 +37,7 @@ export const CartBody = styled.div``
 
 export const CartFooter = styled.button`
     text-align:center;
-    font-size:1.3rem;
+    font-size:100%;
     font-variant:all-small-caps;
     width:100%;
     padding:10px 0;

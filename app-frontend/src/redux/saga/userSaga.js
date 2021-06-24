@@ -35,9 +35,9 @@ export function* userSignin(action){
     }
 }
 
-export function* userSignout(){
+export function* userSignout(action){
     yield call([localStorage,'clear'])
-    yield put(signOutSuccess())
+    yield put(signOutSuccess(action.payload))
 }
 
 export function* isAuthenticated(){

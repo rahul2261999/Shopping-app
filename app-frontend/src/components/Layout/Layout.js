@@ -8,7 +8,7 @@ import Cart from '../Cart/Cart'
 import { ContentContainer } from './styled'
 import { memoizedUser } from '../../redux/selector/user'
 import { memoizedcartorder } from '../../redux/selector/cartorder'
-import { isAuthenticated, openAuthModal } from '../../redux/actions/user'
+import { isAuthenticated, openAuthModal, signOut } from '../../redux/actions/user'
 import { addItemToCart, initializeCart, removeItemFormCart } from '../../redux/actions/cartorder'
 import { cartHelper } from '../../utilities/helperFunction'
 import { useHistory } from 'react-router-dom'
@@ -16,6 +16,7 @@ import { useHistory } from 'react-router-dom'
 const Layout = props => {
     const { user, token } = useSelector(memoizedUser)
     const { cartItems } = useSelector(memoizedcartorder)
+    const {openModal,redirect} = useSelector(memoizedUser)
     const dispatch = useDispatch()
     const [showCart, setShowCart] = useState(false)
 
@@ -64,6 +65,12 @@ const Layout = props => {
         history.push('checkout/orderinformation')
     }
 
+    const userSignoutHandler = ()=>{
+        dispatch(signOut(user))
+        history.replace('/')
+    }
+
+
 
     useEffect(() => {
         dispatch(isAuthenticated())
@@ -72,8 +79,13 @@ const Layout = props => {
 
     return (
         <Wrapper>
-            <NavigationBar user={user} toggleCart={openCart} openModel={openModel} />
-            <AuthModal />
+            <NavigationBar 
+                user={user}
+                toggleCart={openCart} 
+                openModel={openModel}
+                userSignout={userSignoutHandler}
+                />
+            <AuthModal openModal={openModal} redirect={redirect} />
             <ContentContainer>{props.children}</ContentContainer>
             {user && token ? <Cart
                 show={showCart}

@@ -1,7 +1,7 @@
 import { put,delay } from '@redux-saga/core/effects'
 import axios from '../../axios'
 import { addedToCart, initializeCartSuccess, orderCreated, removeItemFormCartSuccess } from '../actions/cartorder'
-import { successToaster, errorToaster } from '../actions/toaster'
+import { successToaster } from '../actions/toaster'
 export function* initCart() {
     let cart = []
     if (localStorage.getItem("cart")) {
