@@ -20,16 +20,7 @@ exports.findOrder = (req, res, next, id) => {
 }
 
 exports.createOrder = async (req, res) => {
-    const orderDetails = {
-        user_id: req.user._id,
-        product_purchased: [],
-        total_amount: 0,
-        shipping_address: req.body.shipping_address,
-        permanent_address: req.body.permanent_address,
-        delivery: req.body.delivery,
-    }
-
-    const productsId = req.body.products.map(item => item.product_id)
+    const productsId = req.body.product_purchased.map(item => item.product_id)
     const getproductDetails = await Product.find({
         _id: {
             $in: productsId
@@ -38,22 +29,21 @@ exports.createOrder = async (req, res) => {
         _id: 1,
         prod_price: 1
     })
-    const productObject = getproductDetails.map((prod, index) => {
+    const modifiedProductObject = getproductDetails.map((prod, index) => {
         const {
             _id,
             prod_price
         } = prod
         return {
             product_id: _id,
-            quantity: req.body.products[index].qty,
-            total_price: prod_price * req.body.products[index].qty
+            quantity: req.body.product_purchased[index].qty,
+            total_price: prod_price * req.body.product_purchased[index].qty
         }
     })
-    orderDetails.product_purchased = productObject
-    orderDetails.total_amount = productObject
-        .map(prod => prod.total_price)
-        .reduce((total, price) => total + price, 0)
-    const newOrder = new Order(orderDetails)
+    req.body.product_purchased = modifiedProductObject
+    const totalAmount = modifiedProductObject.map(prod => prod.total_price).reduce((total, price) => total + price, 0)
+    const createOrder = {...req.body,user_id:req.user._id,total_amount:totalAmount}
+    const newOrder = new Order(createOrder)
     newOrder.save((err, order) => {
         if (err || !order) {
             return errorHandler(res, {
