@@ -20,6 +20,7 @@ export const LoaderDiv = styled.div`
     background:#615f5f2e;
     width: 100%;
     height: 100%;
+    z-index:999;
     &>div{
     box-sizing: border-box;
     display: block;

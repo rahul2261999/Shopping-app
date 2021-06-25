@@ -25,6 +25,7 @@ import {
     ChargesValue,
     ChargesLabel
 } from './style'
+import OrderHelper from '../../utilities/helperClasses/OrderHelper'
 // import { Input } from 'semantic-ui-react'
 const Checkout = () => {
     const countries = [{ key: "india", value: 'india', text: "India" }]
@@ -94,17 +95,12 @@ const Checkout = () => {
     const orderCheckoutHandler = async () => {
         const validateForm = validation()
         if (!isObjectEmpty(validateForm)) {
-            setInputErrors({ ...inputErrors, ...validateForm })
+           return setInputErrors({ ...inputErrors, ...validateForm })
         }
         const addedProduct = cartItems.map(item => {
             return { product_id: item._id, qty: item.quantity }
         })
-        const order = {
-            products: addedProduct,
-            shipping_address: address,
-            permanent_address: address,
-            delivery: deliveryType
-        }
+        const order = new OrderHelper( firstName, lastName, mobileNumber, address, city, state, country, zipcode,addedProduct,deliveryType )
         await dispatch(initCreateOrder(order, token))
         setRedirect(true)
     }

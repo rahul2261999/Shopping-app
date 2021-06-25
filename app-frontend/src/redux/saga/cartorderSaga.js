@@ -34,7 +34,8 @@ export function* createOrder(action) {
     try {
         const orderRes = yield axios.post('/order/create', orderData, {
             headers: {
-                "authorization": `Bearer ${token}`
+                "authorization": `Bearer ${token}`,
+                "content-type":"application/json"
             }
         })
         yield delay(4000)

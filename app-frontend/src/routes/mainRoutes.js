@@ -8,6 +8,7 @@ import Dashboard from '../components/Dashboard/Dashboard'
 import Product from '../components/Dashboard/Product/Product'
 import Category from '../components/Dashboard/Category/Category'
 import Checkout from '../components/Checkout/Checkout'
+import Users from '../components/Dashboard/Users/User'
 
 const mainRoutes = props =>{
     return(
@@ -18,7 +19,7 @@ const mainRoutes = props =>{
                 <Routes path="/checkout/orderinformation" isLoggedIn component={Checkout} />
                 <Routes path="/dashboard" exact adminRoute component={Product} />
                 <Routes path="/dashboard/addcategory" adminRoute component={Category} />
-                <Routes path="/dashboard/allusers" adminRoute component={Dashboard} />
+                <Routes path="/dashboard/allusers" adminRoute component={Users} />
                 <Routes path="/dashboard/orders" adminRoute component={Dashboard} />
                 <Routes path="/dashboard/profile" adminRoute component={Dashboard} />
                 <Redirect path="/*" to="/" />
