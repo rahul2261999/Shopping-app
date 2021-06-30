@@ -1,10 +1,12 @@
-import { USER_SIGNIN_SUCCESS, OPEN_AUTH_MODAL, CLOSE_AUTH_MODAL, AUTHENTICATE_USER_SUCCESS, AUTHENTICATE_USER_FAIL, USER_SIGNOUT_SUCCESS, USER_SIGNOUT } from '../actionTypes'
+import { USER_SIGNIN_SUCCESS, OPEN_AUTH_MODAL, CLOSE_AUTH_MODAL, AUTHENTICATE_USER_SUCCESS, AUTHENTICATE_USER_FAIL, USER_SIGNOUT_SUCCESS, USER_SIGNOUT, FETCH_USERS, FETCH_USERS_SUCCESS, FETCH_USER_FAILED } from '../actionTypes'
 
 const initialState = {
     openModal: false,
     user: null,
     token: null,
     redirect: false,
+    allUsers:[],
+    loading:false
 }
 
 const authReducer = (state = initialState, action) => {
@@ -45,6 +47,22 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...initialState,
                 redirect: action.payload.isAdmin === 1 ? true : false,
+            }
+        case FETCH_USERS:
+            return{
+                ...state,
+                loading:true
+            }
+        case FETCH_USERS_SUCCESS:
+            return{
+                ...state,
+                allUsers:action.payload,
+                loading:false
+            }
+        case FETCH_USER_FAILED:
+            return{
+                ...state,
+                loading:false
             }
         default:
             return state

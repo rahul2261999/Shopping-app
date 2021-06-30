@@ -7,7 +7,9 @@ import {
     closeAuthModal,
     authenticationSuceess,
     authenticationFail,
-    signOutSuccess
+    signOutSuccess,
+    getAllUserSuccess,
+    fetchUserFailed
 } from '../actions/user'
 
 export function* signup(action){   
@@ -52,4 +54,19 @@ export function* isAuthenticated(){
     }
     
       
+}
+
+export function* fetchUsers(action){
+    try {
+        const response = yield axios.post('/allusers',{},{
+            headers:{
+                "authorization":`Bearer ${action.payload}`
+            }
+        })
+        yield put(getAllUserSuccess(response.data))
+    } catch (error) {
+        if(error.response.data.error){
+            yield put(fetchUserFailed())
+        }
+    }
 }

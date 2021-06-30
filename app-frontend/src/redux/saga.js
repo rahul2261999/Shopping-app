@@ -15,10 +15,12 @@ import {
     ADD_TO_CART,
     INIT_CART,
     REMOVE_FORM_CART,
-    CREATE_ORDER
+    CREATE_ORDER,
+    FETCH_USERS
 } from './actionTypes'
 
 import {
+    fetchUsers,
     isAuthenticated,
     signup,
     userSignin,
@@ -63,6 +65,8 @@ export function* rootWatcher() {
         takeEvery(REMOVE_FORM_CART,removeFromCart),
         // -------------Order------------------
         takeEvery(CREATE_ORDER,createOrder),
+        // -------------USERS------------------
+        takeEvery(FETCH_USERS,fetchUsers)
 
         
     ])

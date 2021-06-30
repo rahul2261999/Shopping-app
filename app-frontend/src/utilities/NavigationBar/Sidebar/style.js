@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
     height:100vh;
     overflow:auto;
     padding:20px 0;
-    background:#484848;
+    background:#2038F2;
     position:fixed;
 `
 export const SidebarHeader = styled.div`
@@ -38,16 +38,44 @@ export const SidebarList = styled.div`
     color:#ffffff;
 `
 export const ListItem = styled(NavLink)`
-    padding:10px 20px;
+    padding:15px 20px;
     display:flex;
     align-items:center;
     cursor:pointer;
+    font-family:mulish,sans-serif;
+    font-weight:600;
+    position:relative;
     &.active{
-        background-color:#5e5e5e;
+        background-color:#ffffff;
+        color:#2038F2;
+        &:before{
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -1px;
+            width: 100%;
+            border: 0px solid #2038F2;
+            border-radius: 0 0 20px 0;
+            border-bottom-width: 10px
+        }
+        &:after{
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: -1px;
+            width: 100%;
+            border: 0px solid #2038F2;
+            border-radius: 0 20px 0 0;
+            border-bottom-width: 10px
+        }
     };
     &:hover{
-        background-color:#5e5e5e;
+        background-color:#384df1;
+        color:#ffffff;
     };
+
+    
+
 `
 export const Icon = styled.div`
     padding-right:10px;

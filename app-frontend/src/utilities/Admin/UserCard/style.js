@@ -2,7 +2,33 @@ import styled from "styled-components";
 
 export const CardContainer = styled.div`
 padding:15px 10px;
+position:relative;
+
 `
+export const CornorLabel = styled.div`
+    position: absolute;
+    right: 5px;
+    background-color:${props=>props.blocked?"#ce2d2d":"#32c8e2"};
+    z-index: 555;
+    padding: 4px 22px;
+    top: 27px;
+    font-size: 10px;
+    border-radius: 3px 3px 0 0;
+    color: white;
+    &::after{
+        content: '';
+        position: absolute;
+        right: -5px;
+        top: 0px;
+        z-index: 5588;
+        width: 6px;
+        border-bottom-width: 27px;
+        border-color: ${props=>props.blocked?"#ce2d2d":"#32c8e2"};
+        border-style: dashed;
+        border-radius: 0 8px 6px 0;
+    }
+`
+
 export const Card = styled.div`
 width:400px;
 height:230px;

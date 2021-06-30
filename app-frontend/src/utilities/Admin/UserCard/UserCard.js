@@ -11,16 +11,19 @@ import {
     DetailsLabel,
     DetailsValue,
     Button,
-    Icon
+    Icon,
+    CornorLabel
 } from './style'
 import user from '../../../assests/banner/femal.jpg'
+import ReactTooltip from 'react-tooltip'
 
 import {FaCheck, FaCheckCircle, FaTimes} from 'react-icons/fa'
 
 const UserCard = props => {
-    const {Id,username,email,isAdmin,emailVerify}  = props
+    const {Id,username,email,isAdmin,emailVerify,isBlocked}  = props
     return (
         <CardContainer>
+                <CornorLabel blocked={isBlocked}>{isBlocked?"Blocked":"Active"}</CornorLabel>
             <Card>
                 <BgcircleOne />
                 <BgcircleTwo />
@@ -28,20 +31,21 @@ const UserCard = props => {
                 <UserName>{username}</UserName>
                 <UserDetails>
                     <Li>
-                        <DetailsLabel>Id</DetailsLabel><DetailsValue>{Id}</DetailsValue>
+                        <DetailsLabel>Id</DetailsLabel><DetailsValue data-tip={Id}>{Id}</DetailsValue>
                     </Li>
                     <Li>
                         <DetailsLabel>E-mail</DetailsLabel><DetailsValue>{email}</DetailsValue>
                     </Li>
                     <Li>
-                        <DetailsLabel>Verified</DetailsLabel><DetailsValue>{emailVerify?<Icon as={FaCheckCircle} />:<Icon color="#ce2d2d" as={FaTimes} />}</DetailsValue>
+                        <DetailsLabel>Verified</DetailsLabel><DetailsValue>{emailVerify?<Icon as={FaCheck} />:<Icon color="#ce2d2d" as={FaTimes} />}</DetailsValue>
                     </Li>
                     <Li>
-                        <DetailsLabel>Admin</DetailsLabel><DetailsValue>{isAdmin?<Icon as={FaCheck} />:"No"}</DetailsValue>
+                        <DetailsLabel>Admin</DetailsLabel><DetailsValue>{isAdmin?<Icon as={FaCheck} />:<Icon color="#ce2d2d" as={FaTimes} />}</DetailsValue>
                     </Li>
                 </UserDetails>
-                <Button>Change Password</Button>
+                <Button>Update User</Button>
             </Card>
+            <ReactTooltip />
         </CardContainer>
     )
 }
