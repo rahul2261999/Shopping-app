@@ -61,7 +61,12 @@ export const FETCH_ORDERS_SUCCESS = "FETCH_ORDERS_SUCCESS"
 export const CANCEL_ORDER = "CANCEL_ORDER"
 export const CANCEL_ORDER_SUCCESS = "CANCEL_ORDER_SUCCESS"
 
-// <----------------------- CART ----------->
+// <----------------------- ADMIN ORDERS ----------->
+export const FETCH_ALL_USER_ORDER_INIT = "FETCH_ALL_USER_ORDER_INIT"
+export const FETCH_ALL_USER_ORDER_SUCCESS = "FETCH_ALL_USER_ORDER_SUCCESS"
+export const FETCH_ALL_USER_ORDER_ERROR = "FETCH_ALL_USER_ORDER_ERROR"
+
+// <----------------------- USERS ----------->
 export const FETCH_USERS = "FETCH_USERS"
 export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS"
 export const FETCH_USER_FAILED="FETCH_USER_FAILED"

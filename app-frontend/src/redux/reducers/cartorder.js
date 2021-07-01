@@ -1,32 +1,33 @@
-import { ADDED_TO_CART, CREATE_ORDER, CREATE_ORDER_SUCCESS, FETCH_ORDERS_SUCCESS, INIT_CART_SUCCESS, REMOVE_FORM_CART_SUCCESS } from "../actionTypes"
+import { ADDED_TO_CART, CREATE_ORDER, CREATE_ORDER_SUCCESS, FETCH_ALL_USER_ORDER_ERROR, FETCH_ALL_USER_ORDER_INIT, FETCH_ALL_USER_ORDER_SUCCESS, FETCH_ORDERS_SUCCESS, INIT_CART_SUCCESS, REMOVE_FORM_CART_SUCCESS } from "../actionTypes"
 
 const initalState = {
     cartItems:[],
     orders:[],
-    loading:false
+    loading:false,
 }
 
 const CartOrder = (state=initalState,action)=>{
+    const {payload} = action
     switch (action.type) {
         case INIT_CART_SUCCESS:
             return{
                 ...state,
-                cartItems:action.payload
+                cartItems:payload
             }
         case ADDED_TO_CART:
             return{
                 ...state,
-                cartItems:action.payload
+                cartItems:payload
             } 
         case REMOVE_FORM_CART_SUCCESS:
             return{
                 ...state,
-                cartItems:action.payload
+                cartItems:payload
             }
         case FETCH_ORDERS_SUCCESS:
             return{
                 ...state,
-                orders:action.payload
+                orders:payload
             }
         case CREATE_ORDER:
             return{
@@ -36,10 +37,26 @@ const CartOrder = (state=initalState,action)=>{
         case CREATE_ORDER_SUCCESS:
             return{
                 ...state,
-                orders:[...state.orders,action.payload],
+                orders:[...state.orders,payload],
                 loading:false
             }
-        
+        case FETCH_ALL_USER_ORDER_INIT:
+            return{
+                ...state,
+                loading:true
+            }
+        case FETCH_ALL_USER_ORDER_SUCCESS:
+            return{
+                ...state,
+                orders:payload,
+                loading:false
+
+            }
+        case FETCH_ALL_USER_ORDER_ERROR:
+            return{
+                ...state,
+                loading:false
+            }
         default:
             return state
     }

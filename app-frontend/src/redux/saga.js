@@ -1,4 +1,4 @@
-import { all, takeEvery } from 'redux-saga/effects'
+import { all, take, takeEvery } from 'redux-saga/effects'
 import {
     USER_SIGNUP_INITIATE,
     USER_SIGNIN_INITIATE,
@@ -16,7 +16,8 @@ import {
     INIT_CART,
     REMOVE_FORM_CART,
     CREATE_ORDER,
-    FETCH_USERS
+    FETCH_USERS,
+    FETCH_ALL_USER_ORDER_INIT
 } from './actionTypes'
 
 import {
@@ -41,7 +42,7 @@ import {
     updateProduct
 } from './saga/productSaga'
 
-import { initCart,addCart, removeFromCart, createOrder } from './saga/cartorderSaga'
+import { initCart,addCart, removeFromCart, createOrder, fetchAdminAllOrders } from './saga/cartorderSaga'
 
 export function* rootWatcher() {
     yield all([
@@ -65,6 +66,7 @@ export function* rootWatcher() {
         takeEvery(REMOVE_FORM_CART,removeFromCart),
         // -------------Order------------------
         takeEvery(CREATE_ORDER,createOrder),
+        takeEvery(FETCH_ALL_USER_ORDER_INIT,fetchAdminAllOrders),
         // -------------USERS------------------
         takeEvery(FETCH_USERS,fetchUsers)
 

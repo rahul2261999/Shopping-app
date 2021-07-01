@@ -1,7 +1,7 @@
 import { put,delay } from '@redux-saga/core/effects'
 import axios from '../../axios'
-import { addedToCart, initializeCartSuccess, orderCreated, removeItemFormCartSuccess } from '../actions/cartorder'
-import { successToaster } from '../actions/toaster'
+import { addedToCart, initializeCartSuccess, orderCreated, removeItemFormCartSuccess,adminGetAllUserOrderSuccess,adminGetAllUserOrderFailed } from '../actions/cartorder'
+import { errorToaster, successToaster } from '../actions/toaster'
 export function* initCart() {
     let cart = []
     if (localStorage.getItem("cart")) {
@@ -44,5 +44,23 @@ export function* createOrder(action) {
         yield put(successToaster("Order Created"))
     } catch (error) {
        throw error
+    }
+}
+
+export function* fetchAdminAllOrders(action){
+    const {payload} = action
+    try {
+        const response = yield axios.get('/admin/allorders',{
+            headers:{
+                "authorization":`Bearer ${payload}`
+            }
+        })
+        yield put(adminGetAllUserOrderSuccess(response.data))
+    } catch (error) {
+        yield put(adminGetAllUserOrderFailed())
+        if(error.response.data.msg){
+           return yield put(errorToaster(error.response.data.msg))
+        }
+        yield put(errorToaster("Network Problem"))
     }
 }
