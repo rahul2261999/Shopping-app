@@ -36,7 +36,8 @@ export const HeadValue = styled.div`
     font-weight:600;
     max-width:${props=>props.maxWidth?props.maxWidth:null};
     padding-right:10px;
-    overflow:hidden;
+    overflow:${props=>props.noOverflow?'unset':'hidden'};
+    position:relative;
 `
 
 export const TableRow = styled.div`
@@ -48,13 +49,15 @@ export const TableRow = styled.div`
     background-color:#ffffff;
     color:black;
     margin:25px 0;
+    transition: all 0.3s ease-in-out;
     &:hover{
-    background-color:#2038F2;
-    color:#ffffff;
+    background-color: #2038F2;
+    color: #ffffff;
+    box-shadow: 5px 5px 5px 0px #a9a9a9d6;
+    border-color: #2038f2;
     }
 `
 export const RowData = styled.span`
-    overflow:${props=>props.nooverflow?null:'hidden'};
     white-space:nowrap;
     text-overflow:ellipsis;
     position:${props=>props.position?props.position:"initial"};
@@ -62,22 +65,11 @@ export const RowData = styled.span`
 
 export const Icon = styled.div`
     cursor:pointer;
-`
-export const DropContainer = styled.div`
-    width: 130px !important;
-    color:${props=>props.color?props.color+'!important':null};
-    border: 0px !important;
-    border-radius: 20px !important;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    font-family:mulish,sans-serif !important;
-    ${TableRow}:hover &{
-        background:inherit !important;
-       
-    }
-`
+    margin-right:${props=>props.marginRight?props.marginRight:null};
+    margin-left:4px;
+    font-size:${props=>props.font?props.font+'px':null}
 
+`
 export const DropIcon = styled.div`
 font-size: 10px;
 margin-right: 6px;
@@ -85,3 +77,44 @@ border-radius: 100%;
 box-shadow: 0 0 6px 1px;
 color: ${props=>props.color?props.color:'inherti'}
 `
+export const DropValue = styled.div`
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    padding:4px 8px;
+    border:1px solid #000000;
+    border-radius:10px
+
+`
+
+export const DropDown = styled.div`
+  	  display:none;
+      width: 138px;
+      position: absolute;
+      top: 0;
+      transform: translate3d(8px,28px,0px);
+      background: #ffffff;
+      box-shadow: 0 0px 1px 0px #e1e1e1;
+      border-radius: 6px;
+      border: 1px double #c7c3c3;
+      z-index: 500;
+      flex-direction: column;
+      padding: 10px 5px;
+    ${DropValue}:hover &{
+        display:block;
+    }
+	
+`
+export const DropList = styled.div`
+	display:flex;
+	align-items:center;
+	padding:5px 10px;
+    color:${props=>props.color};
+	&:hover{
+		border-radius:5px;
+        cursor:pointer;
+        background:#f3f4f8;
+	}
+	border-top:${props=>props.borderTop?props.borderTop+" solid #ccc":null}
+`
+

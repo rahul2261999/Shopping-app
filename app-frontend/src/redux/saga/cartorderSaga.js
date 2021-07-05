@@ -1,6 +1,14 @@
 import { put,delay } from '@redux-saga/core/effects'
 import axios from '../../axios'
-import { addedToCart, initializeCartSuccess, orderCreated, removeItemFormCartSuccess,adminGetAllUserOrderSuccess,adminGetAllUserOrderFailed } from '../actions/cartorder'
+import {
+    addedToCart,
+    initializeCartSuccess, 
+    orderCreated, 
+    removeItemFormCartSuccess,
+    adminGetAllUserOrderSuccess,
+    adminGetAllUserOrderFailed,
+    updateOrderStatusSuccess,
+} from '../actions/cartorder'
 import { errorToaster, successToaster } from '../actions/toaster'
 export function* initCart() {
     let cart = []
@@ -62,5 +70,24 @@ export function* fetchAdminAllOrders(action){
            return yield put(errorToaster(error.response.data.msg))
         }
         yield put(errorToaster("Network Problem"))
+    }
+}
+
+export function* updateOrderStatus(action){
+    const {payload:{id, status, token}} = action
+
+    try {
+        const response = yield axios.post(`/admin/orders/updatestatus/${id}`,status,{
+            headers:{
+                "authorization":`Bearer ${token}`
+            }
+        })
+        yield put(updateOrderStatusSuccess({id,status}))
+        yield put(successToaster(`Order id ${id} status updated Successfully`))
+    } catch (error) {
+        if(error.response.data.msg){
+            return yield put(errorToaster(error.response.data.msg))
+         }
+         yield put(errorToaster("Network Problem"))
     }
 }

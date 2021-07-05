@@ -1,4 +1,4 @@
-import { ADDED_TO_CART, ADD_TO_CART, CREATE_ORDER, CREATE_ORDER_SUCCESS, FETCH_ALL_USER_ORDER_ERROR, FETCH_ALL_USER_ORDER_INIT, FETCH_ALL_USER_ORDER_SUCCESS, FETCH_ORDERS, FETCH_ORDERS_SUCCESS, INIT_CART, INIT_CART_SUCCESS, REMOVE_FORM_CART, REMOVE_FORM_CART_SUCCESS } from "../actionTypes"
+import { ADDED_TO_CART, ADD_TO_CART, CREATE_ORDER, CREATE_ORDER_SUCCESS, FETCH_ALL_USER_ORDER_ERROR, FETCH_ALL_USER_ORDER_INIT, FETCH_ALL_USER_ORDER_SUCCESS, FETCH_ORDERS, FETCH_ORDERS_SUCCESS, INIT_CART, INIT_CART_SUCCESS, REMOVE_FORM_CART, REMOVE_FORM_CART_SUCCESS, UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_FAILED, UPDATE_ORDER_STATUS_INIT, UPDATE_ORDER_STATUS_SUCCESS } from "../actionTypes"
 
 export const initializeCart = () => {
     return {
@@ -89,5 +89,25 @@ export const adminGetAllUserOrderSuccess = orders =>{
 export const adminGetAllUserOrderFailed = () =>{
     return{
         type:FETCH_ALL_USER_ORDER_ERROR,
+    }
+}
+
+export const updateOrderStatusInit = data =>{
+    return{
+        type:UPDATE_ORDER_STATUS_INIT,
+        payload:data
+    }
+}
+
+export const updateOrderStatusSuccess = data =>{
+    return{
+        type:UPDATE_ORDER_STATUS_SUCCESS,
+        payload: data
+    }
+}
+
+export const updateOrderStatusFailed = () =>{
+    return{
+        type:UPDATE_ORDER_STATUS_FAILED,
     }
 }

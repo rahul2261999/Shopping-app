@@ -1,62 +1,88 @@
-import { ADDED_TO_CART, CREATE_ORDER, CREATE_ORDER_SUCCESS, FETCH_ALL_USER_ORDER_ERROR, FETCH_ALL_USER_ORDER_INIT, FETCH_ALL_USER_ORDER_SUCCESS, FETCH_ORDERS_SUCCESS, INIT_CART_SUCCESS, REMOVE_FORM_CART_SUCCESS } from "../actionTypes"
+import _ from 'lodash'
+import {
+    ADDED_TO_CART,
+    CREATE_ORDER,
+    CREATE_ORDER_SUCCESS,
+    FETCH_ALL_USER_ORDER_ERROR,
+    FETCH_ALL_USER_ORDER_INIT,
+    FETCH_ALL_USER_ORDER_SUCCESS,
+    FETCH_ORDERS_SUCCESS,
+    INIT_CART_SUCCESS,
+    REMOVE_FORM_CART_SUCCESS,
+    UPDATE_ORDER_STATUS_SUCCESS
+} from "../actionTypes"
 
 const initalState = {
-    cartItems:[],
-    orders:[],
-    loading:false,
+    cartItems: [],
+    orders: [],
+    loading: false,
 }
 
-const CartOrder = (state=initalState,action)=>{
-    const {payload} = action
+const CartOrder = (state = initalState, action) => {
+    const { payload } = action
     switch (action.type) {
         case INIT_CART_SUCCESS:
-            return{
+            return {
                 ...state,
-                cartItems:payload
+                cartItems: payload
             }
         case ADDED_TO_CART:
-            return{
+            return {
                 ...state,
-                cartItems:payload
-            } 
+                cartItems: payload
+            }
         case REMOVE_FORM_CART_SUCCESS:
-            return{
+            return {
                 ...state,
-                cartItems:payload
+                cartItems: payload
             }
         case FETCH_ORDERS_SUCCESS:
-            return{
+            return {
                 ...state,
-                orders:payload
+                orders: payload
             }
         case CREATE_ORDER:
-            return{
+            return {
                 ...state,
-                loading:true
+                loading: true
             }
         case CREATE_ORDER_SUCCESS:
-            return{
+            return {
                 ...state,
-                orders:[...state.orders,payload],
-                loading:false
+                orders: [...state.orders, payload],
+                loading: false
             }
         case FETCH_ALL_USER_ORDER_INIT:
-            return{
+            return {
                 ...state,
-                loading:true
+                loading: true
             }
         case FETCH_ALL_USER_ORDER_SUCCESS:
-            return{
+            return {
                 ...state,
-                orders:payload,
-                loading:false
+                orders: payload,
+                loading: false
 
             }
         case FETCH_ALL_USER_ORDER_ERROR:
-            return{
+            return {
                 ...state,
-                loading:false
+                loading: false
             }
+        case UPDATE_ORDER_STATUS_SUCCESS:
+            const { id, status } = payload
+            console.log(payload);
+            const newOrderArray = state.orders.map(item => {
+                if (item._id === id) {
+                    item.order_status = status
+                }
+                return item
+            })
+            return {
+                ...state,
+                orders: newOrderArray
+            }
+
         default:
             return state
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     OrderContainer,
@@ -9,35 +9,28 @@ import {
     HeadValue,
     RowData,
     Icon,
-    DropContainer,
-    DropIcon
+    DropDown,
+    DropList,
+    DropValue
 } from './Style'
-import { FaCog, FaRupeeSign, FaCircle } from 'react-icons/fa'
-import { Dropdown } from 'semantic-ui-react'
+import { FaCog, FaRupeeSign, FaCircle, FaChevronDown } from 'react-icons/fa'
 import { getUser } from '../../../utilities/helperFunction'
-import { adminGetAllUserOrderInit } from '../../../redux/actions/cartorder'
+import { adminGetAllUserOrderInit, updateOrderStatusInit } from '../../../redux/actions/cartorder'
 import { memoizedcartorder } from '../../../redux/selector/cartorder'
 import Loader from '../../../utilities/Loader/Loader'
-
-const options = [
-    { key: 'processing', value: 'processing', text: 'Processing', flag: <DropIcon as={FaCircle} color="#e3a167" /> },
-    { key: 'confirmed', value: 'confirmed', text: 'Confirmed', flag: <DropIcon as={FaCircle} color="#67e00c" /> },
-]
 
 const Orders = () => {
     const dispatch = useDispatch();
     const { token } = getUser();
     const { loading, orders, } = useSelector(memoizedcartorder)
-    const [dropValue, setDropValue] = useState('processing')
-
-    const valueHandler = (e, { value }) => {
-        console.log(value);
-        setDropValue(value)
-    }
 
     useEffect(() => {
         dispatch(adminGetAllUserOrderInit(token))
     }, [dispatch, token])
+
+    const orderStatusValueHandler = (id,status)=>{
+        dispatch(updateOrderStatusInit({id,status,token}))
+    }
 
     const orderList = orders.map(order => {
         return (
@@ -51,21 +44,35 @@ const Orders = () => {
                 <HeadValue>
                     <RowData>{order.customer_details.customer_name}</RowData>
                 </HeadValue>
-                <HeadValue>
-                    <RowData
-                        nooverflow
-                        position="absolute">
-                        <DropContainer as={Dropdown}
-                            Icon="dropdown"
-                            defaultValue={order.order_status.toLowerCase()}
-                            options={options}
-                            placeholder='Status'
-                            fluid
-                            selection
-                            color={dropValue==="processing"?"#ffc38f":"#67e00c"}
-                            onChange={valueHandler}
-                            />
-                    </RowData>
+                <HeadValue noOverflow>
+                    <DropValue>
+                        <Icon font={8} marginRight="8px" as={FaCircle}></Icon>
+                        {order.order_status}
+                        <Icon font="14" as={FaChevronDown} />
+
+                        <DropDown>
+                            <DropList
+                              color="#feb043"
+                              onClick={()=>orderStatusValueHandler(order._id,'Processing')}
+                            >
+                                <Icon 
+                                  font={8}
+                                  marginRight="8px"
+                                  as={FaCircle}
+                                />Processing
+                            </DropList>
+                            <DropList
+                              color="#3fd057"
+                              onClick={()=>orderStatusValueHandler(order._id,'Completed')}
+                            >
+                                <Icon 
+                                  font={8} 
+                                  marginRight="8px" 
+                                  as={FaCircle} 
+                                />Completed
+                            </DropList>
+                        </DropDown>
+                    </DropValue>
                 </HeadValue>
                 <HeadValue>
                     <FaRupeeSign /><RowData>{order.total_amount}</RowData>
@@ -97,7 +104,7 @@ const Orders = () => {
                 <HeadValue maxWidth="120px">Paid</HeadValue>
                 <HeadValue maxWidth="120px">Actions</HeadValue>
             </TableHead>
-            {orderList.length>0?orderList:"No orders available"}
+            {orderList.length > 0 ? orderList : "No orders available"}
         </OrderContainer>
     )
 }

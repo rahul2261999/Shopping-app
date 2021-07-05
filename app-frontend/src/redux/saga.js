@@ -1,4 +1,4 @@
-import { all, take, takeEvery } from 'redux-saga/effects'
+import { all, takeEvery } from 'redux-saga/effects'
 import {
     USER_SIGNUP_INITIATE,
     USER_SIGNIN_INITIATE,
@@ -17,7 +17,9 @@ import {
     REMOVE_FORM_CART,
     CREATE_ORDER,
     FETCH_USERS,
-    FETCH_ALL_USER_ORDER_INIT
+    FETCH_ALL_USER_ORDER_INIT,
+    UPDATE_ORDER_STATUS,
+    UPDATE_ORDER_STATUS_INIT
 } from './actionTypes'
 
 import {
@@ -42,7 +44,7 @@ import {
     updateProduct
 } from './saga/productSaga'
 
-import { initCart,addCart, removeFromCart, createOrder, fetchAdminAllOrders } from './saga/cartorderSaga'
+import { initCart, addCart, removeFromCart, createOrder, fetchAdminAllOrders, updateOrderStatus } from './saga/cartorderSaga'
 
 export function* rootWatcher() {
     yield all([
@@ -56,20 +58,21 @@ export function* rootWatcher() {
         takeEvery(DELETE_SINGLE_PRODUCT_START, deleteProduct),
         takeEvery(USER_SIGNOUT, userSignout),
         // -------------CATEGORY------------------
-        takeEvery(FETCH_ALL_CATEGORY,fetchCategory),
-        takeEvery(ADD_CATEGORY,addCategory),
-        takeEvery(EDIT_CATEGORY,editCategory),
-        takeEvery(REMOVE_CATEGORY,removeCategory),
+        takeEvery(FETCH_ALL_CATEGORY, fetchCategory),
+        takeEvery(ADD_CATEGORY, addCategory),
+        takeEvery(EDIT_CATEGORY, editCategory),
+        takeEvery(REMOVE_CATEGORY, removeCategory),
         // -------------Cart------------------
-        takeEvery(ADD_TO_CART,addCart),
-        takeEvery(INIT_CART,initCart),
-        takeEvery(REMOVE_FORM_CART,removeFromCart),
+        takeEvery(ADD_TO_CART, addCart),
+        takeEvery(INIT_CART, initCart),
+        takeEvery(REMOVE_FORM_CART, removeFromCart),
         // -------------Order------------------
-        takeEvery(CREATE_ORDER,createOrder),
-        takeEvery(FETCH_ALL_USER_ORDER_INIT,fetchAdminAllOrders),
+        takeEvery(CREATE_ORDER, createOrder),
+        takeEvery(FETCH_ALL_USER_ORDER_INIT, fetchAdminAllOrders),
+        takeEvery(UPDATE_ORDER_STATUS_INIT, updateOrderStatus),
         // -------------USERS------------------
-        takeEvery(FETCH_USERS,fetchUsers)
+        takeEvery(FETCH_USERS, fetchUsers)
 
-        
+
     ])
 }
