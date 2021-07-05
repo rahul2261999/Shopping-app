@@ -82,8 +82,8 @@ export const DropValue = styled.div`
     align-items:center;
     justify-content:space-around;
     padding:4px 8px;
-    border:1px solid #000000;
-    border-radius:10px
+    border-radius:10px;
+    color:${props=>props.color}
 
 `
 

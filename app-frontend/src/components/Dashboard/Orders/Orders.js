@@ -28,8 +28,8 @@ const Orders = () => {
         dispatch(adminGetAllUserOrderInit(token))
     }, [dispatch, token])
 
-    const orderStatusValueHandler = (id,status)=>{
-        dispatch(updateOrderStatusInit({id,status,token}))
+    const orderStatusValueHandler = (id, status) => {
+        dispatch(updateOrderStatusInit({ id, status, token }))
     }
 
     const orderList = orders.map(order => {
@@ -45,37 +45,47 @@ const Orders = () => {
                     <RowData>{order.customer_details.customer_name}</RowData>
                 </HeadValue>
                 <HeadValue noOverflow>
-                    <DropValue>
-                        <Icon font={8} marginRight="8px" as={FaCircle}></Icon>
+                    <DropValue
+                        color={order.order_status === 'Processing' ? '#feb043' : '#3fd057'}
+                    >
+                        <Icon
+                          font={8}
+                          marginRight="8px" 
+                          as={FaCircle}
+                       />
                         {order.order_status}
-                        <Icon font="14" as={FaChevronDown} />
+                        <Icon
+                          font="14"
+                          as={FaChevronDown} 
+                        />
 
                         <DropDown>
                             <DropList
-                              color="#feb043"
-                              onClick={()=>orderStatusValueHandler(order._id,'Processing')}
+                                color="#feb043"
+                                onClick={() => orderStatusValueHandler(order._id, 'Processing')}
                             >
-                                <Icon 
-                                  font={8}
-                                  marginRight="8px"
-                                  as={FaCircle}
+                                <Icon
+                                    font={8}
+                                    marginRight="8px"
+                                    as={FaCircle}
                                 />Processing
                             </DropList>
                             <DropList
-                              color="#3fd057"
-                              onClick={()=>orderStatusValueHandler(order._id,'Completed')}
+                                color="#3fd057"
+                                onClick={() => orderStatusValueHandler(order._id, 'Completed')}
                             >
-                                <Icon 
-                                  font={8} 
-                                  marginRight="8px" 
-                                  as={FaCircle} 
+                                <Icon
+                                    font={8}
+                                    marginRight="8px"
+                                    as={FaCircle}
                                 />Completed
                             </DropList>
                         </DropDown>
                     </DropValue>
                 </HeadValue>
                 <HeadValue>
-                    <FaRupeeSign /><RowData>{order.total_amount}</RowData>
+                    <FaRupeeSign />
+                    <RowData>{order.total_amount}</RowData>
                 </HeadValue>
                 <HeadValue maxWidth="120px">
                     <RowData>unpaid</RowData>
@@ -94,7 +104,7 @@ const Orders = () => {
     return (
         <OrderContainer>
             <Header>Orders</Header>
-            <SubHeader>23 orders found</SubHeader>
+            <SubHeader>{orders.length} orders found</SubHeader>
             <TableHead>
                 <HeadValue >Id</HeadValue>
                 <HeadValue>Ordered Date</HeadValue>

@@ -77,13 +77,13 @@ export function* updateOrderStatus(action){
     const {payload:{id, status, token}} = action
 
     try {
-        const response = yield axios.post(`/admin/orders/updatestatus/${id}`,status,{
+        const response = yield axios.put(`/order/status/${id}`,{order_status:status},{
             headers:{
                 "authorization":`Bearer ${token}`
             }
         })
         yield put(updateOrderStatusSuccess({id,status}))
-        yield put(successToaster(`Order id ${id} status updated Successfully`))
+        yield put(successToaster(response.data.msg))
     } catch (error) {
         if(error.response.data.msg){
             return yield put(errorToaster(error.response.data.msg))
