@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7e1d6168.chunk.css",
+    "main.js": "/static/js/main.363a04b3.chunk.js",
+    "main.js.map": "/static/js/main.363a04b3.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.3525970c.js",
+    "runtime-main.js.map": "/static/js/runtime-main.3525970c.js.map",
+    "static/css/2.d97c81c1.chunk.css": "/static/css/2.d97c81c1.chunk.css",
+    "static/js/2.210c8782.chunk.js": "/static/js/2.210c8782.chunk.js",
+    "static/js/2.210c8782.chunk.js.map": "/static/js/2.210c8782.chunk.js.map",
+    "static/js/3.81efdc1b.chunk.js": "/static/js/3.81efdc1b.chunk.js",
+    "static/js/3.81efdc1b.chunk.js.map": "/static/js/3.81efdc1b.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.d97c81c1.chunk.css.map": "/static/css/2.d97c81c1.chunk.css.map",
+    "static/css/main.7e1d6168.chunk.css.map": "/static/css/main.7e1d6168.chunk.css.map",
+    "static/js/2.210c8782.chunk.js.LICENSE.txt": "/static/js/2.210c8782.chunk.js.LICENSE.txt",
+    "static/media/semantic.min.css": "/static/media/outline-icons.ddae9b1b.woff",
+    "static/media/femal.8f4abb5b.jpg": "/static/media/femal.8f4abb5b.jpg",
+    "static/media/men.8aa667f7.jpg": "/static/media/men.8aa667f7.jpg",
+    "static/media/shoes.e8465ef6.jpg": "/static/media/shoes.e8465ef6.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3525970c.js",
+    "static/css/2.d97c81c1.chunk.css",
+    "static/js/2.210c8782.chunk.js",
+    "static/css/main.7e1d6168.chunk.css",
+    "static/js/main.363a04b3.chunk.js"
+  ]
+}

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js",
-    "client": "npm start --prefix ../app-frontend/",
+    "client": "npm run dev --prefix ../app-frontend/",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Rahul Saini",
