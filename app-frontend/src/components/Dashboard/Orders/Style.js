@@ -60,6 +60,7 @@ export const TableRow = styled.div`
 export const RowData = styled.span`
     white-space:nowrap;
     text-overflow:ellipsis;
+    overflow:hidden;
     position:${props=>props.position?props.position:"initial"};
 `
 

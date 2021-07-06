@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Tooltip from 'react-tooltip'
 import {
     OrderContainer,
     Header,
@@ -36,7 +37,7 @@ const Orders = () => {
         return (
             <TableRow key={order._id}>
                 <HeadValue >
-                    <RowData>{order._id}</RowData>
+                    <RowData data-tip={order._id}>{order._id}</RowData>
                 </HeadValue>
                 <HeadValue>
                     <RowData>23 June 2020</RowData>
@@ -106,7 +107,7 @@ const Orders = () => {
             <Header>Orders</Header>
             <SubHeader>{orders.length} orders found</SubHeader>
             <TableHead>
-                <HeadValue >Id</HeadValue>
+                <HeadValue  >Id</HeadValue>
                 <HeadValue>Ordered Date</HeadValue>
                 <HeadValue>Customer</HeadValue>
                 <HeadValue>Status</HeadValue>
@@ -115,6 +116,7 @@ const Orders = () => {
                 <HeadValue maxWidth="120px">Actions</HeadValue>
             </TableHead>
             {orderList.length > 0 ? orderList : "No orders available"}
+            <Tooltip />
         </OrderContainer>
     )
 }

@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import {
     ADDED_TO_CART,
     CREATE_ORDER,

@@ -17,7 +17,7 @@ import {
 import user from '../../../assests/banner/femal.jpg'
 import ReactTooltip from 'react-tooltip'
 
-import {FaCheck, FaCheckCircle, FaTimes} from 'react-icons/fa'
+import {FaCheck, FaTimes} from 'react-icons/fa'
 
 const UserCard = props => {
     const {Id,username,email,isAdmin,emailVerify,isBlocked}  = props
@@ -34,7 +34,7 @@ const UserCard = props => {
                         <DetailsLabel>Id</DetailsLabel><DetailsValue data-tip={Id}>{Id}</DetailsValue>
                     </Li>
                     <Li>
-                        <DetailsLabel>E-mail</DetailsLabel><DetailsValue>{email}</DetailsValue>
+                        <DetailsLabel>E-mail</DetailsLabel><DetailsValue data-tip={email}>{email}</DetailsValue>
                     </Li>
                     <Li>
                         <DetailsLabel>Verified</DetailsLabel><DetailsValue>{emailVerify?<Icon as={FaCheck} />:<Icon color="#ce2d2d" as={FaTimes} />}</DetailsValue>

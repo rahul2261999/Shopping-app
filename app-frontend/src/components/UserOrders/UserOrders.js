@@ -25,7 +25,7 @@ const UserOrders = () => {
 
     useEffect(() => {
         dispatch(getUserOrderInit(token))
-    }, [])
+    }, [dispatch,token])
 
     if (loading) {
         return <Loader />
