@@ -19,7 +19,7 @@ const AddEditProduct = props =>{
         product:{
             prod_name:'',
             prod_price:'',
-            prod_stock:'',
+            prod_stock:0,
             prod_image:'',
             prod_category:'',
             prod_description:'',
@@ -29,6 +29,7 @@ const AddEditProduct = props =>{
        error:{
         name:false,
         category:false,
+        price:false
        }
     }
     const {product,error} = initialState
@@ -39,7 +40,7 @@ const AddEditProduct = props =>{
     const {prod_name,prod_price,prod_stock,prod_image,prod_category,prod_description,form_data} = productDetails
 
     const [productError,setProductError] = useState(error)
-    const {name,category} = productError
+    const {name,category,price} = productError
     const {_id:product_id,product_name,product_price,product_category,product_description,product_stock} = filterProduct
 
     useEffect(()=>{
@@ -49,10 +50,12 @@ const AddEditProduct = props =>{
                 prod_price:product_price,
                 prod_stock:product_stock,
                 prod_image:'',
-                prod_category:product_category,
+                prod_category:product_category._id,
                 prod_description:product_description,
                 form_data:new FormData()
             })
+        }else{
+            setProductDetails(prevState=>({...prevState,form_data:new FormData()}))
         }
         
 
@@ -81,6 +84,7 @@ const AddEditProduct = props =>{
         const Proderror ={
             name:requireField(prod_name,"Product name require"),
             category:requireField(prod_category,"Please Select the Category"),
+            price:requireField(prod_price,"Price field can't be empty")
         }
         return Proderror
     }
@@ -126,7 +130,8 @@ const AddEditProduct = props =>{
                         name="prod_price"
                         placeholder="0"
                         value={prod_price}
-                        onChange={valueHandler} 
+                        onChange={valueHandler}
+                        error={price}
                        />
                     
                     <FormWrapper.Input 

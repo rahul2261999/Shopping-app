@@ -1,5 +1,5 @@
 import React from 'react'
-import {FaPlus,FaMinus, FaRupeeSign} from 'react-icons/fa'
+import { FaPlus, FaMinus, FaRupeeSign, FaTrash } from 'react-icons/fa'
 import {
     Card,
     ButtonContainer,
@@ -9,34 +9,52 @@ import {
     ProductDetails,
     ProductTitle,
     Price,
-    TotalPrice
+    TotalPrice,
+    DeleteIcon
 } from './style'
 
 
-const CartCard = props =>{
-   const {
-       image,
-       title,
-       price,
-       quantity,
-       totalPrice,
-       changeQty
-   } = props
-    return(
+const CartCard = props => {
+    const {
+        image,
+        title,
+        price,
+        quantity,
+        totalPrice,
+        changeQty,
+        removeProduct,
+        isCart,
+        stock
+    } = props
+    return (
         <Card>
             <Image>
-                <img src={image} alt="Item" width="100%" height="100%"/>
+                <img src={image} alt="Item" width="100%" height="100%" />
             </Image>
-            <ProductDetails>
-                <ProductTitle>{title}</ProductTitle>
-                <Price><FaRupeeSign/>{price}</Price>
-                <ButtonContainer>
-                <Control as={FaMinus} onClick={changeQty} />
-                <Input>{quantity}</Input>
-                <Control as={FaPlus} onClick={changeQty} />
-            </ButtonContainer>
-            </ProductDetails>
-            <TotalPrice><FaRupeeSign/>{totalPrice}</TotalPrice> 
+            {isCart ? (
+                <>
+                    <ProductDetails>
+                        <ProductTitle>{title}</ProductTitle>
+
+                        <Price><FaRupeeSign />{price}</Price>
+                        <ButtonContainer>
+                            <Control as={FaMinus} onClick={() => { changeQty("DEC") }} />
+                            <Input>{quantity}</Input>
+                            {stock>quantity?<Control as={FaPlus} onClick={() => changeQty("INC")} />:null}
+                        </ButtonContainer>
+                    </ProductDetails>
+                    <TotalPrice><FaRupeeSign />{totalPrice}</TotalPrice>
+                    <DeleteIcon as={FaTrash} onClick={removeProduct} />
+                </>
+            ) :
+                (
+                    <ProductDetails>
+                        <ProductTitle>{title}</ProductTitle>
+                        <Price><FaRupeeSign />{price} x {quantity} = {totalPrice}</Price>
+                    </ProductDetails>
+                )
+            }
+            { }
         </Card>
     )
 }

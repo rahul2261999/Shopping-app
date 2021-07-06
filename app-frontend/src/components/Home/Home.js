@@ -36,7 +36,7 @@ const Home = props =>{
                     <PromotionCard bgImage={shoes} ><Text>Branded Shoes</Text></PromotionCard>
                 </CardContainer>
             </Wrapper>
-            <ProductLayout title="All Categories" products={allProducts} />
+            <ProductLayout title="All Products" products={allProducts} />
         </ContainerWrapper>
     )
 }

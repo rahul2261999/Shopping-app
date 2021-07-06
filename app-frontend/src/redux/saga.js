@@ -11,10 +11,19 @@ import {
     FETCH_ALL_CATEGORY,
     ADD_CATEGORY,
     EDIT_CATEGORY,
-    REMOVE_CATEGORY
+    REMOVE_CATEGORY,
+    ADD_TO_CART,
+    INIT_CART,
+    REMOVE_FORM_CART,
+    CREATE_ORDER,
+    FETCH_USERS,
+    FETCH_ALL_USER_ORDER_INIT,
+    UPDATE_ORDER_STATUS_INIT,
+    USER_ORDER_REQUEST_INIT
 } from './actionTypes'
 
 import {
+    fetchUsers,
     isAuthenticated,
     signup,
     userSignin,
@@ -35,6 +44,8 @@ import {
     updateProduct
 } from './saga/productSaga'
 
+import { initCart, addCart, removeFromCart, createOrder, fetchAdminAllOrders, updateOrderStatus, fetchUserOrders } from './saga/cartorderSaga'
+
 export function* rootWatcher() {
     yield all([
         takeEvery(USER_SIGNUP_INITIATE, signup),
@@ -47,9 +58,23 @@ export function* rootWatcher() {
         takeEvery(DELETE_SINGLE_PRODUCT_START, deleteProduct),
         takeEvery(USER_SIGNOUT, userSignout),
         // -------------CATEGORY------------------
-        takeEvery(FETCH_ALL_CATEGORY,fetchCategory),
-        takeEvery(ADD_CATEGORY,addCategory),
-        takeEvery(EDIT_CATEGORY,editCategory),
-        takeEvery(REMOVE_CATEGORY,removeCategory)
+        takeEvery(FETCH_ALL_CATEGORY, fetchCategory),
+        takeEvery(ADD_CATEGORY, addCategory),
+        takeEvery(EDIT_CATEGORY, editCategory),
+        takeEvery(REMOVE_CATEGORY, removeCategory),
+        // -------------Cart------------------
+        takeEvery(ADD_TO_CART, addCart),
+        takeEvery(INIT_CART, initCart),
+        takeEvery(REMOVE_FORM_CART, removeFromCart),
+        // -------------Order------------------
+        takeEvery(CREATE_ORDER, createOrder),
+        takeEvery(USER_ORDER_REQUEST_INIT,fetchUserOrders),
+        // -------------Admin Order------------------
+        takeEvery(FETCH_ALL_USER_ORDER_INIT, fetchAdminAllOrders),
+        takeEvery(UPDATE_ORDER_STATUS_INIT, updateOrderStatus),
+        // -------------USERS------------------
+        takeEvery(FETCH_USERS, fetchUsers)
+
+
     ])
 }

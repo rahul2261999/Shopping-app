@@ -7,10 +7,10 @@ const productSchema = new Schema({
         required:true
     },
     prod_price:{
-        type:String,
+        type:Number,
         required:true
     },
-    category:{
+    prod_category:{
         type:ObjectId,
         ref:'categories',
         required:true
@@ -26,8 +26,9 @@ const productSchema = new Schema({
         }
     },
     prod_stock:{
-        type:String,
-        required:true
+        type:Number,
+        required:true,
+        default:0
     },
     prod_description:String,
     

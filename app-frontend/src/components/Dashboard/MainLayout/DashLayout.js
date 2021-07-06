@@ -6,9 +6,10 @@ import {FlexContainer,ContentContainer} from './style'
 import {Redirect} from 'react-router-dom'
 import { getUser } from '../../../utilities/helperFunction'
 const DashLayout = props =>{
+    const {user} = getUser()
      const dispatch = useDispatch()
      const userSignOut = ()=>{
-         dispatch(signOut())
+         dispatch(signOut(user))
      }
      
      useEffect(()=>{

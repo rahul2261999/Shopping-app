@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import ModalTemplate from '../../utilities/ModalTemplate/ModalTemplate'
 import { FcGoogle } from 'react-icons/fc'
 import { FaFacebook } from 'react-icons/fa'
@@ -30,11 +30,10 @@ import {
     userSignInInitiate,
     closeAuthModal
 } from '../../redux/actions/user'
-import { memoizedUser } from '../../redux/selector/user'
 
 
 const Auth = props =>{
-    const {openModal,redirect} = useSelector(memoizedUser)
+    const {openModal,redirect} = props
 
     const [isSignup,setSignup] = useState(false)
     const [formValues,setFormValues] = useState({
@@ -93,7 +92,6 @@ const Auth = props =>{
 
     const formSubmitHandler = () =>{
         const error = validation()
-        console.log(isObjectEmpty(error))
         if(isObjectEmpty(error)){
             isSignup ? dispatch(userSignup(formValues)) : dispatch(userSignInInitiate(formValues))
         }else{

@@ -8,7 +8,10 @@ import {
     AUTHENTICATE_USER_START,
     AUTHENTICATE_USER_SUCCESS,
     AUTHENTICATE_USER_FAIL,
-    USER_SIGNOUT_SUCCESS
+    USER_SIGNOUT_SUCCESS,
+    FETCH_USERS,
+    FETCH_USERS_SUCCESS,
+    FETCH_USER_FAILED
 } from '../actionTypes'
 
 export const openAuthModal = data =>{
@@ -46,11 +49,6 @@ export const userLoginSucess = user =>{
     }
 }
 
-export const userSignoutInitiate = () =>{
-    return {
-        type:USER_SIGNOUT
-    }
-}
 export const isAuthenticated = () =>{
     return {
         type:AUTHENTICATE_USER_START
@@ -69,14 +67,36 @@ export const authenticationFail = () =>{
     }
 }
 
-export const signOut = ()=>{
+export const signOut = user =>{
     return{
-        type:USER_SIGNOUT
+        type:USER_SIGNOUT,
+        payload:user
     }
 }
 
-export const signOutSuccess = ()=>{
+export const signOutSuccess = user=>{
     return{
-        type:USER_SIGNOUT_SUCCESS
+        type:USER_SIGNOUT_SUCCESS,
+        payload:user
+    }
+}
+
+export const getAllUser = token =>{
+    return{
+        type:FETCH_USERS,
+        payload:token
+    }
+}
+
+export const getAllUserSuccess = users =>{
+    return{
+        type:FETCH_USERS_SUCCESS,
+        payload:users
+    }
+}
+
+export const fetchUserFailed = () =>{
+    return{
+        type:FETCH_USER_FAILED
     }
 }

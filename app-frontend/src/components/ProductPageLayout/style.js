@@ -89,7 +89,7 @@ export const Button= styled.button`
     width: 200px;
     border: 0;
     margin-left: 15px;
-    cursor:pointer;
+    cursor:${props=>props.disabled?'not-allowed':'pointer'};
 `
 
 export const Description = styled.div`
