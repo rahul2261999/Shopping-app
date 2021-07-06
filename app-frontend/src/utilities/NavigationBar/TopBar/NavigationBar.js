@@ -37,7 +37,7 @@ const NavigationBar = props => {
                                     <DropList as={Link} to="/profile" >
                                         <Icon font="13px" marginRight="10" as={FaUserAlt} />Profile
                                     </DropList>
-                                    <DropList as={Link} to="/profile" >
+                                    <DropList as={Link} to="/userOrders" >
                                         <Icon font="13px" marginRight="10" as={FaTruckLoading} />Orders
                                     </DropList>
                                     <DropList borderTop="1px" onClick={userSignout} >

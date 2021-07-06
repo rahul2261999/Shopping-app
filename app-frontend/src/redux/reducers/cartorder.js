@@ -9,12 +9,16 @@ import {
     FETCH_ORDERS_SUCCESS,
     INIT_CART_SUCCESS,
     REMOVE_FORM_CART_SUCCESS,
-    UPDATE_ORDER_STATUS_SUCCESS
+    UPDATE_ORDER_STATUS_SUCCESS,
+    USER_ORDER_REQUEST_FAILED,
+    USER_ORDER_REQUEST_INIT,
+    USER_ORDER_REQUEST_SUCCESS
 } from "../actionTypes"
 
 const initalState = {
     cartItems: [],
     orders: [],
+    userOrders:[],
     loading: false,
 }
 
@@ -52,6 +56,23 @@ const CartOrder = (state = initalState, action) => {
                 orders: [...state.orders, payload],
                 loading: false
             }
+        case USER_ORDER_REQUEST_INIT:
+            return {
+                ...state,
+                loading:true
+            }
+        case USER_ORDER_REQUEST_SUCCESS:
+            return{
+                ...state,
+                userOrders:payload,
+                loading:false
+            }
+        case USER_ORDER_REQUEST_FAILED:
+            return{
+                ...state,
+                loading:false
+            }
+            // admin
         case FETCH_ALL_USER_ORDER_INIT:
             return {
                 ...state,

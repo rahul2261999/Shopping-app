@@ -8,6 +8,8 @@ import {
     adminGetAllUserOrderSuccess,
     adminGetAllUserOrderFailed,
     updateOrderStatusSuccess,
+    getUserOrderSuccess,
+    getUserOrderFailed,
 } from '../actions/cartorder'
 import { errorToaster, successToaster } from '../actions/toaster'
 export function* initCart() {
@@ -54,6 +56,27 @@ export function* createOrder(action) {
        throw error
     }
 }
+
+export  function* fetchUserOrders(action){
+    const {payload} = action
+    try {
+        const response = yield axios.get('/allorders',{
+            headers:{
+                "Authorization":`Bearer ${payload}`
+            }
+        })
+        yield put(getUserOrderSuccess(response.data))
+    } catch (error) {
+        yield put(getUserOrderFailed())
+        if(error.response.data.msg){
+            return yield put(errorToaster(error.response.data.msg))
+         }
+         yield put(errorToaster("Network Problem"))
+    }
+}
+
+
+// admin calls
 
 export function* fetchAdminAllOrders(action){
     const {payload} = action

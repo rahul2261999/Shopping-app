@@ -19,7 +19,8 @@ import {
     FETCH_USERS,
     FETCH_ALL_USER_ORDER_INIT,
     UPDATE_ORDER_STATUS,
-    UPDATE_ORDER_STATUS_INIT
+    UPDATE_ORDER_STATUS_INIT,
+    USER_ORDER_REQUEST_INIT
 } from './actionTypes'
 
 import {
@@ -44,7 +45,7 @@ import {
     updateProduct
 } from './saga/productSaga'
 
-import { initCart, addCart, removeFromCart, createOrder, fetchAdminAllOrders, updateOrderStatus } from './saga/cartorderSaga'
+import { initCart, addCart, removeFromCart, createOrder, fetchAdminAllOrders, updateOrderStatus, fetchUserOrders } from './saga/cartorderSaga'
 
 export function* rootWatcher() {
     yield all([
@@ -68,6 +69,8 @@ export function* rootWatcher() {
         takeEvery(REMOVE_FORM_CART, removeFromCart),
         // -------------Order------------------
         takeEvery(CREATE_ORDER, createOrder),
+        takeEvery(USER_ORDER_REQUEST_INIT,fetchUserOrders),
+        // -------------Admin Order------------------
         takeEvery(FETCH_ALL_USER_ORDER_INIT, fetchAdminAllOrders),
         takeEvery(UPDATE_ORDER_STATUS_INIT, updateOrderStatus),
         // -------------USERS------------------
