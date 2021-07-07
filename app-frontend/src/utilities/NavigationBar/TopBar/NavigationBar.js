@@ -20,7 +20,7 @@ const NavigationBar = props => {
     return (
         <Wrapper>
             <NavBar>
-                <NavLogo>Logo</NavLogo>
+                <NavLogo>TrendyBloom</NavLogo>
                 <NavList>
                     <NavListItem activeClassName="navActive" to="/" exact>Home </NavListItem>
                     <NavListItem activeClassName="navActive" to="/tshirt" exact>T-SHIRT </NavListItem>

@@ -11,11 +11,14 @@ export const NavBar = styled.div`
 
 export const NavLogo = styled.div`
     font-size:20px;
+	font-family:'Monestrate', sans-serif;
+	font-variant:small-caps;
 `
 
 export const NavList = styled.div`
     list-style-type:none;
     display:flex;
+
 `
 
 export const NavListItem = styled(NavLink)`
