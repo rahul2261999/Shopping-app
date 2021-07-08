@@ -91,7 +91,6 @@ exports.cancelOrder = (req, res) => {
                 error: err,
             })
         }
-        console.log(prod);
         res.json({
             msg: "Order Canceled Successfully"
         })
