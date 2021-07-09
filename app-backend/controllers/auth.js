@@ -1,7 +1,8 @@
 const express = require('express')
-const app = express()
+const path = require('path')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
+const ejs = require('ejs')
 const User = require("../models/user/user")
 const VerifyToken = require('../models/verifyToken/verifyToken')
 const {
@@ -16,6 +17,7 @@ exports.signUp = (req, res) => {
     const error = validationResult(req)
 
     if (!error.isEmpty()) {
+        console.log("here");
         return res.status(400).json({
             error: error.array()[0].msg
         })
@@ -56,20 +58,27 @@ exports.signUp = (req, res) => {
                         pass: process.env.SMPT_PASSWORD
                     },
                 })
-
-                transporter.sendMail({
-                    from: 'rahulsaini2261999@gmail.com',
-                    to: email,
-                    html: `<a>http://localhost:3002/${tokenData.token}</a>`
-                }, (err) => {
+                ejs.renderFile(path.resolve('./public') + path.normalize('/html/email.ejs'), {
+                    user: first_name.concat(last_name),
+                    email: email,
+                    pathname: `http://localhost:3002/${tokenData.token}`
+                }, (err, html) => {
                     if (err) {
-                        return errorHandler(res, {
-                            error: err
-                        })
+                        return res.status(400).json({msg:err})
                     }
-                    res.status(200).json({ msg: "Verify email link send to your email" })
+                    transporter.sendMail({
+                        from: 'rahulsaini2261999@pepisandbox.com',
+                        to: email,
+                        html: html
+                    }, (err) => {
+                        if (err) {
+                            return errorHandler(res, {
+                                error: err
+                            })
+                        }
+                        res.status(200).json({ msg: "Verify email link send to your email" })
+                    })
                 })
-
             })
         })
     })
@@ -142,7 +151,7 @@ exports.validateUser = (req, res) => {
             if (err) {
                 return errorHandler(res, { error: err })
             }
-            const {_id,
+            const { _id,
                 first_name,
                 last_name,
                 email,
@@ -208,20 +217,28 @@ exports.isEmailVerified = (req, res, next) => {
                     pass: process.env.SMPT_PASSWORD
                 },
             })
-
-            transporter.sendMail({
-                from: 'rahulsaini2261999@pepisandbox.com',
-                to: email,
-                html: `<a>http://localhost:3002/${tokenData.token}</a>`
-            }, (err) => {
+            ejs.renderFile(path.resolve('./public') + path.normalize('/html/email.ejs'), {
+                user: first_name.concat(last_name),
+                email: email,
+                pathname: `http://localhost:3002/${tokenData.token}`
+            }, (err, html) => {
                 if (err) {
-                    return errorHandler(res, {
-                        error: err
-                    })
+                    throw err
                 }
-                res.status(200).json({ msg: "Verify email link send to your email" })
+                transporter.sendMail({
+                    from: 'rahulsaini2261999@pepisandbox.com',
+                    to: email,
+                    subject:"verify your email",
+                    html: html
+                }, (err) => {
+                    if (err) {
+                        return errorHandler(res, {
+                            error: err
+                        })
+                    }
+                    res.status(200).json({ msg: "Verify email link send to your email" })
+                })
             })
-
         })
     })
 }
