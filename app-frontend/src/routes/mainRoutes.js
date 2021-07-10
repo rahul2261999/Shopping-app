@@ -13,6 +13,7 @@ import Product from '../components/Dashboard/Product/Product'
 import Category from '../components/Dashboard/Category/Category'
 import Users from '../components/Dashboard/Users/User'
 import Orders from '../components/Dashboard/Orders/Orders'
+import EmailVerification from '../components/Auth/EmailVerification/EmailVerification'
 
 const mainRoutes = props =>{
     return(
@@ -20,6 +21,7 @@ const mainRoutes = props =>{
                 <Routes path="/" exact component={Home} />
                 <Routes path="/tshirt" component={TShirt} />
                 <Routes path="/shoes" component={Shoes} />
+                <Routes path="/user/verify/:token" component={EmailVerification} />
                 <Routes path="/checkout/orderinformation" isLoggedIn component={Checkout} />
                 <Routes path="/userOrders" isLoggedIn component={UserOrders} />
                 <Routes path="/dashboard" exact adminRoute component={Product} />

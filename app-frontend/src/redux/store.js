@@ -10,9 +10,11 @@ import productReducer from './reducers/products'
 import toasterReducer from './reducers/toaster'
 import categoryReducer from './reducers/category'
 import CartOrder from './reducers/cartorder'
+import emailVerify from './reducers/emailVerify'
 
 const rootReducer = combineReducers({
     user:authReducer,
+    emailVerify:emailVerify,
     category:categoryReducer,
     products:productReducer,
     toaster:toasterReducer,

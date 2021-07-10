@@ -61,10 +61,10 @@ exports.signUp = (req, res) => {
                 ejs.renderFile(path.resolve('./public') + path.normalize('/html/email.ejs'), {
                     user: first_name.concat(last_name),
                     email: email,
-                    pathname: `http://localhost:3002/${tokenData.token}`
+                    pathname: `http://localhost:3001/user/verify/${tokenData.token}`
                 }, (err, html) => {
                     if (err) {
-                        return res.status(400).json({msg:err})
+                        return res.status(400).json({ msg: err })
                     }
                     transporter.sendMail({
                         from: 'rahulsaini2261999@pepisandbox.com',
@@ -158,9 +158,8 @@ exports.validateUser = (req, res) => {
                 isAdmin
             } = user
             res.status(200).json({
-                msg: "User verified successfully",
-                data: {
-                    token,
+                token,
+                user: {
                     _id,
                     first_name,
                     last_name,
@@ -220,7 +219,7 @@ exports.isEmailVerified = (req, res, next) => {
             ejs.renderFile(path.resolve('./public') + path.normalize('/html/email.ejs'), {
                 user: first_name.concat(last_name),
                 email: email,
-                pathname: `http://localhost:3002/${tokenData.token}`
+                pathname: `http://localhost:3001/user/verify/${tokenData.token}`
             }, (err, html) => {
                 if (err) {
                     throw err
@@ -228,7 +227,7 @@ exports.isEmailVerified = (req, res, next) => {
                 transporter.sendMail({
                     from: 'rahulsaini2261999@pepisandbox.com',
                     to: email,
-                    subject:"verify your email",
+                    subject: "verify your email",
                     html: html
                 }, (err) => {
                     if (err) {

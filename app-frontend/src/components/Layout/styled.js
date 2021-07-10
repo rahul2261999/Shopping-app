@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const ContentContainer = styled.div`
-    margin:0px 30px
+    height:calc(100vh - 60px);
+    margin:0px 30px;
 `
 
 export const FlexContainer = styled.div`
