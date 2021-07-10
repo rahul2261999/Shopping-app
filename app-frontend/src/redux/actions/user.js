@@ -12,9 +12,6 @@ import {
     FETCH_USERS,
     FETCH_USERS_SUCCESS,
     FETCH_USER_FAILED,
-    EMAIL_VERIFICATION_INIT,
-    EMAIL_VERIFICATION_SUCCESS,
-    EMAIL_VERIFICATION_FAILED
 } from '../actionTypes'
 
 export const openAuthModal = data =>{
