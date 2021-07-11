@@ -18,7 +18,6 @@ export function* signup(action){
         yield put(closeAuthModal(false))
         yield put(successToaster(response.data.msg))
     } catch (error) {
-        console.log("erroe")
         yield put(errorToaster(error.response.data.error))
     }
 }
@@ -27,13 +26,22 @@ export function* userSignin(action){
 
     try {
         const response = yield axios.post('signin',action.payload)
-        yield localStorage.setItem("token",response.data.token)
-        yield localStorage.setItem("user",JSON.stringify(response.data.user))
-        yield put(userLoginSucess(response.data))
-        yield put(closeAuthModal(false))
+        if(response.data.msg){
+            yield put(successToaster(response.data.msg))
+            yield put(closeAuthModal(false))
+
+        }else{
+            yield localStorage.setItem("token",response.data.token)
+            yield localStorage.setItem("user",JSON.stringify(response.data.user))
+            yield put(userLoginSucess(response.data))
+            yield put(closeAuthModal(false))
+        }
+       
 
     } catch (error) {
-        console.log(error.response.data.error)
+        if(error.response.data.error){
+            yield put(errorToaster(error.response.data.error))
+        }
     }
 }
 

@@ -8,6 +8,7 @@ import ContainerWrapper from '../../hoc/Wrapper'
 import ProductLayout from '../ProductPageLayout/ProductPageLayout'
 import {useDispatch, useSelector} from 'react-redux'
 import {fetchAllProduct} from '../../redux/actions/product'
+import {isAuthenticated} from '../../redux/actions/user'
 
 import {
     Wrapper,
@@ -17,11 +18,12 @@ import {
 } from './style'
 import memoizedProducts from '../../redux/selector/products'
 
-const Home = props =>{
+const Home = () =>{
     const {allProducts} = useSelector(memoizedProducts)
     const dispatch = useDispatch()
     useEffect(()=>{
         dispatch(fetchAllProduct())
+        dispatch(isAuthenticated())
     },[dispatch])
     return(
         <ContainerWrapper>

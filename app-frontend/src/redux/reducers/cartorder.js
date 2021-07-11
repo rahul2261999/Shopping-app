@@ -91,7 +91,6 @@ const CartOrder = (state = initalState, action) => {
             }
         case UPDATE_ORDER_STATUS_SUCCESS:
             const { id, status } = payload
-            console.log(payload);
             const newOrderArray = state.orders.map(item => {
                 if (item._id === id) {
                     item.order_status = status

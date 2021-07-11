@@ -19,7 +19,8 @@ import {
     FETCH_USERS,
     FETCH_ALL_USER_ORDER_INIT,
     UPDATE_ORDER_STATUS_INIT,
-    USER_ORDER_REQUEST_INIT
+    USER_ORDER_REQUEST_INIT,
+    EMAIL_VERIFICATION_INIT
 } from './actionTypes'
 
 import {
@@ -45,9 +46,11 @@ import {
 } from './saga/productSaga'
 
 import { initCart, addCart, removeFromCart, createOrder, fetchAdminAllOrders, updateOrderStatus, fetchUserOrders } from './saga/cartorderSaga'
+import { verifyEmail } from './saga/emailVerifySaga'
 
 export function* rootWatcher() {
     yield all([
+        // -------------USER AUTH------------------
         takeEvery(USER_SIGNUP_INITIATE, signup),
         takeEvery(USER_SIGNIN_INITIATE, userSignin),
         takeEvery(USER_SIGNOUT, userSignout),
@@ -57,6 +60,8 @@ export function* rootWatcher() {
         takeEvery(FETCH_ALLPRODUCT_START, getAllProduct),
         takeEvery(DELETE_SINGLE_PRODUCT_START, deleteProduct),
         takeEvery(USER_SIGNOUT, userSignout),
+        // -------------USER AUTH------------------
+        takeEvery(EMAIL_VERIFICATION_INIT,verifyEmail),
         // -------------CATEGORY------------------
         takeEvery(FETCH_ALL_CATEGORY, fetchCategory),
         takeEvery(ADD_CATEGORY, addCategory),

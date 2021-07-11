@@ -51,7 +51,6 @@ exports.createProduct = (req, res) => {
     const form = new formidable.IncomingForm({ keepExtensions: true })
     form.parse(req, (err, fields, file) => {
         if (err) {
-            console.log(err)
             return errorHandler(res, { data: err, msg: "Something wrong with image" })
         }
         const product = new Product(fields)

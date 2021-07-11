@@ -70,7 +70,6 @@ const AddEditProduct = props =>{
             }
         }else if(name==="prod_image"){
             setProductDetails({...productDetails,[name]:value})
-            console.log(name,e.target.files[0]);
             form_data.set(name,e.target.files[0])
 
         }else{

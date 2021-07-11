@@ -96,7 +96,6 @@ const Auth = props =>{
             isSignup ? dispatch(userSignup(formValues)) : dispatch(userSignInInitiate(formValues))
         }else{
             setFromError(error)
-            console.log(error)
         }
     }
     if(redirect){

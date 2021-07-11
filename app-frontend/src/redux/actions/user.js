@@ -11,7 +11,7 @@ import {
     USER_SIGNOUT_SUCCESS,
     FETCH_USERS,
     FETCH_USERS_SUCCESS,
-    FETCH_USER_FAILED
+    FETCH_USER_FAILED,
 } from '../actionTypes'
 
 export const openAuthModal = data =>{
