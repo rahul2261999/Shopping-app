@@ -61,7 +61,7 @@ exports.signUp = (req, res) => {
                 ejs.renderFile(path.resolve('./public') + path.normalize('/html/email.ejs'), {
                     user: first_name.concat(last_name),
                     email: email,
-                    pathname: `http://localhost:3001/user/verify/${tokenData.token}`
+                    pathname: `${process.env.APP_URL}/user/verify/${tokenData.token}`
                 }, (err, html) => {
                     if (err) {
                         return res.status(400).json({ msg: err })
@@ -219,7 +219,7 @@ exports.isEmailVerified = (req, res, next) => {
             ejs.renderFile(path.resolve('./public') + path.normalize('/html/email.ejs'), {
                 user: first_name.concat(last_name),
                 email: email,
-                pathname: `http://localhost:3001/user/verify/${tokenData.token}`
+                pathname: `${process.env.APP_URL}/user/verify/${tokenData.token}`
             }, (err, html) => {
                 if (err) {
                     throw err

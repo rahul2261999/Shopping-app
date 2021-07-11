@@ -18,7 +18,7 @@ import {
 } from './style'
 import memoizedProducts from '../../redux/selector/products'
 
-const Home = props =>{
+const Home = () =>{
     const {allProducts} = useSelector(memoizedProducts)
     const dispatch = useDispatch()
     useEffect(()=>{
