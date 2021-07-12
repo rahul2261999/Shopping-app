@@ -33,7 +33,6 @@ export function* addNewProduct(action){
 
 export function* updateProduct(action){
    const {token,userId,productId,productData} = action.payload
-   console.log(action.payload)
    try {
       const response = yield axios.put(`product/${productId}/${userId}`,productData,{
          headers:{

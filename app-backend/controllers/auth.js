@@ -1,4 +1,3 @@
-const express = require('express')
 const path = require('path')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
@@ -17,7 +16,6 @@ exports.signUp = (req, res) => {
     const error = validationResult(req)
 
     if (!error.isEmpty()) {
-        console.log("here");
         return res.status(400).json({
             error: error.array()[0].msg
         })
@@ -40,8 +38,8 @@ exports.signUp = (req, res) => {
                     error: err
                 })
             }
-            const { _id, first_name, last_name, email } = user
-            const token = jwt.sign({ first_name, last_name, email }, process.env.TOKEN_SECRET)
+            const { _id, first_name, last_name, email, isAdmin } = user
+            const token = jwt.sign({ _id, first_name, last_name, email, isAdmin }, process.env.TOKEN_SECRET)
             const saveToken = new VerifyToken({ user: _id, token })
             saveToken.save((err, tokenData) => {
                 if (err) {
@@ -59,9 +57,9 @@ exports.signUp = (req, res) => {
                     },
                 })
                 ejs.renderFile(path.resolve('./public') + path.normalize('/html/email.ejs'), {
-                    user: first_name.concat(last_name),
+                    user: `${first_name} ${last_name}`,
                     email: email,
-                    pathname: `${process.env.APP_URL}/user/verify/${tokenData.token}`
+                    pathname: `${process.env.APP_URL}/user/verify/${token}`
                 }, (err, html) => {
                     if (err) {
                         return res.status(400).json({ msg: err })
@@ -138,8 +136,8 @@ exports.signIn = (req, res) => {
 }
 
 exports.validateUser = (req, res) => {
-    const { token, payload: { email } } = req.user
-    User.findOne({ email: email }).exec((err, user) => {
+    const { token, payload } = req.user
+    User.findOne({ email: payload.email }).exec((err, user) => {
         if (err || !user) {
             return errorHandler(res, { error: err, data: !user, msg: 'User not found' })
         }
@@ -151,21 +149,9 @@ exports.validateUser = (req, res) => {
             if (err) {
                 return errorHandler(res, { error: err })
             }
-            const { _id,
-                first_name,
-                last_name,
-                email,
-                isAdmin
-            } = user
             res.status(200).json({
                 token,
-                user: {
-                    _id,
-                    first_name,
-                    last_name,
-                    email,
-                    isAdmin
-                }
+                user: payload
             })
         })
     })
@@ -198,8 +184,8 @@ exports.isEmailVerified = (req, res, next) => {
         if (user.isEmailVerified) {
             return next()
         }
-        const { _id, first_name, last_name, email } = user
-        const token = jwt.sign({ first_name, last_name, email }, process.env.TOKEN_SECRET)
+        const { _id, first_name, last_name, email, isAdmin } = user
+        const token = jwt.sign({ _id, first_name, last_name, email, isAdmin }, process.env.TOKEN_SECRET)
         const saveToken = new VerifyToken({ user: _id, token })
         saveToken.save((err, tokenData) => {
             if (err) {
