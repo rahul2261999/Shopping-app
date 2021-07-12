@@ -44,4 +44,4 @@ app.use('/api', product)
 app.use('/api', category)
 app.use('/api', order)
 
-app.listen(port, () => console.log(`app is running at port ${port}`))
+app.listen(port, () => console.log(`app is running`))
