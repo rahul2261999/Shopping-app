@@ -33,7 +33,8 @@ exports.getAllProducts = (req, res) => {
             'product_image': '$prod_image', 
             'product_stock': '$prod_stock', 
             'product_description': '$prod_description', 
-            'product_category': '$prod_category', 
+            'product_category': '$prod_category',
+            'product_type':'$prod_type', 
             'createdAt': 1, 
             'updatedAt': 1
           }
