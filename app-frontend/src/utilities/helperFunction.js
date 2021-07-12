@@ -6,6 +6,9 @@ export const validateEmail = (email) => {
 }
 
 export const requireField = (name, msg = true) => {
+  if(typeof name === 'number'){
+    name = name.toString()
+  }
   const validField = name.length > 0 ? false : msg
   return validField
 }
