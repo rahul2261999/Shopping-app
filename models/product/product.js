@@ -15,6 +15,10 @@ const productSchema = new Schema({
         ref:'categories',
         required:true
     },
+    prod_type:{
+        type:String,
+        required:true,
+    },
     prod_image:{
         name:{
             type:Buffer,
