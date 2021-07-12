@@ -48,4 +48,4 @@ app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'./build','index.html'))
 })
 
-app.listen(port,()=>console.log(`app is running at port ${port}`))
+app.listen(port, () => console.log(`app is running`))
