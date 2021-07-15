@@ -33,6 +33,7 @@ import {
     closeAuthModal,
     userGoogleAuthInit
 } from '../../redux/actions/user'
+import { errorToaster } from '../../redux/actions/toaster'
 
 const Auth = props => {
     const { openModal, redirect } = props
@@ -106,7 +107,7 @@ const Auth = props => {
         dispatch(userGoogleAuthInit({ id_token }))
     }
     const responseErrorGoogle = (res) => {
-        console.log(res);
+        errorToaster("Something went worn")
     }
 
 
