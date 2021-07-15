@@ -12,6 +12,6 @@ const verifyToken = new Schema({
     }
 },{timestamps:true})
 
-verifyToken.index({createdAt:1},{expireAfterSeconds:10})
+verifyToken.index({createdAt:1},{expireAfterSeconds:300})
 
 module.exports = mongoose.model('verifytoken', verifyToken)

@@ -7,7 +7,8 @@ const {
     signIn,
     isEmailVerified,
     decodeToken,
-    validateUser
+    validateUser,
+    googleAuthentication
 } = require('../controllers/auth')
 
 route.post('/signup', [
@@ -20,6 +21,7 @@ route.post('/signin',
     check('email', 'Please enter valid email address').isEmail(),
     isEmailVerified,
     signIn)
+route.post('/google-auth',googleAuthentication)
 
 route.get('/user/verify/:tokenId',decodeToken,validateUser);
 
