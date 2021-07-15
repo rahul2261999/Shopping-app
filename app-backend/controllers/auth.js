@@ -2,16 +2,14 @@ const path = require('path')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
 const ejs = require('ejs')
+const { v4: uuid } = require('uuid')
+const { OAuth2Client } = require('google-auth-library')
 const User = require("../models/user/user")
 const VerifyToken = require('../models/verifyToken/verifyToken')
-const {
-    validationResult
-} = require("express-validator")
-const {
-    errorHandler
-} = require('./helperFunction/helper')
+const { validationResult } = require("express-validator")
+const { errorHandler } = require('./helperFunction/helper')
 
-
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 exports.signUp = (req, res) => {
     const error = validationResult(req)
 
@@ -67,7 +65,8 @@ exports.signUp = (req, res) => {
                     transporter.sendMail({
                         from: 'rahulsaini2261999@pepisandbox.com',
                         to: email,
-                        html: html
+                        html: html,
+                        subject: "Verify your email"
                     }, (err) => {
                         if (err) {
                             return errorHandler(res, {
@@ -157,6 +156,65 @@ exports.validateUser = (req, res) => {
     })
 }
 
+exports.googleAuthentication = async (req, res) => {
+    const { id_token } = req.body
+    try {
+        const clientData = await googleClient.verifyIdToken({ idToken: id_token, audience: process.env.GOOGLE_CLIENT_ID })
+        const { given_name, family_name, email, email_verified, } = clientData.payload
+        if (!email_verified) {
+            return errorHandler(res, { data: true, msg: "email is not verified" })
+        }
+        User.findOne({ email: email }).exec((err, user) => {
+            if (err) {
+                return errorHandler(res, { err: err })
+            }
+            if (user) {
+                const { _id, first_name, last_name, email, isAdmin } = user
+
+                const token = jwt.sign({ _id, first_name, last_name, email, isAdmin }, process.env.TOKEN_SECRET)
+                return res.json({
+                    token,
+                    user: {
+                        _id,
+                        first_name,
+                        last_name,
+                        email,
+                        isAdmin
+                    }
+                })
+            } else {
+                new User({
+                    first_name: given_name,
+                    last_name: family_name,
+                    email: email,
+                    isEmailVerified: email_verified,
+                    password: uuid()
+                }).save((err, user) => {
+                    if (err || !user) {
+                        return errorHandler(res, { err: err, data: !user, msg: "user not able to login" })
+                    }
+                    const { _id, first_name, last_name, email, isAdmin } = user
+
+                    const token = jwt.sign({ _id, first_name, last_name, email, isAdmin }, process.env.TOKEN_SECRET)
+                    res.json({
+                        token,
+                        user: {
+                            _id,
+                            first_name,
+                            last_name,
+                            email,
+                            isAdmin
+                        }
+                    })
+
+                })
+            }
+        })
+    } catch (error) {
+        return errorHandler(res, { error: error })
+    }
+
+}
 
 
 // middlewares
@@ -213,7 +271,7 @@ exports.isEmailVerified = (req, res, next) => {
                 transporter.sendMail({
                     from: 'rahulsaini2261999@pepisandbox.com',
                     to: email,
-                    subject: "verify your email",
+                    subject: "Verify your email",
                     html: html
                 }, (err) => {
                     if (err) {

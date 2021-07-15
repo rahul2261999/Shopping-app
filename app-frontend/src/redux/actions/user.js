@@ -12,6 +12,8 @@ import {
     FETCH_USERS,
     FETCH_USERS_SUCCESS,
     FETCH_USER_FAILED,
+    AUTHENTICATE_USER_GOOGLE_START,
+    AUTHENTICATE_USER_GOOGLE_SUCCESS,
 } from '../actionTypes'
 
 export const openAuthModal = data =>{
@@ -98,5 +100,20 @@ export const getAllUserSuccess = users =>{
 export const fetchUserFailed = () =>{
     return{
         type:FETCH_USER_FAILED
+    }
+}
+
+
+export const userGoogleAuthInit = (data) => {
+    return {
+        type:AUTHENTICATE_USER_GOOGLE_START,
+        payload:data
+    }
+}
+
+export const userGoogleAuthSuccess = (data) =>{
+    return {
+        type:AUTHENTICATE_USER_GOOGLE_SUCCESS,
+        payload:data
     }
 }
