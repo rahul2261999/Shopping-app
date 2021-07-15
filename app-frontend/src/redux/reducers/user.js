@@ -1,12 +1,12 @@
-import { USER_SIGNIN_SUCCESS, OPEN_AUTH_MODAL, CLOSE_AUTH_MODAL, AUTHENTICATE_USER_SUCCESS, AUTHENTICATE_USER_FAIL, USER_SIGNOUT_SUCCESS, USER_SIGNOUT, FETCH_USERS, FETCH_USERS_SUCCESS, FETCH_USER_FAILED } from '../actionTypes'
+import { USER_SIGNIN_SUCCESS, OPEN_AUTH_MODAL, CLOSE_AUTH_MODAL, AUTHENTICATE_USER_SUCCESS, AUTHENTICATE_USER_FAIL, USER_SIGNOUT_SUCCESS, USER_SIGNOUT, FETCH_USERS, FETCH_USERS_SUCCESS, FETCH_USER_FAILED, AUTHENTICATE_USER_GOOGLE_SUCCESS } from '../actionTypes'
 
 const initialState = {
     openModal: false,
     user: null,
     token: null,
     redirect: false,
-    allUsers:[],
-    loading:false
+    allUsers: [],
+    loading: false
 }
 
 const authReducer = (state = initialState, action) => {
@@ -28,6 +28,15 @@ const authReducer = (state = initialState, action) => {
                 token: action.payload.token,
                 redirect: true,
             }
+        case AUTHENTICATE_USER_GOOGLE_SUCCESS: {
+            const { payload: { user, token } } = action
+            return {
+                ...state,
+                user: user,
+                token: token,
+                redirect: true
+            }
+        }
         case AUTHENTICATE_USER_SUCCESS:
             return {
                 ...state,
@@ -49,20 +58,20 @@ const authReducer = (state = initialState, action) => {
                 redirect: action.payload.isAdmin === 1 ? true : false,
             }
         case FETCH_USERS:
-            return{
+            return {
                 ...state,
-                loading:true
+                loading: true
             }
         case FETCH_USERS_SUCCESS:
-            return{
+            return {
                 ...state,
-                allUsers:action.payload,
-                loading:false
+                allUsers: action.payload,
+                loading: false
             }
         case FETCH_USER_FAILED:
-            return{
+            return {
                 ...state,
-                loading:false
+                loading: false
             }
         default:
             return state

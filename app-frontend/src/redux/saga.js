@@ -20,11 +20,13 @@ import {
     FETCH_ALL_USER_ORDER_INIT,
     UPDATE_ORDER_STATUS_INIT,
     USER_ORDER_REQUEST_INIT,
-    EMAIL_VERIFICATION_INIT
+    EMAIL_VERIFICATION_INIT,
+    AUTHENTICATE_USER_GOOGLE_START
 } from './actionTypes'
 
 import {
     fetchUsers,
+    googleAuth,
     isAuthenticated,
     signup,
     userSignin,
@@ -60,7 +62,9 @@ export function* rootWatcher() {
         takeEvery(FETCH_ALLPRODUCT_START, getAllProduct),
         takeEvery(DELETE_SINGLE_PRODUCT_START, deleteProduct),
         takeEvery(USER_SIGNOUT, userSignout),
-        // -------------USER AUTH------------------
+        // -------------GOOGLE AUTH------------------
+        takeEvery(AUTHENTICATE_USER_GOOGLE_START,googleAuth),
+        // -------------USER VERFIACTION------------------
         takeEvery(EMAIL_VERIFICATION_INIT,verifyEmail),
         // -------------CATEGORY------------------
         takeEvery(FETCH_ALL_CATEGORY, fetchCategory),
