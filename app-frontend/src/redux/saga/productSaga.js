@@ -1,6 +1,6 @@
 import axios from '../../axios'
 import {put} from 'redux-saga/effects'
-import {fetchAllProductSuccess,fetchSingleProductSuccess, deleteProductSuccess, closeModal, fetchAllProduct } from '../actions/product'
+import {fetchAllProductSuccess,fetchSingleProductSuccess, deleteProductSuccess, closeModal, fetchAllProduct, fetchAllProductFailed } from '../actions/product'
 import {successToaster,errorToaster} from '../actions/toaster'
 
 
@@ -10,6 +10,7 @@ export function* getAllProduct(){
       yield put(fetchAllProductSuccess(response.data))
    } catch (error) {
       yield put(errorToaster("Network error"))
+      yield put(fetchAllProductFailed())
    }
 }
 

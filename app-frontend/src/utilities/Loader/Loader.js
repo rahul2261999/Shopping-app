@@ -1,8 +1,10 @@
 import React from 'react'
 import { LoaderDiv } from './style'
-const Loader = () => {
+const Loader = ({
+    absolute
+}) => {
     return (
-        <LoaderDiv>
+        <LoaderDiv absolute={absolute}>
             <div></div>
             <div></div>
             <div></div>

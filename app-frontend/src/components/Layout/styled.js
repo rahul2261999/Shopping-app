@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const ContentContainer = styled.div`
-    height:calc(100vh - 60px);
-    margin:0px 30px;
+    height:100%;
+    padding:0px 30px;
 `
 
 export const FlexContainer = styled.div`

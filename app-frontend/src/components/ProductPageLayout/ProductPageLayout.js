@@ -94,7 +94,10 @@ const ProductPage = props => {
     return (
         <Wrapper>
             <HeaderTag>{title}</HeaderTag>
-            <ProductContainer>{ShowProduct}</ProductContainer>
+            <ProductContainer>
+                {props.children}
+                {ShowProduct.length?ShowProduct:"No product available"}
+            </ProductContainer>
             {modalOpen ?
                 <ModalTemplate
                     modalTitle="Product Preview"

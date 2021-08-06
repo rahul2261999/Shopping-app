@@ -1,12 +1,17 @@
-import {createSelector} from 'reselect'
+import { createSelector } from 'reselect'
 
 const memoizedProducts = createSelector(
-    state=>state.products,
+    state => state.products,
     (products) => {
-        const {modal,allProducts} = products
+        const {
+            modal,
+            allProducts,
+            productLoader
+        } = products
         return {
             modal,
-            allProducts
+            allProducts,
+            productLoader
         }
     }
 )

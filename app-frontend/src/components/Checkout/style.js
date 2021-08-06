@@ -6,7 +6,7 @@ export const CheckoutContainer = styled.div`
 `
 export const Container = styled.div`
 max-width: 950px;
-background: #f7e6e978;
+background: #f7e6e9;
 padding: 30px 60px;
 margin:auto;
 color:#827c7c;
@@ -16,6 +16,8 @@ export const MainHeading = styled.div`
 font-size: 1.5rem;
 letter-spacing: 0.5px;
 line-height:2;
+color:initial;
+font-weight:700;
 `
 
 export const FlexWrapper = styled.div`
@@ -39,6 +41,7 @@ export const Sublabel = styled.div`
     margin-bottom: 30px;
     font-variant: all-petite-caps;
     letter-spacing: 0.5px;
+    font-weight:700;
     &::before {
         content:${props=>props.content?`"${props.content}"`:''};
         display: flex;
@@ -50,6 +53,7 @@ export const Sublabel = styled.div`
         background-color: #000000;
         color: #ffffff;
         margin-right: 1.8rem;
+        padding-bottom:3px;
     }
 `
 export const Label = styled.label`
@@ -62,7 +66,10 @@ export const Input = styled(semanticInput)`
  background:#ffffff;
  padding: 9.5px 14px;
  border-radius:8px;
- ${props=>props.error?css`border:2px solid #f8908d;`:null}
+ border:${props=>props.error?css`2px solid #f8908d;`:'1px solid rgba(34,36,38,.15)'};
+ &:hover{
+     border-color:rgba(34,36,38,.35);
+ }
 `
 export const Select = styled(semanticSelect)`
  margin:10px 0 15px 0;

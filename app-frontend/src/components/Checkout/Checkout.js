@@ -27,7 +27,7 @@ import {
 } from './style'
 import OrderHelper from '../../utilities/helperClasses/OrderHelper'
 // import { Input } from 'semantic-ui-react'
-const Checkout = () => {
+const Checkout = (props) => {
     const countries = [{ key: "india", value: 'india', text: "India" }]
     const delivery = [{ key: "cod", value: 'cod', text: "Cash on Delivery" }]
 
@@ -103,6 +103,10 @@ const Checkout = () => {
         const order = new OrderHelper( firstName, lastName, mobileNumber, address, city, state, country, zipcode,addedProduct,deliveryType )
         await dispatch(initCreateOrder(order, token))
         setRedirect(true)
+    }
+
+    const orderCancelHandler = () =>{
+        props.history.push('/')
     }
 
     const cartProdList = cartItems.map(item => {
@@ -244,8 +248,8 @@ const Checkout = () => {
                             </FormContainer.Field>
 
                             <ButtonContainer>
-                                <OrderButton>Order</OrderButton>
-                                <OrderButton secondary>Cancel Order</OrderButton>
+                                <OrderButton type="submit">Order</OrderButton>
+                                <OrderButton type="button" onClick={orderCancelHandler} secondary>Cancel Order</OrderButton>
                             </ButtonContainer>
 
 

@@ -10,6 +10,7 @@ export const HeaderTag = styled.h6`
 export const ProductContainer = styled.div`
     display:flex;
     flex-wrap:wrap;
+    position:relative;
 `
 
 export const WrapperData = styled.div`

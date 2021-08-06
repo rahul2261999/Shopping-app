@@ -8,6 +8,7 @@ import {
     DELETE_SINGLE_PRODUCT_SUCCESS,
     EDIT_PRODUCT_START,
     EDIT_PRODUCT_SUCCESS,
+    FETCH_ALLPRODUCT_FAILED,
     FETCH_ALLPRODUCT_START,
     FETCH_ALLPRODUCT_SUCCESS,
     FETCH_SINGLE_PRODUCT_START,
@@ -40,6 +41,11 @@ export const fetchAllProductSuccess = prods =>{
     }
 }
 
+export const fetchAllProductFailed = () =>{
+    return{
+        type:FETCH_ALLPRODUCT_FAILED
+    }
+}
 export const fetchSingleProduct = params =>{
     return {
         type:FETCH_SINGLE_PRODUCT_START,

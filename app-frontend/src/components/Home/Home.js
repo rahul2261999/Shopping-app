@@ -6,9 +6,10 @@ import shoes from '../../assests/banner/shoes.jpg'
 
 import ContainerWrapper from '../../hoc/Wrapper'
 import ProductLayout from '../ProductPageLayout/ProductPageLayout'
-import {useDispatch, useSelector} from 'react-redux'
-import {fetchAllProduct} from '../../redux/actions/product'
-import {isAuthenticated} from '../../redux/actions/user'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAllProduct } from '../../redux/actions/product'
+import { isAuthenticated } from '../../redux/actions/user'
+import Loader from '../../utilities/Loader/Loader'
 
 import {
     Wrapper,
@@ -18,14 +19,17 @@ import {
 } from './style'
 import memoizedProducts from '../../redux/selector/products'
 
-const Home = () =>{
-    const {allProducts} = useSelector(memoizedProducts)
+const Home = () => {
+    const { allProducts, productLoader } = useSelector(memoizedProducts)
     const dispatch = useDispatch()
-    useEffect(()=>{
-        dispatch(fetchAllProduct())
+    useEffect(() => {
+        if (!allProducts.length) {
+            dispatch(fetchAllProduct())
+        }
         dispatch(isAuthenticated())
-    },[dispatch])
-    return(
+    }, [dispatch])
+
+    return (
         <ContainerWrapper>
             <Wrapper>
                 <CardContainer>
@@ -38,7 +42,9 @@ const Home = () =>{
                     <PromotionCard bgImage={shoes} ><Text>Branded Shoes</Text></PromotionCard>
                 </CardContainer>
             </Wrapper>
-            <ProductLayout title="All Products" products={allProducts} />
+            <ProductLayout title="All Products" products={allProducts} >
+                {productLoader ? <Loader absolute /> : null}
+            </ProductLayout>
         </ContainerWrapper>
     )
 }
