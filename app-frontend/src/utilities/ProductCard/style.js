@@ -2,7 +2,11 @@ import styled from 'styled-components'
 
 export const Card = styled.div`
     display:flex;
-    padding:15px 20px
+    padding:15px 20px;
+
+    @media screen and (max-width: 600px){
+        padding: 10px
+    }
 
 `
 export const CardContainer = styled.div`
@@ -10,7 +14,11 @@ export const CardContainer = styled.div`
     flex-direction:column;
     width:90vw;
     max-width:300px;
-    border:1px solid #ccc
+    border:1px solid #ccc;
+
+    @media screen and (max-width: 600px){
+        max-width:100%;
+    }
 `
 
 export const DetailBody = styled.div`
@@ -23,6 +31,13 @@ export const ProductTitle = styled.div`
     font-size: 1.2rem;
     font-weight: 400;
     font-variant: tabular-nums
+`
+export const ProductImage = styled.img`
+    height:350px;
+    width:300px;
+    @media screen and (max-width: 600px){
+        width: 100%;
+    }
 `
 export const DetailWrapper = styled.div`
     display:flex;

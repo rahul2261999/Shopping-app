@@ -19,6 +19,10 @@ export const NavList = styled.div`
     list-style-type:none;
     display:flex;
 
+	@media screen and (max-width: 600px){
+		display:none
+	}
+
 `
 
 export const NavListItem = styled(NavLink)`
@@ -41,11 +45,11 @@ export const ListRightItem = styled.div`
 `
 
 export const Icon = styled.div`
-margin-left:6px;
-font-size:${props=>props.font?props.font:'10px'};
-${props=>props.marginRight?css`
-  margin-right:${props.marginRight}px;
-`:null}
+	margin-left:6px;
+	font-size:${props=>props.font?props.font:'10px'};
+	${props=>props.marginRight?css`
+	margin-right:${props.marginRight}px;
+	`:null}
 `
 
 export const DropDown = styled.div`

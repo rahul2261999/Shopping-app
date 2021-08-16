@@ -3,6 +3,10 @@ import styled, { css } from "styled-components";
 export const Wrapper = styled.div`
     display:flex;
     jusity-content:space-around;
+
+    @media screen and (max-width:600px){
+        display:none
+    }
 `
 
 export const CardContainer = styled.div`
