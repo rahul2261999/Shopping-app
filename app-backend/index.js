@@ -39,7 +39,7 @@ const order = require('./routes/order')
 
 // config routes
 app.use('/api', auth)
-app.use('/api/user', user)
+app.use('/api', user)
 app.use('/api', product)
 app.use('/api', category)
 app.use('/api', order)
