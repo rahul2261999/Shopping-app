@@ -5,7 +5,7 @@ export const ContentContainer = styled.div`
     padding:0px 30px;
 
     @media screen and (max-width: 600px){
-        padding: 60px 10px 10px 10px;
+        padding: 60px 0;
         height: calc(100vh - 60px);
         overflow-y: auto;
     }

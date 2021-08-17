@@ -14,6 +14,7 @@ export const NavBar = styled.div`
 		left: 0;
 		right: 0;
 		background-color: #ffffff;
+		height: 60px;
 		z-index: 1000;
 	}
 `
@@ -40,6 +41,8 @@ export const NavList = styled.div`
 		background-color: #000000;
 		color: #ffffff;
 		z-index: 1000;
+		height: 60px;
+
 	}
 
 `
