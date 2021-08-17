@@ -4,6 +4,7 @@ import{
     CardContainer,
     DetailBody,
     ProductTitle,
+    ProductImage,
     DetailWrapper,
     CartIcon,
     Price
@@ -15,7 +16,7 @@ const ProductCard = props =>{
     return(
         <Card>
             <CardContainer>
-                <img src={image} alt="prod1" height="350px" width="300px" />
+                <ProductImage src={image} alt="prod1" />
                 <DetailBody>
                     <ProductTitle>{title}</ProductTitle>
                     <DetailWrapper>

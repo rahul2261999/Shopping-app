@@ -3,6 +3,7 @@ import {IoClose} from 'react-icons/io5'
 import AriaModal from 'react-aria-modal'
 
 import {ModalBody,ModalHeader,Icon} from './style'
+import Classes from './styles.module.css'
 
 const ModalTemplate = props=>{
     const {
@@ -18,7 +19,10 @@ const ModalTemplate = props=>{
          titleText={modalTitle}
          mounted={isMount}
          focusDialog
-         verticallyCenter
+         underlayClass={Classes.modalUnderlay}
+         dialogClass={Classes.modelDialoge}
+         includeDefaultStyles={false}
+         getApplicationNode={document.getElementById('application')}
          underlayClickExits
         >
             <ModalBody maxWidth={maxWidth}>

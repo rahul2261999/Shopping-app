@@ -7,6 +7,15 @@ export const NavBar = styled.div`
     align-items:center;
     justify-content:space-between;
     margin:0px 20px;
+
+	@media screen and (max-width: 600px){
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		background-color: #ffffff;
+		z-index: 1000;
+	}
 `
 
 export const NavLogo = styled.div`
@@ -18,6 +27,20 @@ export const NavLogo = styled.div`
 export const NavList = styled.div`
     list-style-type:none;
     display:flex;
+
+	@media screen and (max-width: 600px){
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 5px 5px 0 0;
+		background-color: #000000;
+		color: #ffffff;
+		z-index: 1000;
+	}
 
 `
 
@@ -41,11 +64,11 @@ export const ListRightItem = styled.div`
 `
 
 export const Icon = styled.div`
-margin-left:6px;
-font-size:${props=>props.font?props.font:'10px'};
-${props=>props.marginRight?css`
-  margin-right:${props.marginRight}px;
-`:null}
+	margin-left:6px;
+	font-size:${props=>props.font?props.font:'10px'};
+	${props=>props.marginRight?css`
+	margin-right:${props.marginRight}px;
+	`:null}
 `
 
 export const DropDown = styled.div`

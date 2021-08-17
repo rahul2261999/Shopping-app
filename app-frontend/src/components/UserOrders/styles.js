@@ -1,39 +1,73 @@
 import styled, { css } from 'styled-components'
 
 export const Wrapper = styled.div`
-    background:#fadadd;
-    padding:30px 25px;
-    border-radius:10px;
-    font-family:'Montserrat', sans-serif;
-    max-width:1100px;
-    margin:15px auto;
+    background: #fadadd;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-family: 'Montserrat',sans-serif;
+    max-width: 1100px;
+    margin: 15px auto;
+    height: 60px;
+    max-height: 60px;
+    overflow: hidden;
+    transition: all 0.3s ease-in .5s;
+    ${props => props.expandList ? 
+        css`
+           max-height: 612px; 
+           height: 100%;       
+        `: null
+    }
+
+    @media screen and (max-width: 600px){
+        padding: 15px 0 15px 10px;
+        ${props => props.expandList ? 
+            css`
+               max-height: 1200px; 
+               height: 100%;       
+            `: null
+        } 
+    }
 `
 export const FlexContainer = styled.div`
     display:flex;
     align-items:${props=>props.centered?'center':'flex-start'};
     line-height:1.5;
     margin-bottom:10px;
+    ${props => props.font ? 
+        css`
+        font-size: ${props.font};
+        ` : null
+    }
+    @media screen and (max-width: 600px){
+        font-size: 15px;
+        flex-direction:${props => props.row ? 'row' : 'column'}  
+    }
 `
 export const Title = styled.div`
     color:#000000;
-    font-size:22px;
     font-weight:700;
 `
 export const OrderId = styled.span`
     color: #ee4a4d;
     padding-left: 8px;
-    font-size: 18px;
     font-family: 'Montserrat';
     font-weight: 700;
 `
 export const FlexLeft = styled.div`
     width:calc(100% - 310px);
-    min-width:500px;
+
+    @media screen and (max-width: 600px){
+        width: 100%;
+    }
 `
 
 export const FlexRight = styled.div`
     width:40%;
-    min-width:300px
+    min-width:300px;
+
+    @media screen and (max-width: 600px){
+        width: 100%
+    }
 `
 export const CardHeading = styled.div`
     display:flex;
@@ -82,7 +116,7 @@ export const TableHeading = styled.div`
     font-family:'Montserrat', sans-serif;
     font-size:${props=>props.Size+'px !important' ||'16px'};
     font-weight:${props=>props.fontWeigth||600};
-    text-align:${props=>props.textAlign||'initial'}
+    text-align:${props=>props.textAlign||'center'}
 `
 
 export const TableValue = styled.div`
@@ -92,5 +126,5 @@ export const TableValue = styled.div`
     font-family:'Montserrat', sans-serif;
     font-size:${props=>props.fontSize||14}px;
     font-weight:${props=>props.fontWeigth + '!important'||600};
-    text-align:${props=>props.textAlign||'initial'}
+   justify-content:${props=>props.textAlign||'center'}
 `

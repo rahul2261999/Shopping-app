@@ -17,6 +17,14 @@ export const WrapperData = styled.div`
     display:flex;
     margin: 20px 0;
 
+    @media screen and (max-width:850px){
+        margin:0;
+        padding-bottom: 20px;
+        height: 500px;
+        overflow-y: auto;
+        flex-direction: column;
+    }
+
 `
 export const Container = styled.div`
     display:flex;
@@ -31,13 +39,18 @@ export const ProductImage = styled.img`
     padding: 0 25px;
     border-right: 2px solid #e5e3db;
     border-radius: 0px;
+    margin: auto;
+
+    @media screen and (max-width:850px){
+        padding: 0;
+    }
 `
 export const ProductDetails = styled.div`
     padding:0 20px;
     flex:1;
 `
 export const ScrollBar = styled.div`
-    height: 260px;
+    max-height: 260px;
     overflow-y: auto;
     padding: 10px 6px 0 0;
     &::-webkit-scrollbar{
@@ -74,14 +87,18 @@ export const Icon = styled.div`
 export const AddItem = styled.div`
     display:flex;
     align-items:center;
+    
+    @media screen and (max-width: 500px){
+        width:100%;
+    }
 `
 
 export const Input = styled.input`
-margin: 0 8px;
-padding: 4px 0;
-text-align: center;
-width: 100px;
-border-radius: 4px;
+    margin: 0 8px;
+    padding: 4px 0;
+    text-align: center;
+    width: 100px;
+    border-radius: 4px;
 `
 export const Button= styled.button`
     background-color: #000000;
@@ -94,7 +111,9 @@ export const Button= styled.button`
 `
 
 export const Description = styled.div`
-    font-weight:300;
-    color:#ccc;
-    text-align:justify;
+    color: #1e1e1e;
+    text-align: justify;
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.5;
 `
