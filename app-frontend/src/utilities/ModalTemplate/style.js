@@ -10,6 +10,7 @@ export const ModalBody = styled.div`
 
     @media screen and  (max-width:850px){
         width: 100%;
+        max-width: 100%;
         border-radius: 50px 50px 0 0;
     }
 `
