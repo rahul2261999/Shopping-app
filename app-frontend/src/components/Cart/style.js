@@ -14,6 +14,7 @@ export const Wrapper = styled.div`
     border-left:1px solid #c7c3c3;
     transition:all 1.2s ease-in-out;
     padding:0 10px;
+    z-index: 1001;
 `
 
 export const CartHeader = styled.div`

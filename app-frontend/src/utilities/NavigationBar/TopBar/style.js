@@ -6,7 +6,7 @@ export const NavBar = styled.div`
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin:0px 20px;
+    padding: 0px 20px;
 
 	@media screen and (max-width: 600px){
 		position: fixed;
