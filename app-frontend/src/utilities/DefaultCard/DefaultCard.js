@@ -1,12 +1,11 @@
-import React from 'react'
-import {Card} from './Style'
-const DefaultCard = props =>{
-    
-    return(
-        <Card>
-            {props.children}
-        </Card>
-    )
-}
+import React from 'react';
 
-export default DefaultCard
+import { Card } from './Style';
+
+const DefaultCard = (props) => (
+  <Card>
+    {props.children}
+  </Card>
+);
+
+export default DefaultCard;

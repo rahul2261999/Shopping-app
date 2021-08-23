@@ -1,25 +1,26 @@
-const mongoose = require("mongoose")
-const Schema = mongoose.Schema
-const addressSchema = new Schema({
-    user_id:{
-        type:mongoose.isValidObjectId
-    },
-    city:{
-        type:String,
-        required:true,
-    },
-    state:{
-        type:String,
-        required:true,
-    },
-    country:{
-        type:String,
-        required:true,
-    },
-    addressType:{
-        type:String,
-        required:true,
-    }
-})
+const mongoose = require('mongoose');
 
-module.export = mongoose.model("address",addressSchema)
+const { Schema } = mongoose;
+const addressSchema = new Schema({
+  user_id: {
+    type: mongoose.isValidObjectId
+  },
+  city: {
+    type: String,
+    required: true
+  },
+  state: {
+    type: String,
+    required: true
+  },
+  country: {
+    type: String,
+    required: true
+  },
+  addressType: {
+    type: String,
+    required: true
+  }
+});
+
+module.export = mongoose.model('address', addressSchema);

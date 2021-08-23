@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Wrapper = styled.div`
     width:100%;
@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
     display:flex;
     align-items:center;
     justify-content:center;
-`
+`;
 
 export const Message = styled.div`
     min-width:300px;
@@ -21,8 +21,8 @@ export const Message = styled.div`
     font-family:'Monestrate', sans-serif;
     font-size:20px;
     font-weigth:600;
-`
+`;
 export const Icon = styled.img`
     display:block;
     padding-bottom:20px;
-`
+`;

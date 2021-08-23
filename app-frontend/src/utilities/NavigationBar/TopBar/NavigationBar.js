@@ -1,61 +1,73 @@
-import React from 'react'
-import Wrapper from '../../../hoc/Wrapper'
-import { FaShoppingBag, FaChevronDown, FaUserAlt, FaPowerOff, FaTruckLoading } from 'react-icons/fa'
+import React from 'react';
 import {
-    NavBar,
-    NavLogo,
-    NavList,
-    NavListItem,
-    NavListRight,
-    ListRightItem,
-    Icon,
-    DropDown,
-    DropList,
-} from './style'
-import { Link } from 'react-router-dom'
+  FaShoppingBag, FaChevronDown, FaUserAlt, FaPowerOff, FaTruckLoading
+} from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
-const NavigationBar = props => {
-    const { user, toggleCart, openModel, userSignout } = props
+import Wrapper from '../../../hoc/Wrapper';
 
-    return (
-        <Wrapper>
-            <NavBar>
-                <NavLogo>TrendyBloom</NavLogo>
-                <NavList>
-                    <NavListItem activeClassName="navActive" to="/" exact>Home </NavListItem>
-                    <NavListItem activeClassName="navActive" to="/tshirt" exact>T-SHIRT </NavListItem>
-                    <NavListItem activeClassName="navActive" to="/shoes" exact>SHOES </NavListItem>
-                </NavList>
+import {
+  NavBar,
+  NavLogo,
+  NavList,
+  NavListItem,
+  NavListRight,
+  ListRightItem,
+  Icon,
+  DropDown,
+  DropList
+} from './style';
 
-                <NavListRight>
-                    {user ?
-                        <Wrapper>
-                            <ListRightItem onClick={toggleCart} ><FaShoppingBag /></ListRightItem>
-                            <ListRightItem >
-                                {user.first_name}  <Icon as={FaChevronDown} />
-                                <DropDown>
-                                    <DropList as={Link} to="/profile" >
-                                        <Icon font="13px" marginRight="10" as={FaUserAlt} />Profile
-                                    </DropList>
-                                    <DropList as={Link} to="/userOrders" >
-                                        <Icon font="13px" marginRight="10" as={FaTruckLoading} />Orders
-                                    </DropList>
-                                    <DropList borderTop="1px" onClick={userSignout} >
-                                        <Icon font="13px" marginRight="10" as={FaPowerOff} />SignOut
-                                    </DropList>
-                                </DropDown>
-                            </ListRightItem>
+const NavigationBar = (props) => {
+  const {
+    user, toggleCart, openModel, userSignout
+  } = props;
 
-                        </Wrapper> :
-                        <ListRightItem onClick={openModel}>Login</ListRightItem>
-                    }
+  return (
+    <Wrapper>
+      <NavBar>
+        <NavLogo>TrendyBloom</NavLogo>
+        <NavList>
+          <NavListItem activeClassName="navActive" to="/" exact>Home </NavListItem>
+          <NavListItem activeClassName="navActive" to="/tshirt" exact>T-SHIRT </NavListItem>
+          <NavListItem activeClassName="navActive" to="/shoes" exact>SHOES </NavListItem>
+        </NavList>
 
-                    {/* progile section todo */}
-                </NavListRight>
-            </NavBar>
-        </Wrapper>
+        <NavListRight>
+          {user
+            ? (
+              <Wrapper>
+                <ListRightItem onClick={toggleCart}><FaShoppingBag /></ListRightItem>
+                <ListRightItem>
+                  {user.first_name}
+                  {' '}
+                  <Icon as={FaChevronDown} />
+                  <DropDown>
+                    <DropList as={Link} to="/profile">
+                      <Icon font="13px" marginRight="10" as={FaUserAlt} />
+                      Profile
+                    </DropList>
+                    <DropList as={Link} to="/userOrders">
+                      <Icon font="13px" marginRight="10" as={FaTruckLoading} />
+                      Orders
+                    </DropList>
+                    <DropList borderTop="1px" onClick={userSignout}>
+                      <Icon font="13px" marginRight="10" as={FaPowerOff} />
+                      SignOut
+                    </DropList>
+                  </DropDown>
+                </ListRightItem>
 
-    )
-}
+              </Wrapper>
+            )
+            : <ListRightItem onClick={openModel}>Login</ListRightItem>}
 
-export default NavigationBar
+          {/* progile section todo */}
+        </NavListRight>
+      </NavBar>
+    </Wrapper>
+
+  );
+};
+
+export default NavigationBar;

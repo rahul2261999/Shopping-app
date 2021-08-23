@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Card = styled.div`
     display:flex;
@@ -8,7 +8,7 @@ export const Card = styled.div`
         padding: 10px
     }
 
-`
+`;
 export const CardContainer = styled.div`
     display:flex;
     flex-direction:column;
@@ -19,11 +19,11 @@ export const CardContainer = styled.div`
     @media screen and (max-width: 600px){
         max-width:100%;
     }
-`
+`;
 
 export const DetailBody = styled.div`
     padding:15px;
-`
+`;
 
 export const ProductTitle = styled.div`
     dispaly:flex;
@@ -31,14 +31,14 @@ export const ProductTitle = styled.div`
     font-size: 1.2rem;
     font-weight: 400;
     font-variant: tabular-nums
-`
+`;
 export const ProductImage = styled.img`
     height:350px;
     width:300px;
     @media screen and (max-width: 600px){
         width: 100%;
     }
-`
+`;
 export const DetailWrapper = styled.div`
     display:flex;
     justify-content:space-between;
@@ -47,7 +47,7 @@ export const DetailWrapper = styled.div`
     font-size: 1.2rem;
     font-weight: 400;
     font-variant: tabular-nums
-`
+`;
 
 export const CartIcon = styled.span`
     padding: 8px 20px;
@@ -60,7 +60,7 @@ export const CartIcon = styled.span`
         color:#ffffff;
         cursor:pointer;
     }
-`
+`;
 
 export const Price = styled.div`
  display:flex;
@@ -68,4 +68,4 @@ export const Price = styled.div`
  justify-content:center;
  font-size:1.6rem;
  padding-top:15px;
-`
+`;

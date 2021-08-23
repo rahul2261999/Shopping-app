@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 export const Wrapper = styled.div`
     display:flex;
@@ -7,29 +7,29 @@ export const Wrapper = styled.div`
     @media screen and (max-width:600px){
         display:none
     }
-`
+`;
 
 export const CardContainer = styled.div`
     flex:1;
     padding:10px;
     height:400px;
-`
+`;
 export const PromotionCard = styled.div`
-   ${props=>props.bgImage?
-    css`
+   ${(props) => (props.bgImage
+    ? css`
         background-image:url(${props.bgImage});
         height:100%;
         width:100%;
         background-size:cover;
         position:relative;
-    `:''
+    ` : '')
 }
     opacity:1;
     transition: all .8s linear 0.1s;
     &:hover{
         opacity:0.7;
     }
-`
+`;
 
 export const Text = styled.div`
     font-size:1.8rem;
@@ -44,4 +44,4 @@ export const Text = styled.div`
        bottom:80%;
        background:#ffffff;
     }
-`
+`;

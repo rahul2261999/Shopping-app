@@ -1,5 +1,6 @@
-import styled from 'styled-components'
-import style from '../../config.json'
+import styled from 'styled-components';
+
+import style from '../../config.json';
 
 export const Wrapper = styled.div`
     display:flex;
@@ -7,7 +8,7 @@ export const Wrapper = styled.div`
     position:fixed;
     width:350px;
     top:0;
-    right:${props=>props.show?'0':'-100%'};
+    right:${(props) => (props.show ? '0' : '-100%')};
     bottom:0;
     background-color:#ffffff;
     box-shadow:0px 0px 4px 0px #1e1d1db8;
@@ -15,7 +16,7 @@ export const Wrapper = styled.div`
     transition:all 1.2s ease-in-out;
     padding:0 10px;
     z-index: 1001;
-`
+`;
 
 export const CartHeader = styled.div`
     display:flex;
@@ -24,18 +25,18 @@ export const CartHeader = styled.div`
     padding:25px 20px;
     font-size:${style.heading};
     border-bottom:1px solid ${style.borderColor}
-`
+`;
 
 export const Icon = styled.svg`
     margin-right:10px;
     cursor:pointer;
-`
+`;
 
 export const ScrollBar = styled.div`
     height:calc(100vh - 120px);
     overflow-y:auto;
-`
-export const CartBody = styled.div``
+`;
+export const CartBody = styled.div``;
 
 export const CartFooter = styled.button`
     text-align:center;
@@ -50,11 +51,11 @@ export const CartFooter = styled.button`
     &:hover{
         background-color:#000000d1
     }
-`
+`;
 export const Text = styled.div`
     display:flex;
     padding-top:20px;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-`
+`;
