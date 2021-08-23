@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-
-const { Schema } = mongoose;
 const crypto = require('crypto');
 const { v4: uuid } = require('uuid');
+
+const { Schema } = mongoose;
 
 const userModel = new Schema({
   first_name: {

@@ -14,10 +14,13 @@ export const requireField = (name, msg = true) => {
   return validField;
 };
 
-export const validatePassword = (password) => {
-  const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
-  const validPass = regex.test(password) ? false : 'Password strength is weak';
-  return validPass;
+export const validatePassword = (isSignup, password) => {
+  if (isSignup) {
+    const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
+    const validPass = regex.test(password) ? false : 'Password strength is weak';
+    return validPass;
+  }
+  return password.trim().length > 0 ? false : 'Password can not be empty';
 };
 
 export const validateConfirmPassWord = (Confirmpass, password) => (Confirmpass === password && Confirmpass.length > 1 ? false : 'Invalid confirm password');

@@ -57,11 +57,6 @@ const Auth = (props) => {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  useEffect(() => {
-    resetForm();
-    setSignup(false);
-  }, [openModal]);
-
   const resetForm = () => {
     setFormValues({
       first_name: '',
@@ -82,12 +77,17 @@ const Auth = (props) => {
     setSignup((prevState) => !prevState);
   };
 
+  useEffect(() => {
+    resetForm();
+    setSignup(false);
+  }, [openModal]);
+
   const validation = () => {
     setFromError('');
     const error = {
       first_name: isSignup ? requireField(first_name, 'First name is required') : false,
       email: validateEmail(email),
-      password: validatePassword(password),
+      password: validatePassword(isSignup, password),
       confirm_password: isSignup ? validateConfirmPassWord(confirm_password, password) : false
     };
     return error;
