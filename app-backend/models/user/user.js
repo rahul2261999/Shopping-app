@@ -46,7 +46,7 @@ userModel.methods = {
   encryptPassword(password) {
     if (!password) return '';
     try {
-      return crypto.createHmac('sha256', this.salt).update('plainpasssword').digest('hex');
+      return crypto.createHmac('sha256', this.salt).update(password).digest('hex');
     } catch (error) {
       return error;
     }
