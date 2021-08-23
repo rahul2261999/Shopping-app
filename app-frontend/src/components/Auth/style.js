@@ -46,3 +46,14 @@ export const Span = styled.span`
     cursor:pointer;
     &:hover{color:blue;}
 `;
+
+export const HyperLink = styled.div`
+    display: block;
+    text-align: right;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+     color: #0d0dbe;
+    }
+`;

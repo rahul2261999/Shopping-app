@@ -13,7 +13,8 @@ import {
   FETCH_USERS_SUCCESS,
   FETCH_USER_FAILED,
   AUTHENTICATE_USER_GOOGLE_START,
-  AUTHENTICATE_USER_GOOGLE_SUCCESS
+  AUTHENTICATE_USER_GOOGLE_SUCCESS,
+  FORGOT_PASSWORD_REQUEST_INIT
 } from '../actionTypes';
 
 export const openAuthModal = (data) => ({
@@ -84,5 +85,10 @@ export const userGoogleAuthInit = (data) => ({
 
 export const userGoogleAuthSuccess = (data) => ({
   type: AUTHENTICATE_USER_GOOGLE_SUCCESS,
+  payload: data
+});
+
+export const forgotPasswordRequestInit = (data) => ({
+  type: FORGOT_PASSWORD_REQUEST_INIT,
   payload: data
 });

@@ -312,3 +312,39 @@ exports.decodeToken = (req, res, next) => {
     });
   }
 };
+
+exports.forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return errorHandler(res, { data: true, msg: 'email not found' });
+    }
+    const transporter = await nodemailer.createTransport({
+      host: 'smtp-relay.sendinblue.com',
+      port: 587,
+      auth: {
+        type: 'Login',
+        user: process.env.SMPT_USERNAME,
+        pass: process.env.SMPT_PASSWORD
+      }
+    });
+
+    const html = await ejs.renderFile(path.resolve('./public') + path.normalize('/html/forgotpass.ejs'),
+      {
+        email,
+        pathname: `${process.env.APP_URL}/user/forgotpassword/?email=${email}`
+      });
+    await transporter.sendMail({
+      from: 'rahulsaini2261999@pepisandbox.com',
+      to: email,
+      subject: 'Forgot Password',
+      html
+    });
+
+    return res.status(200).json({ msg: 'Check your email' });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json('Bad Request');
+  }
+};

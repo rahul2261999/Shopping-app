@@ -88,3 +88,15 @@ export function* googleAuth(action) {
     }
   }
 }
+
+export function* forgotPassword(action) {
+  try {
+    const response = yield axios.post('/forgot-password', { email: action.payload });
+    if (response.data.msg) {
+      yield put(successToaster('Please check your email'));
+      yield put(closeAuthModal(false));
+    }
+  } catch (error) {
+    yield put(errorToaster('unable to send request'));
+  }
+}
