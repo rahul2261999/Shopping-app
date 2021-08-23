@@ -41,6 +41,10 @@
           }],
         "camelcase": "off",
         "no-unused-expressions": "off",
-        "react/prop-types": 0
+        "react/prop-types":[0],
+        "no-tabs": [0],
+        "consistent-return":[0],
+        "no-shadow": "off",
+        "react/destructuring-assignment": [0]
     }
 }

@@ -63,7 +63,7 @@ export const isObjectEmpty = (object) => {
 };
 
 export const getUser = () => {
-  if (typeof window === undefined) {
+  if (typeof window === 'undefined') {
     return false;
   }
   if (localStorage.getItem('token') && localStorage.getItem('user')) {

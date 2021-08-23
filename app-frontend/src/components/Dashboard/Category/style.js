@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const HeaderBar = styled.div`
 padding: 20px 25px;
@@ -9,17 +9,17 @@ align-items: center;
 font-size: 1.4rem;
 border-bottom:1px solid #e5e3db;
 
-`
+`;
 export const Icon = styled.div`
-    margin-right:${props=>props.margin?props.margin:0};
+    margin-right:${(props) => (props.margin ? props.margin : 0)};
     cursor:pointer;
-`
+`;
 
 export const Container = styled.div`
     padding:20px 10px;
     display:flex;
     flex-wrap:wrap;
-`
+`;
 export const CardBody = styled.div`
     background:linear-gradient(to right,#e95df9,#ff8dbb);
     color:white;
@@ -31,7 +31,7 @@ export const CardBody = styled.div`
     border-radius:5px;
     min-width:100px;
 
-`
+`;
 export const CardIcon = styled.div`
     position:absolute;
     width:100%;
@@ -49,4 +49,4 @@ export const CardIcon = styled.div`
        opacity:1;
     }
 
-`
+`;

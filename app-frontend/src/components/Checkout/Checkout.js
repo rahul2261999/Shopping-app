@@ -72,7 +72,15 @@ const Checkout = (props) => {
     firstName, lastName, mobileNumber, address, city, state, country, zipcode, deliveryType
   } = userInputs;
   const {
-    firstNameError, lastNameError, mobileNumberError, addressError, cityError, stateError, countryError, zipcodeError, deliveryTypeError
+    firstNameError,
+    lastNameError,
+    mobileNumberError,
+    addressError,
+    cityError,
+    stateError,
+    countryError,
+    zipcodeError,
+    deliveryTypeError
   } = inputErrors;
   const { cartItems, loading } = useSelector(memoizedcartorder);
 
@@ -105,7 +113,18 @@ const Checkout = (props) => {
       return setInputErrors({ ...inputErrors, ...validateForm });
     }
     const addedProduct = cartItems.map((item) => ({ product_id: item._id, qty: item.quantity }));
-    const order = new OrderHelper(firstName, lastName, mobileNumber, address, city, state, country, zipcode, addedProduct, deliveryType);
+    const order = new OrderHelper(
+      firstName,
+      lastName,
+      mobileNumber,
+      address,
+      city,
+      state,
+      country,
+      zipcode,
+      addedProduct,
+      deliveryType
+    );
     await dispatch(initCreateOrder(order, token));
     setRedirect(true);
   };
@@ -280,7 +299,7 @@ const Checkout = (props) => {
                   </>
                 )
 
-                : <Text>"No item added to cart!!!"</Text>}
+                : <Text>No item added to cart!!!</Text>}
             </CartDetail>
           </FlexWrapper>
         </Container>

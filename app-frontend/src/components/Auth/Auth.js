@@ -106,7 +106,7 @@ const Auth = (props) => {
     const { tokenObj: { id_token } } = res;
     dispatch(userGoogleAuthInit({ id_token }));
   };
-  const responseErrorGoogle = (res) => {
+  const responseErrorGoogle = () => {
     errorToaster('Something went worn');
   };
 

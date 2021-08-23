@@ -105,7 +105,9 @@ const ProductPage = (props) => {
             isModalOpen={closeModal}
           >
             <WrapperData>
-              <ProductImage src={`data:${selectedProduct.product_image.contentType};base64,${selectedProduct.product_image.name}`} />
+              <ProductImage
+                src={`data:${selectedProduct.product_image.contentType};base64,${selectedProduct.product_image.name}`}
+              />
 
               <ProductDetails>
                 <ProductTitle>{selectedProduct.product_name}</ProductTitle>
@@ -134,7 +136,9 @@ const ProductPage = (props) => {
                   <AddItem>
                     {productQuantity > 0 ? <Icon as={FaMinus} onClick={() => prodQuantityHandler('DEC')} /> : null}
                     <Input value={productQuantity} />
-                    {selectedProduct.product_stock > productQuantity ? <Icon as={FaPlus} onClick={() => prodQuantityHandler('INC')} /> : null}
+                    {selectedProduct.product_stock > productQuantity
+                      ? <Icon as={FaPlus} onClick={() => prodQuantityHandler('INC')} />
+                      : null}
                     <Button onClick={addToCartHandler} disabled={!productQuantity > 0}>Add To Cart</Button>
                   </AddItem>
                 </Container>
