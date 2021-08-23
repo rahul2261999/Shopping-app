@@ -14,7 +14,7 @@ import { cartHelper } from '../../utilities/helperFunction';
 
 import { ContentContainer } from './styled';
 
-const Layout = (props) => {
+const Layout = ({ children }) => {
   const { user, token } = useSelector(memoizedUser);
   const { cartItems } = useSelector(memoizedcartorder);
   const { openModal, redirect } = useSelector(memoizedUser);
@@ -35,6 +35,10 @@ const Layout = (props) => {
     setShowCart(false);
   };
 
+  const removeItemFromCartHandler = (id) => {
+    dispatch(removeItemFormCart(id));
+  };
+
   const prodQuantityHandler = (product, type) => {
     if (type === 'DEC') {
       if (product.quantity > 1) {
@@ -50,10 +54,6 @@ const Layout = (props) => {
         return dispatch(addItemToCart(newCart));
       }
     }
-  };
-
-  const removeItemFromCartHandler = (id) => {
-    dispatch(removeItemFormCart(id));
   };
 
   const checkoutHandler = () => {
@@ -80,7 +80,7 @@ const Layout = (props) => {
         userSignout={userSignoutHandler}
       />
       <AuthModal openModal={openModal} redirect={redirect} />
-      <ContentContainer>{props.children}</ContentContainer>
+      <ContentContainer>{children}</ContentContainer>
       {user && token ? (
         <Cart
           show={showCart}

@@ -43,7 +43,7 @@ const categoryReducer = (state = initalState, action) => {
       modal: false
     };
   }
-  case EDIT_CATEGORY_SUCCESS:
+  case EDIT_CATEGORY_SUCCESS: {
     const { _id, updatedCate } = action.payload;
     const index = _.findIndex(state.allCategories, (item) => item._id === _id);
     const updateList = [..._.slice(state.allCategories, 0, index), updatedCate, ..._.slice(state.allCategories, index + 1)];
@@ -52,7 +52,7 @@ const categoryReducer = (state = initalState, action) => {
       allCategories: updateList,
       modal: false
     };
-
+  }
   case REMOVE_CATEGORY_SUCCESS: {
     const removeCategory = state.allCategories.filter((item) => item._id !== action.payload);
     return {

@@ -57,7 +57,8 @@ export const BgcircleTwo = styled.div`
     left: 178px;
     top: 15px;
 
-    background: linear-gradient(116.94deg, rgba(15, 50, 119, 0.56) 12.89%, rgba(39, 155, 220, 0.4) 84.46%, rgba(180, 187, 191, 0.38) 84.46%);
+    background: linear-gradient(116.94deg, rgba(15, 50, 119, 0.56) 12.89%, 
+    rgba(39, 155, 220, 0.4) 84.46%, rgba(180, 187, 191, 0.38) 84.46%);
     filter: blur(116px);
 `;
 

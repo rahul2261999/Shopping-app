@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { delay, put } from 'redux-saga/effects';
 
 import axios from '../../axios';

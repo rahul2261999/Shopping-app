@@ -1,4 +1,5 @@
-import { put, delay } from '@redux-saga/core/effects';
+/* eslint-disable no-useless-catch */
+import { put } from '@redux-saga/core/effects';
 
 import axios from '../../axios';
 import {
@@ -50,7 +51,6 @@ export function* createOrder(action) {
         'content-type': 'application/json'
       }
     });
-    yield delay(4000);
     yield put(orderCreated(orderRes.data));
     yield localStorage.removeItem('cart');
     yield put(successToaster('Order Created'));

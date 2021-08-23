@@ -89,7 +89,7 @@ const CartOrder = (state = initalState, action) => {
       ...state,
       loading: false
     };
-  case UPDATE_ORDER_STATUS_SUCCESS:
+  case UPDATE_ORDER_STATUS_SUCCESS: {
     const { id, status } = payload;
     const newOrderArray = state.orders.map((item) => {
       if (item._id === id) {
@@ -101,6 +101,7 @@ const CartOrder = (state = initalState, action) => {
       ...state,
       orders: newOrderArray
     };
+  }
 
   default:
     return state;

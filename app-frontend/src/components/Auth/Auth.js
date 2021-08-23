@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FcGoogle } from 'react-icons/fc';
-import { FaFacebook } from 'react-icons/fa';
 import { Redirect } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 
@@ -106,7 +105,7 @@ const Auth = (props) => {
     const { tokenObj: { id_token } } = res;
     dispatch(userGoogleAuthInit({ id_token }));
   };
-  const responseErrorGoogle = (res) => {
+  const responseErrorGoogle = () => {
     errorToaster('Something went worn');
   };
 

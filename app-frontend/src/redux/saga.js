@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { all, takeEvery } from 'redux-saga/effects';
 
 import {
