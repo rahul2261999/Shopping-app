@@ -1,17 +1,18 @@
-import styled from 'styled-components'
-import config from '../../config.json'
+import styled from 'styled-components';
+
+import config from '../../config.json';
 
 export const HeaderTag = styled.h6`
     text-align:center;
     font-size: ${config.headerSize};
     
-`
+`;
 
 export const ProductContainer = styled.div`
     display:flex;
     flex-wrap:wrap;
     position:relative;
-`
+`;
 
 export const WrapperData = styled.div`
     display:flex;
@@ -25,13 +26,13 @@ export const WrapperData = styled.div`
         flex-direction: column;
     }
 
-`
+`;
 export const Container = styled.div`
     display:flex;
     align-items:center;
     justify-content:space-between;
     margin-top:30px;
-`
+`;
 
 export const ProductImage = styled.img`
     width: 450px;
@@ -44,11 +45,11 @@ export const ProductImage = styled.img`
     @media screen and (max-width:850px){
         padding: 0;
     }
-`
+`;
 export const ProductDetails = styled.div`
     padding:0 20px;
     flex:1;
-`
+`;
 export const ScrollBar = styled.div`
     max-height: 260px;
     overflow-y: auto;
@@ -57,23 +58,23 @@ export const ScrollBar = styled.div`
         width:5px;
         height:5px;
     }
-`
+`;
 export const ProductTitle = styled.div`
     font-size:1.5rem;
     font-weight:600;
     padding:10px 0;
-`
+`;
 
 export const ProductLabel = styled.div`
     font-size:1.2rem;
     padding:10px 0;
 
-`
+`;
 export const DetailText = styled.div`
     color:#878787;
     display:flex;
     align-items:center;
-`
+`;
 export const Icon = styled.div`
     border-radius: 50%;
     background: black;
@@ -82,7 +83,7 @@ export const Icon = styled.div`
     box-sizing: content-box;
     font-size: 10px;
     cursor:pointer;
-`
+`;
 
 export const AddItem = styled.div`
     display:flex;
@@ -91,7 +92,7 @@ export const AddItem = styled.div`
     @media screen and (max-width: 500px){
         width:100%;
     }
-`
+`;
 
 export const Input = styled.input`
     margin: 0 8px;
@@ -99,16 +100,17 @@ export const Input = styled.input`
     text-align: center;
     width: 100px;
     border-radius: 4px;
-`
-export const Button= styled.button`
+`;
+
+export const Button = styled.button`
     background-color: #000000;
     color: #ffffff;
     padding: 8px 12px;
     width: 200px;
     border: 0;
     margin-left: 15px;
-    cursor:${props=>props.disabled?'not-allowed':'pointer'};
-`
+    cursor:${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+`;
 
 export const Description = styled.div`
     color: #1e1e1e;
@@ -116,4 +118,4 @@ export const Description = styled.div`
     font-size: 1.2rem;
     font-weight: 500;
     line-height: 1.5;
-`
+`;
