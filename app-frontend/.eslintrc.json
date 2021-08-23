@@ -1,0 +1,46 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "root": true,
+    "rules": {
+        "react/jsx-filename-extension": [0],
+        "no-underscore-dangle": [0],
+        "quotes": ["error","single"],
+        "comma-dangle":["error", {
+            "arrays": "never",
+            "objects": "never",
+            "imports": "never",
+            "exports": "never"
+        }],
+        "comma-spacing": ["error", { "after": true }],
+        "indent": ["error", 2],
+        "max-len": ["error", {"code": 130 }],
+        "object-curly-spacing": ["error","always"],
+        "arrow-parens": ["error","always"],
+        "no-duplicate-imports": ["error", {"includeExports": true }],
+        "no-unused-vars": ["error", { "vars": "all" }],
+        "import/order": [2, {
+            "newlines-between": "always",
+            "groups": ["builtin", "external", "internal", "parent", "sibling", "index"]
+          }],
+        "camelcase": "off",
+        "no-unused-expressions": "off",
+        "react/prop-types": 0
+    }
+}
