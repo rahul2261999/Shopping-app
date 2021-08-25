@@ -23,12 +23,16 @@ import {
   UPDATE_ORDER_STATUS_INIT,
   USER_ORDER_REQUEST_INIT,
   EMAIL_VERIFICATION_INIT,
-  AUTHENTICATE_USER_GOOGLE_START
+  AUTHENTICATE_USER_GOOGLE_START,
+  FORGOT_PASSWORD_REQUEST_INIT,
+  SET_NEW_PASSWORD_REQUEST
 } from './actionTypes';
 import {
   fetchUsers,
+  forgotPassword,
   googleAuth,
   isAuthenticated,
+  setNewPassword,
   signup,
   userSignin,
   userSignout
@@ -46,7 +50,13 @@ import {
   updateProduct
 } from './saga/productSaga';
 import {
-  initCart, addCart, removeFromCart, createOrder, fetchAdminAllOrders, updateOrderStatus, fetchUserOrders
+  initCart,
+  addCart,
+  removeFromCart,
+  createOrder,
+  fetchAdminAllOrders,
+  updateOrderStatus,
+  fetchUserOrders
 } from './saga/cartorderSaga';
 import { verifyEmail } from './saga/emailVerifySaga';
 
@@ -62,6 +72,8 @@ export function* rootWatcher() {
     takeEvery(FETCH_ALLPRODUCT_START, getAllProduct),
     takeEvery(DELETE_SINGLE_PRODUCT_START, deleteProduct),
     takeEvery(USER_SIGNOUT, userSignout),
+    takeEvery(FORGOT_PASSWORD_REQUEST_INIT, forgotPassword),
+    takeEvery(SET_NEW_PASSWORD_REQUEST, setNewPassword),
     // -------------GOOGLE AUTH------------------
     takeEvery(AUTHENTICATE_USER_GOOGLE_START, googleAuth),
     // -------------USER VERFIACTION------------------

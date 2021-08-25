@@ -17,7 +17,8 @@ import {
   userSignup,
   userSignInInitiate,
   closeAuthModal,
-  userGoogleAuthInit
+  userGoogleAuthInit,
+  forgotPasswordRequestInit
 } from '../../redux/actions/user';
 import { errorToaster } from '../../redux/actions/toaster';
 
@@ -29,7 +30,8 @@ import {
   ModalFooter,
   FooterRight,
   Span,
-  Icon
+  Icon,
+  HyperLink
 }
   from './style';
 
@@ -37,6 +39,7 @@ const Auth = (props) => {
   const { openModal, redirect } = props;
 
   const [isSignup, setSignup] = useState(false);
+  const [forgotPass, setForgotPass] = useState(false);
   const [formValues, setFormValues] = useState({
     first_name: '',
     last_name: '',
@@ -74,6 +77,7 @@ const Auth = (props) => {
   const switchFrom = () => {
     resetForm();
     setSignup((prevState) => !prevState);
+    setForgotPass(false);
   };
 
   useEffect(() => {
@@ -101,12 +105,24 @@ const Auth = (props) => {
     }
   };
 
+  const forgotPasswordRequest = () => {
+    if (!validateEmail(email)) {
+      return dispatch(forgotPasswordRequestInit(email));
+    }
+    setFromError(validateEmail(email));
+  };
+
   const responseSuccessGoogle = (res) => {
     const { tokenObj: { id_token } } = res;
     dispatch(userGoogleAuthInit({ id_token }));
   };
   const responseErrorGoogle = () => {
-    errorToaster('Something went worn');
+    dispatch(errorToaster('Something went worn'));
+  };
+
+  const forgotPasswordHandler = () => {
+    resetForm();
+    setForgotPass(true);
   };
 
   const socialAuth = (
@@ -127,72 +143,114 @@ const Auth = (props) => {
     return <Redirect to="/" />;
   }
 
-  const signUpFrom = (
-    <ModalMainContent>
-      <Row>
-        <FormWrapper>
-          <FormWrapper.Group widths="equal">
-            <FormWrapper.Input
-              label="First Name"
-              type="text"
-              name="first_name"
-              placeholder="First Name"
-              value={first_name}
-              error={formError.first_name}
-              onChange={inputChangeHandler}
-            />
-            <FormWrapper.Input
-              label="Last Name"
-              name="last_name"
-              type="text"
-              placeholder="Last Name"
-              value={last_name}
-              onChange={inputChangeHandler}
-            />
-          </FormWrapper.Group>
-          <FormWrapper.Input
-            label="E-mail"
-            name="email"
-            type="email"
-            placeholder="Enter your e-mail"
-            value={email}
-            error={formError.email}
-            onChange={inputChangeHandler}
-          />
-          <FormWrapper.Input
-            label="Password"
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            error={formError.password}
-            onChange={inputChangeHandler}
-          />
-          <FormWrapper.Input
-            label="Confirm Password"
-            name="confirm_password"
-            type="password"
-            placeholder="Confirm your password"
-            value={confirm_password}
-            error={formError.confirm_password}
-            onChange={inputChangeHandler}
-          />
-          <AuthBUtton onClick={formSubmitHandler}>Sign Up</AuthBUtton>
-        </FormWrapper>
-      </Row>
-      <Row>
-        <ModalFooter>
-          {socialAuth}
-          <FooterRight>
-            Already have an Account?
-            <Span onClick={switchFrom}>Sign In</Span>
-          </FooterRight>
-        </ModalFooter>
-      </Row>
-    </ModalMainContent>
-  );
+  let renderContent = null;
 
-  const signInFrom = (
+  if (isSignup) {
+    renderContent = (
+      <ModalMainContent>
+        <Row>
+          <FormWrapper>
+            <FormWrapper.Group widths="equal">
+              <FormWrapper.Input
+                label="First Name"
+                type="text"
+                name="first_name"
+                placeholder="First Name"
+                value={first_name}
+                error={formError.first_name}
+                onChange={inputChangeHandler}
+              />
+              <FormWrapper.Input
+                label="Last Name"
+                name="last_name"
+                type="text"
+                placeholder="Last Name"
+                value={last_name}
+                onChange={inputChangeHandler}
+              />
+            </FormWrapper.Group>
+            <FormWrapper.Input
+              label="E-mail"
+              name="email"
+              type="email"
+              placeholder="Enter your e-mail"
+              value={email}
+              error={formError.email}
+              onChange={inputChangeHandler}
+            />
+            <FormWrapper.Input
+              label="Password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              error={formError.password}
+              onChange={inputChangeHandler}
+            />
+            <FormWrapper.Input
+              label="Confirm Password"
+              name="confirm_password"
+              type="password"
+              placeholder="Confirm your password"
+              value={confirm_password}
+              error={formError.confirm_password}
+              onChange={inputChangeHandler}
+            />
+            <AuthBUtton onClick={formSubmitHandler}>Sign Up</AuthBUtton>
+          </FormWrapper>
+        </Row>
+        <Row>
+          <ModalFooter>
+            {socialAuth}
+            <FooterRight>
+              Already have an Account?
+              <Span onClick={switchFrom}>Sign In</Span>
+            </FooterRight>
+          </ModalFooter>
+        </Row>
+      </ModalMainContent>
+    );
+  } else {
+    renderContent = (
+      <ModalMainContent>
+        <Row>
+          <FormWrapper>
+            <FormWrapper.Input
+              label="E-mail"
+              name="email"
+              type="email"
+              placeholder="Enter your e-mail"
+              value={email}
+              error={formError.email}
+              onChange={inputChangeHandler}
+            />
+            <FormWrapper.Input
+              label="Password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              error={formError.password}
+              onChange={inputChangeHandler}
+            />
+            <AuthBUtton onClick={formSubmitHandler}>Sign In</AuthBUtton>
+          </FormWrapper>
+          <HyperLink onClick={forgotPasswordHandler}>Forgot password ?</HyperLink>
+        </Row>
+        <Row>
+          <ModalFooter>
+            {socialAuth}
+            <FooterRight style={{ justifyContent: 'flex-end' }}>
+              Not have an Account?
+              <Span onClick={switchFrom}>Sign Up</Span>
+            </FooterRight>
+          </ModalFooter>
+        </Row>
+      </ModalMainContent>
+    );
+  }
+
+  const forgotPassLayout = (
     <ModalMainContent>
       <Row>
         <FormWrapper>
@@ -205,16 +263,7 @@ const Auth = (props) => {
             error={formError.email}
             onChange={inputChangeHandler}
           />
-          <FormWrapper.Input
-            label="Password"
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            error={formError.password}
-            onChange={inputChangeHandler}
-          />
-          <AuthBUtton onClick={formSubmitHandler}>Sign In</AuthBUtton>
+          <AuthBUtton onClick={forgotPasswordRequest}>Forgot Password</AuthBUtton>
         </FormWrapper>
       </Row>
       <Row>
@@ -227,18 +276,23 @@ const Auth = (props) => {
         </ModalFooter>
       </Row>
     </ModalMainContent>
-
   );
 
+  let header = '';
+  if (forgotPass) {
+    header = 'Forgot Password';
+  } else {
+    header = isSignup ? 'Sign Up' : 'Sign In';
+  }
   return (
     <ModalTemplate
       modalTitle="Auth Modal"
       isMount={openModal}
       maxWidth="450px"
-      headerTitle={isSignup ? 'Sign Up' : 'Sign In'}
+      headerTitle={header}
       isModalOpen={closeModal}
     >
-      {isSignup ? signUpFrom : signInFrom}
+      {forgotPass ? forgotPassLayout : renderContent }
     </ModalTemplate>
   );
 };

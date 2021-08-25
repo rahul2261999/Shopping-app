@@ -88,3 +88,26 @@ export function* googleAuth(action) {
     }
   }
 }
+
+export function* forgotPassword(action) {
+  try {
+    const response = yield axios.post('/forgot-password', { email: action.payload });
+    if (response.data.msg) {
+      yield put(successToaster('Please check your email'));
+      yield put(closeAuthModal(false));
+    }
+  } catch (error) {
+    yield put(errorToaster('unable to send request'));
+  }
+}
+
+export function* setNewPassword(action) {
+  try {
+    const response = yield axios.post('/setNewPassword', action.payload);
+    if (response.data) {
+      yield put(successToaster(response.data.msg));
+    }
+  } catch (error) {
+    yield put(errorToaster(error.response.data.msg || 'Invalid Request'));
+  }
+}

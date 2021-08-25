@@ -312,3 +312,62 @@ exports.decodeToken = (req, res, next) => {
     });
   }
 };
+
+exports.forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return errorHandler(res, { data: true, msg: 'email not found' });
+    }
+    const transporter = await nodemailer.createTransport({
+      host: 'smtp-relay.sendinblue.com',
+      port: 587,
+      auth: {
+        type: 'Login',
+        user: process.env.SMPT_USERNAME,
+        pass: process.env.SMPT_PASSWORD
+      }
+    });
+
+    const html = await ejs.renderFile(path.resolve('./public') + path.normalize('/html/forgotpass.ejs'),
+      {
+        email,
+        pathname: `${process.env.APP_URL}/user/forgotpassword/?email=${email}`
+      });
+    await transporter.sendMail({
+      from: 'rahulsaini2261999@pepisandbox.com',
+      to: email,
+      subject: 'Forgot Password',
+      html
+    });
+
+    return res.status(200).json({ msg: 'Check your email' });
+  } catch (error) {
+    return res.status(400).json('Bad Request');
+  }
+};
+
+exports.setNewPassword = async (req, res) => {
+  const { email, newPassword, confirmPassword } = req.body;
+  if (!newPassword.length > 0 || !confirmPassword.length > 0) {
+    return res.status(400).json({ msg: 'Please fill all the field' });
+  }
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ msg: 'Password not match with confirm Password' });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ msg: 'User not found address' });
+    }
+
+    user.password = newPassword;
+    user.save();
+    return res.json({ msg: 'Password set successfully' });
+  } catch (error) {
+    return res.status(400).json({ msg: 'Something went wrong' });
+  }
+};
