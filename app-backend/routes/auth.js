@@ -10,7 +10,8 @@ const {
   decodeToken,
   validateUser,
   googleAuthentication,
-  forgotPassword
+  forgotPassword,
+  setNewPassword
 } = require('../controllers/auth');
 
 route.post('/signup', [
@@ -27,5 +28,6 @@ route.post('/google-auth', googleAuthentication);
 
 route.get('/user/verify/:tokenId', decodeToken, validateUser);
 route.post('/forgot-password', forgotPassword);
+route.post('/setNewPassword', setNewPassword);
 
 module.exports = route;

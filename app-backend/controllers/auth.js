@@ -344,7 +344,30 @@ exports.forgotPassword = async (req, res) => {
 
     return res.status(200).json({ msg: 'Check your email' });
   } catch (error) {
-    console.log(error);
     return res.status(400).json('Bad Request');
+  }
+};
+
+exports.setNewPassword = async (req, res) => {
+  const { email, newPassword, confirmPassword } = req.body;
+  if (!newPassword.length > 0 || !confirmPassword.length > 0) {
+    return res.status(400).json({ msg: 'Please fill all the field' });
+  }
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ msg: 'Password not match with confirm Password' });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ msg: 'User not found address' });
+    }
+
+    user.password = newPassword;
+    user.save();
+    return res.json({ msg: 'Password set successfully' });
+  } catch (error) {
+    return res.status(400).json({ msg: 'Something went wrong' });
   }
 };

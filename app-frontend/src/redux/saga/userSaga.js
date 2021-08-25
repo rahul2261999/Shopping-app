@@ -100,3 +100,14 @@ export function* forgotPassword(action) {
     yield put(errorToaster('unable to send request'));
   }
 }
+
+export function* setNewPassword(action) {
+  try {
+    const response = yield axios.post('/setNewPassword', action.payload);
+    if (response.data) {
+      yield put(successToaster(response.data.msg));
+    }
+  } catch (error) {
+    yield put(errorToaster(error.response.data.msg || 'Invalid Request'));
+  }
+}

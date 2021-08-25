@@ -14,6 +14,7 @@ import Category from '../components/Dashboard/Category/Category';
 import Users from '../components/Dashboard/Users/User';
 import Orders from '../components/Dashboard/Orders/Orders';
 import EmailVerification from '../components/Auth/EmailVerification/EmailVerification';
+import ForgotPassword from '../components/Auth/ForgotPassword';
 
 const mainRoutes = () => (
   <Switch>
@@ -21,6 +22,7 @@ const mainRoutes = () => (
     <Routes path="/tshirt" component={TShirt} />
     <Routes path="/shoes" component={Shoes} />
     <Routes path="/user/verify/:token" component={EmailVerification} />
+    <Routes path="/user/forgotpassword" component={ForgotPassword} />
     <Routes path="/checkout/orderinformation" isLoggedIn component={Checkout} />
     <Routes path="/userOrders" isLoggedIn component={UserOrders} />
     <Routes path="/dashboard" exact adminRoute component={Product} />

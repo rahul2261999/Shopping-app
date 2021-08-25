@@ -21,6 +21,7 @@ export const REDIRECT_USER = 'REDIRECT_USER';
 
 // <----------------------- FORGOTPASSWORD ----------->
 export const FORGOT_PASSWORD_REQUEST_INIT = 'FORGOT_PASSWORD_REQUEST_INIT';
+export const SET_NEW_PASSWORD_REQUEST = 'SET_NEW_PASSWORD_REQUEST';
 
 // <----------------------- PRODUCT ----------->
 export const OPEN_PRODUCT_MODAL = 'OPEN_PRODUCT_MODAL';
