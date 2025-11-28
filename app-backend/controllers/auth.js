@@ -52,11 +52,11 @@ exports.signUp = (req, res) => {
           });
         }
         const transporter = nodemailer.createTransport({
-          host: 'smtp-relay.sendinblue.com',
-          port: 587,
+          host: process.env.SMTP_HOST,
+          port: process.env.SMTP_PORT,
           auth: {
             type: 'Login',
-            user: process.env.SMPT_USERNAME,
+            user: process.env.SMTP_USERNAME,
             pass: process.env.SMPT_PASSWORD
           }
         });

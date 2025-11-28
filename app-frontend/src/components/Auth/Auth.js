@@ -11,8 +11,7 @@ import {
   validatePassword,
   validateConfirmPassWord,
   isObjectEmpty
-}
-  from '../../utilities/helperFunction';
+} from '../../utilities/helperFunction';
 import {
   userSignup,
   userSignInInitiate,
@@ -32,8 +31,7 @@ import {
   Span,
   Icon,
   HyperLink
-}
-  from './style';
+} from './style';
 
 const Auth = (props) => {
   const { openModal, redirect } = props;

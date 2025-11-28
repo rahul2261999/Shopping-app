@@ -35,7 +35,7 @@ const ForgotPassword = ({
     confirmPassword: validateConfirmPassWord(confirmPassword, newPassword)
   });
 
-  const formSubmitHandler = async() => {
+  const formSubmitHandler = async () => {
     const error = validate();
     if (isObjectEmpty(error)) {
       await dispatch(setNewPasswordRequset({ email, newPassword, confirmPassword }));

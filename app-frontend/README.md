@@ -2,6 +2,39 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Project Description
+
+React application for the Shopping app providing:
+- Customer storefront (browse products, cart, checkout)
+- Admin dashboard (manage products, categories, orders)
+- Auth flows integrated with the backend API
+
+Note: Use npm for all commands. Any references to `yarn` below come from CRA defaults and map to npm equivalents (e.g., `yarn start` → `npm start`).
+
+## Setup (npm)
+
+Environment:
+- `REACT_APP_BASE_URL` pointing to the backend API
+
+Install dependencies:
+```
+npm ci
+```
+or
+```
+npm install
+```
+
+Run in development:
+```
+npm start
+```
+
+Create production build:
+```
+npm run build
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -66,5 +99,46 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
 ### `yarn build` fails to minify
-
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### Environment Variables
+
+Create a `.env` file in the `app-frontend` directory with:
+
+- `REACT_APP_BASE_URL`: Base URL of the backend API (e.g., `http://localhost:3002`).
+
+## Deployment
+
+### Vercel (Static Site)
+
+- Framework preset: Create React App
+- Build command: `npm run build`
+- Output directory: `build`
+- Set `REACT_APP_BASE_URL` in Vercel Project Settings → Environment Variables
+- Deploy via repository connect or CLI:
+```
+npx vercel --prod
+```
+
+### Docker
+
+Create `app-frontend/Dockerfile`:
+```dockerfile
+FROM node:18-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+Build and run:
+```
+docker build -t shopping-frontend ./app-frontend
+docker run -p 3000:80 -e REACT_APP_BASE_URL=http://localhost:3002 shopping-frontend
+```
