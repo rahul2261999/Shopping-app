@@ -3,7 +3,6 @@ const { check } = require('express-validator');
 
 const route = express.Router();
 const asyncHandler = require('../middleware/async');
-
 const {
   signUp,
   signIn,
@@ -15,16 +14,21 @@ const {
   setNewPassword
 } = require('../controllers/auth');
 
-route.post('/signup', [
-  check('first_name', 'First name field can not be empty').isLength({ min: 1 }),
-  check('email', 'Please enter valid email address').isEmail(),
-  check('password', 'Password is weak').isStrongPassword()],
-asyncHandler(signUp));
+route.post(
+  '/signup',
+  [
+    check('first_name', 'First name field can not be empty').isLength({ min: 1 }),
+    check('email', 'Please enter valid email address').isEmail(),
+    check('password', 'Password is weak').isStrongPassword()],
+  asyncHandler(signUp)
+);
 
-route.post('/signin',
+route.post(
+  '/signin',
   check('email', 'Please enter valid email address').isEmail(),
   isEmailVerified,
-  asyncHandler(signIn));
+  asyncHandler(signIn)
+);
 route.post('/google-auth', asyncHandler(googleAuthentication));
 
 route.get('/user/verify/:tokenId', decodeToken, asyncHandler(validateUser));

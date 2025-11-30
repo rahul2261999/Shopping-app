@@ -9,13 +9,10 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.TOKEN_SECRET;
 
 module.exports = (passport) => {
-  passport.use(new JwtStrategy(opts, ((jwt_payload, done) => {
+  passport.use(new JwtStrategy(opts, (async (jwt_payload, done) => {
     logger.debug({ userId: jwt_payload?._id }, 'jwtStrategy invoked');
-    User.findOne({ _id: jwt_payload._id }, (err, user) => {
-      if (err) {
-        logger.error({ err }, 'jwtStrategy user lookup error');
-        return done(err, false);
-      }
+    try {
+      const user = await User.findOne({ _id: jwt_payload._id }).exec();
       if (user) {
         const {
           _id, first_name, last_name, email, isAdmin
@@ -27,7 +24,9 @@ module.exports = (passport) => {
       }
       logger.warn({ userId: jwt_payload?._id }, 'jwtStrategy user not found');
       return done(null, false);
-      // or you could create a new account
-    });
+    } catch (err) {
+      logger.error({ err }, 'jwtStrategy user lookup error');
+      return done(err, false);
+    }
   })));
 };

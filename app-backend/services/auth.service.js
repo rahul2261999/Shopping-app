@@ -1,14 +1,16 @@
 const { v4: uuid } = require('uuid');
 const { OAuth2Client } = require('google-auth-library');
+
 const User = require('../models/user/user');
 const VerifyToken = require('../models/verifyToken/verifyToken');
-const { sendVerificationEmail, sendForgotPasswordEmail } = require('./email.service');
-const { signAuthToken, createAndSaveVerifyToken } = require('./token.service');
 const {
   BadRequestError,
   ServiceUnavailableError
 } = require('../errors/HttpErrors');
 const logger = require('../utils/logger');
+
+const { sendVerificationEmail, sendForgotPasswordEmail } = require('./email.service');
+const { signAuthToken, createAndSaveVerifyToken } = require('./token.service');
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -120,22 +122,25 @@ async function googleAuthentication(idToken) {
 async function resendVerificationEmailIfNotVerified(email) {
   logger.info({ email }, 'resend verification requested');
   const user = await User.findOne({ email }).exec();
+
   if (!user) {
     logger.warn({ email }, 'resend verification failed: user not found');
     throw new BadRequestError('user not found');
   }
-  if (user.isEmailVerified) {
-    logger.info({ userId: user._id }, 'resend verification skipped: already verified');
+
+  if (!user.isEmailVerified) {
+    const token = await createAndSaveVerifyToken(user);
+    await sendVerificationEmail({
+      userName: `${user.first_name}${user.last_name}`,
+      email: user.email,
+      verifyPath: `${process.env.APP_URL}/user/verify/${token}`
+    });
     return { msg: 'Verify email link send to your email' };
   }
-  const token = await createAndSaveVerifyToken(user);
-  await sendVerificationEmail({
-    userName: `${user.first_name}${user.last_name}`,
-    email: user.email,
-    verifyPath: `${process.env.APP_URL}/user/verify/${token}`
-  });
-  logger.info({ userId: user._id }, 'verification email resent');
-  return { msg: 'Verify email link send to your email' };
+
+  logger.info({ userId: user._id }, 'resend verification skipped: already verified');
+
+  return null;
 }
 
 async function forgotPassword(email) {
@@ -183,5 +188,3 @@ module.exports = {
   forgotPassword,
   setNewPassword
 };
-
-

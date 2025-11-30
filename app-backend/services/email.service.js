@@ -1,18 +1,27 @@
 const path = require('path');
 const ejs = require('ejs');
 const nodemailer = require('nodemailer');
+
 const logger = require('../utils/logger');
 
 function getSmtpConfig() {
-  const host = process.env.SMTP_HOST || 'smtp-relay.sendinblue.com';
-  const port = Number(process.env.SMTP_PORT || 587);
-  const user = process.env.SMTP_USERNAME || process.env.SMPT_USERNAME;
-  const pass = process.env.SMTP_PASSWORD || process.env.SMPT_PASSWORD;
-  return { host, port, user, pass };
+  const host = process.env.SMTP_HOST;
+  const port = Number(process.env.SMTP_PORT);
+  const user = process.env.SMTP_USERNAME;
+  const pass = process.env.SMTP_PASSWORD;
+
+  if (!host || !port || !user || !pass) {
+    throw new Error('SMTP configuration is missing');
+  }
+  return {
+    host, port, user, pass
+  };
 }
 
 async function createTransporter() {
-  const { host, port, user, pass } = getSmtpConfig();
+  const {
+    host, port, user, pass
+  } = getSmtpConfig();
   logger.debug({ host, port }, 'creating SMTP transporter');
   return nodemailer.createTransport({
     host,
@@ -32,10 +41,12 @@ async function renderTemplate(templateName, data) {
 }
 
 async function sendEmail({ to, subject, html }) {
-  const from = process.env.EMAIL_FROM || 'rahulsaini2261999@pepisandbox.com';
+  const from = process.env.EMAIL_FROM || 'noreply.trendybloom@daone.in';
   const transporter = await createTransporter();
-  await transporter.sendMail({ from, to, subject, html });
-  logger.info({ to, subject }, 'email sent');
+  await transporter.sendMail({
+    from, to, subject, html
+  });
+  logger.info({ to, from, subject }, 'email sent');
 }
 
 async function sendVerificationEmail({ userName, email, verifyPath }) {
@@ -61,5 +72,3 @@ module.exports = {
   sendVerificationEmail,
   sendForgotPasswordEmail
 };
-
-

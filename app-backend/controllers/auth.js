@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+
 const authService = require('../services/auth.service');
 const { verifyJwtToken } = require('../services/token.service');
 const { BadRequestError } = require('../errors/HttpErrors');
@@ -86,6 +87,7 @@ exports.isEmailVerified = async (req, res, next) => {
   logger.info({ requestId: req.requestId }, 'controller:auth.isEmailVerified start');
   try {
     const result = await authService.resendVerificationEmailIfNotVerified(req.body.email);
+
     if (result && result.msg) {
       logger.info({ requestId: req.requestId }, 'controller:auth.isEmailVerified resend sent');
       return res.status(200).json(result);

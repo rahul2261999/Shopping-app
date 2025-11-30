@@ -199,7 +199,7 @@ const Auth = (props) => {
         </Row>
         <Row>
           <ModalFooter>
-            {socialAuth}
+            {false && socialAuth}
             <FooterRight>
               Already have an Account?
               <Span onClick={switchFrom}>Sign In</Span>
@@ -237,7 +237,7 @@ const Auth = (props) => {
         </Row>
         <Row>
           <ModalFooter>
-            {socialAuth}
+            {false && socialAuth}
             <FooterRight style={{ justifyContent: 'flex-end' }}>
               Not have an Account?
               <Span onClick={switchFrom}>Sign Up</Span>
