@@ -1,373 +1,143 @@
-const path = require('path');
-const nodemailer = require('nodemailer');
-const jwt = require('jsonwebtoken');
-const ejs = require('ejs');
-const { v4: uuid } = require('uuid');
-const { OAuth2Client } = require('google-auth-library');
 const { validationResult } = require('express-validator');
+const authService = require('../services/auth.service');
+const { verifyJwtToken } = require('../services/token.service');
+const { BadRequestError } = require('../errors/HttpErrors');
+const logger = require('../utils/logger');
 
-const User = require('../models/user/user');
-const VerifyToken = require('../models/verifyToken/verifyToken');
-
-const { errorHandler } = require('./helperFunction/helper');
-
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-exports.signUp = (req, res) => {
+exports.signUp = async (req, res, next) => {
+  logger.info({ requestId: req.requestId }, 'controller:auth.signUp start');
   const error = validationResult(req);
 
   if (!error.isEmpty()) {
+    logger.warn({ requestId: req.requestId, errors: error.array() }, 'controller:auth.signUp validation failed');
     return res.status(400).json({
       error: error.array()[0].msg
     });
   }
-
-  User.findOne({
-    email: req.body.email
-  }).exec((err, user) => {
-    if (err || user) {
-      return errorHandler(res, {
-        error: err,
-        data: user,
-        msg: 'User already registerd with this email'
-      });
-    }
-    const newUser = new User(req.body);
-    newUser.save((err, user) => {
-      if (err) {
-        return errorHandler(res, {
-          error: err
-        });
-      }
-      const {
-        _id, first_name, last_name, email, isAdmin
-      } = user;
-      const token = jwt.sign({
-        _id, first_name, last_name, email, isAdmin
-      }, process.env.TOKEN_SECRET);
-      const saveToken = new VerifyToken({ user: _id, token });
-      saveToken.save((err) => {
-        if (err) {
-          return errorHandler(res, {
-            error: err
-          });
-        }
-        const transporter = nodemailer.createTransport({
-          host: process.env.SMTP_HOST,
-          port: process.env.SMTP_PORT,
-          auth: {
-            type: 'Login',
-            user: process.env.SMTP_USERNAME,
-            pass: process.env.SMPT_PASSWORD
-          }
-        });
-        ejs.renderFile(path.resolve('./public') + path.normalize('/html/email.ejs'), {
-          user: `${first_name} ${last_name}`,
-          email,
-          pathname: `${process.env.APP_URL}/user/verify/${token}`
-        }, (err, html) => {
-          if (err) {
-            return res.status(400).json({ msg: err });
-          }
-          transporter.sendMail({
-            from: 'rahulsaini2261999@pepisandbox.com',
-            to: email,
-            html,
-            subject: 'Verify your email'
-          }, (err) => {
-            if (err) {
-              return errorHandler(res, {
-                error: err
-              });
-            }
-            return res.status(200).json({ msg: 'Verify email link send to your email' });
-          });
-        });
-      });
-    });
-  });
+  try {
+    const result = await authService.signUp(req.body);
+    logger.info({ requestId: req.requestId }, 'controller:auth.signUp success');
+    return res.status(200).json(result);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err }, 'controller:auth.signUp error');
+    return next(err);
+  }
 };
 
-exports.signIn = (req, res) => {
+exports.signIn = async (req, res, next) => {
+  logger.info({ requestId: req.requestId }, 'controller:auth.signIn start');
   const error = validationResult(req);
   if (!error.isEmpty()) {
+    logger.warn({ requestId: req.requestId, errors: error.array() }, 'controller:auth.signIn validation failed');
     return res.status(400).json({
       error: error.array()[0].msg
     });
   }
-  User.findOne({
-    email: req.body.email
-  }).exec((err, user) => {
-    if (err || !user) {
-      return errorHandler(res, {
-        error: err,
-        data: !user,
-        msg: 'User not found with this email'
-      });
-    }
-    if (!user.authenticated(req.body.password)) {
-      return errorHandler(res, {
-        data: true,
-        msg: 'Please enter correct password'
-      });
-    }
-
-    const {
-      _id,
-      first_name,
-      last_name,
-      email,
-      isAdmin
-    } = user;
-
-    const token = jwt.sign({
-      _id,
-      first_name,
-      last_name,
-      email,
-      isAdmin
-    }, process.env.TOKEN_SECRET);
-    res.json({
-      token,
-      user: {
-        _id,
-        first_name,
-        last_name,
-        email,
-        isAdmin
-      }
-    });
-  });
+  try {
+    const result = await authService.signIn({ email: req.body.email, password: req.body.password });
+    logger.info({ requestId: req.requestId }, 'controller:auth.signIn success');
+    return res.json(result);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err }, 'controller:auth.signIn error');
+    return next(err);
+  }
 };
 
-exports.validateUser = (req, res) => {
+exports.validateUser = async (req, res, next) => {
+  logger.info({ requestId: req.requestId }, 'controller:auth.validateUser start');
   const { token, payload } = req.user;
-  User.findOne({ email: payload.email }).exec((err, user) => {
-    if (err || !user) {
-      return errorHandler(res, { error: err, data: !user, msg: 'User not found' });
-    }
-    if (user.isEmailVerified) {
-      return res.status(200).json({ msg: 'User already verified' });
-    }
-    user.isEmailVerified = true;
-    user.save((err) => {
-      if (err) {
-        return errorHandler(res, { error: err });
-      }
-      res.status(200).json({
-        token,
-        user: payload
-      });
-    });
-  });
+  try {
+    const result = await authService.validateUserByEmailFromToken(payload, token);
+    logger.info({ requestId: req.requestId }, 'controller:auth.validateUser success');
+    return res.status(200).json(result);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err }, 'controller:auth.validateUser error');
+    return next(err);
+  }
 };
 
-exports.googleAuthentication = async (req, res) => {
+exports.googleAuthentication = async (req, res, next) => {
+  logger.info({ requestId: req.requestId }, 'controller:auth.googleAuthentication start');
   const { id_token } = req.body;
   try {
-    const clientData = await googleClient.verifyIdToken({ idToken: id_token, audience: process.env.GOOGLE_CLIENT_ID });
-    const {
-      given_name, family_name, email, email_verified
-    } = clientData.payload;
-    if (!email_verified) {
-      return errorHandler(res, { data: true, msg: 'email is not verified' });
-    }
-    User.findOne({ email }).exec((err, user) => {
-      if (err) {
-        return errorHandler(res, { err });
-      }
-      if (user) {
-        const {
-          _id, first_name, last_name, email, isAdmin
-        } = user;
-
-        const token = jwt.sign({
-          _id, first_name, last_name, email, isAdmin
-        }, process.env.TOKEN_SECRET);
-        return res.json({
-          token,
-          user: {
-            _id,
-            first_name,
-            last_name,
-            email,
-            isAdmin
-          }
-        });
-      }
-      new User({
-        first_name: given_name,
-        last_name: family_name,
-        email,
-        isEmailVerified: email_verified,
-        password: uuid()
-      }).save((err, user) => {
-        if (err || !user) {
-          return errorHandler(res, { err, data: !user, msg: 'user not able to login' });
-        }
-        const {
-          _id, first_name, last_name, email, isAdmin
-        } = user;
-
-        const token = jwt.sign({
-          _id, first_name, last_name, email, isAdmin
-        }, process.env.TOKEN_SECRET);
-        res.json({
-          token,
-          user: {
-            _id,
-            first_name,
-            last_name,
-            email,
-            isAdmin
-          }
-        });
-      });
-    });
-  } catch (error) {
-    return errorHandler(res, { error });
+    const result = await authService.googleAuthentication(id_token);
+    logger.info({ requestId: req.requestId }, 'controller:auth.googleAuthentication success');
+    return res.json(result);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err }, 'controller:auth.googleAuthentication error');
+    return next(err);
   }
 };
 
 // middlewares
 
 exports.isAdmin = (req, res, next) => {
+  logger.info({ requestId: req.requestId }, 'controller:auth.isAdmin check');
   const check = req.user.isAdmin === 1;
   if (!check) {
-    return errorHandler(res, {
-      data: !check,
-      msg: 'Require admin access'
-    });
+    logger.warn({ requestId: req.requestId, userId: req.user?._id }, 'controller:auth.isAdmin denied');
+    return next(new BadRequestError('Require admin access'));
   }
+  logger.debug({ requestId: req.requestId, userId: req.user?._id }, 'controller:auth.isAdmin ok');
   next();
 };
 
-exports.isEmailVerified = (req, res, next) => {
-  User.findOne({ email: req.body.email }).exec((err, user) => {
-    if (err || !user) {
-      return errorHandler(res, {
-        error: err,
-        data: !user,
-        msg: 'user not found'
-      });
+exports.isEmailVerified = async (req, res, next) => {
+  logger.info({ requestId: req.requestId }, 'controller:auth.isEmailVerified start');
+  try {
+    const result = await authService.resendVerificationEmailIfNotVerified(req.body.email);
+    if (result && result.msg) {
+      logger.info({ requestId: req.requestId }, 'controller:auth.isEmailVerified resend sent');
+      return res.status(200).json(result);
     }
-    if (user.isEmailVerified) {
-      return next();
-    }
-    const {
-      _id, first_name, last_name, email, isAdmin
-    } = user;
-    const token = jwt.sign({
-      _id, first_name, last_name, email, isAdmin
-    }, process.env.TOKEN_SECRET);
-    const saveToken = new VerifyToken({ user: _id, token });
-    saveToken.save((err, tokenData) => {
-      if (err) {
-        return errorHandler(res, {
-          error: err
-        });
-      }
-      const transporter = nodemailer.createTransport({
-        host: 'smtp-relay.sendinblue.com',
-        port: 587,
-        auth: {
-          type: 'Login',
-          user: process.env.SMPT_USERNAME,
-          pass: process.env.SMPT_PASSWORD
-        }
-      });
-      ejs.renderFile(path.resolve('./public') + path.normalize('/html/email.ejs'), {
-        user: first_name.concat(last_name),
-        email,
-        pathname: `${process.env.APP_URL}/user/verify/${tokenData.token}`
-      }, (err, html) => {
-        if (err) {
-          throw err;
-        }
-        transporter.sendMail({
-          from: 'rahulsaini2261999@pepisandbox.com',
-          to: email,
-          subject: 'Verify your email',
-          html
-        }, (err) => {
-          if (err) {
-            return errorHandler(res, {
-              error: err
-            });
-          }
-          res.status(200).json({ msg: 'Verify email link send to your email' });
-        });
-      });
-    });
-  });
-};
-
-exports.decodeToken = (req, res, next) => {
-  if (req.params.tokenId) {
-    jwt.verify(req.params.tokenId, process.env.TOKEN_SECRET, (err, payload) => {
-      if (err) {
-        return errorHandler(res, { data: true, msg: 'Invalid request' });
-      }
-      req.user = { payload, token: req.params.tokenId };
-      next();
-    });
+    logger.debug({ requestId: req.requestId }, 'controller:auth.isEmailVerified ok');
+    return next();
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err }, 'controller:auth.isEmailVerified error');
+    return next(err);
   }
 };
 
-exports.forgotPassword = async (req, res) => {
+exports.decodeToken = async (req, res, next) => {
+  logger.info({ requestId: req.requestId }, 'controller:auth.decodeToken start');
+  if (req.params.tokenId) {
+    try {
+      const payload = await verifyJwtToken(req.params.tokenId);
+      req.user = { payload, token: req.params.tokenId };
+      logger.info({ requestId: req.requestId }, 'controller:auth.decodeToken success');
+      return next();
+    } catch (err) {
+      logger.error({ requestId: req.requestId, err }, 'controller:auth.decodeToken error');
+      return next(err);
+    }
+  } else {
+    logger.warn({ requestId: req.requestId }, 'controller:auth.decodeToken invalid request');
+    return next(new BadRequestError('Invalid request'));
+  }
+};
+
+exports.forgotPassword = async (req, res, next) => {
+  logger.info({ requestId: req.requestId }, 'controller:auth.forgotPassword start');
   const { email } = req.body;
   try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return errorHandler(res, { data: true, msg: 'email not found' });
-    }
-    const transporter = await nodemailer.createTransport({
-      host: 'smtp-relay.sendinblue.com',
-      port: 587,
-      auth: {
-        type: 'Login',
-        user: process.env.SMPT_USERNAME,
-        pass: process.env.SMPT_PASSWORD
-      }
-    });
-
-    const html = await ejs.renderFile(path.resolve('./public') + path.normalize('/html/forgotpass.ejs'),
-      {
-        email,
-        pathname: `${process.env.APP_URL}/user/forgotpassword/?email=${email}`
-      });
-    await transporter.sendMail({
-      from: 'rahulsaini2261999@pepisandbox.com',
-      to: email,
-      subject: 'Forgot Password',
-      html
-    });
-
-    return res.status(200).json({ msg: 'Check your email' });
-  } catch (error) {
-    return res.status(400).json('Bad Request');
+    const result = await authService.forgotPassword(email);
+    logger.info({ requestId: req.requestId }, 'controller:auth.forgotPassword success');
+    return res.status(200).json(result);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err }, 'controller:auth.forgotPassword error');
+    return next(err);
   }
 };
 
-exports.setNewPassword = async (req, res) => {
+exports.setNewPassword = async (req, res, next) => {
+  logger.info({ requestId: req.requestId }, 'controller:auth.setNewPassword start');
   const { email, newPassword, confirmPassword } = req.body;
-  if (!newPassword.length > 0 || !confirmPassword.length > 0) {
-    return res.status(400).json({ msg: 'Please fill all the field' });
-  }
-  if (newPassword !== confirmPassword) {
-    return res.status(400).json({ msg: 'Password not match with confirm Password' });
-  }
-
   try {
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(400).json({ msg: 'User not found address' });
-    }
-
-    user.password = newPassword;
-    user.save();
-    return res.json({ msg: 'Password set successfully' });
-  } catch (error) {
-    return res.status(400).json({ msg: 'Something went wrong' });
+    const result = await authService.setNewPassword({ email, newPassword, confirmPassword });
+    logger.info({ requestId: req.requestId }, 'controller:auth.setNewPassword success');
+    return res.json(result);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err }, 'controller:auth.setNewPassword error');
+    return next(err);
   }
 };

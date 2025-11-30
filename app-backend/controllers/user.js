@@ -1,22 +1,29 @@
-const User = require('../models/user/user');
+const userService = require('../services/user.service');
+const { BadRequestError } = require('../errors/HttpErrors');
+const logger = require('../utils/logger');
 
-const { errorHandler } = require('./helperFunction/helper');
-
-exports.getUserDetails = (req, res, next, id) => {
-  User.find({ _id: { $in: [id] } }, { encry_password: 0, salt: 0 }).exec((err, user) => {
-    if (err) {
-      return res.status(400).json({ error: 'network problem' });
-    }
+exports.getUserDetails = async (req, res, next, id) => {
+  try {
+    logger.info({ requestId: req.requestId, id }, 'controller:user.getUserDetails param start');
+    const user = await userService.getUserDetailsById(id);
     req.profile = user;
-    next();
-  });
+    logger.info({ requestId: req.requestId, id }, 'controller:user.getUserDetails param success');
+    return next();
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err, id }, 'controller:user.getUserDetails param error');
+    return next(err);
+  }
 };
 
-exports.getAllUser = (req, res) => {
-  User.find({}, { encry_password: 0, salt: 0 }).exec((err, user) => {
-    if (err || !user) {
-      errorHandler(res, { error: err, data: !user, msg: 'Users not found' });
-    }
-    res.status(200).json(user);
-  });
+exports.getAllUser = async (req, res, next) => {
+  try {
+    logger.info({ requestId: req.requestId }, 'controller:user.getAllUser start');
+    const users = await userService.getAllUsers();
+    const count = Array.isArray(users) ? users.length : 0;
+    logger.info({ requestId: req.requestId, count }, 'controller:user.getAllUser success');
+    return res.status(200).json(users);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err }, 'controller:user.getAllUser error');
+    return next(err);
+  }
 };

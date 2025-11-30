@@ -1,137 +1,88 @@
-const _ = require('lodash');
+const orderService = require('../services/order.service');
+const logger = require('../utils/logger');
 
-const Order = require('../models/order/order');
-const Product = require('../models/product/product');
-
-const {
-  errorHandler
-} = require('./helperFunction/helper');
-
-exports.findOrder = (req, res, next, id) => {
-  Order.findById(id).exec((err, order) => {
-    if (err || !order) {
-      return errorHandler(err, {
-        error: err,
-        data: !order,
-        msg: 'No order found'
-      });
-    }
+exports.findOrder = async (req, res, next, id) => {
+  try {
+    logger.info({ requestId: req.requestId, id }, 'controller:order.findOrder param start');
+    const order = await orderService.findOrderById(id);
     req.order = order;
-    next();
-  });
+    logger.info({ requestId: req.requestId, id }, 'controller:order.findOrder param success');
+    return next();
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err, id }, 'controller:order.findOrder param error');
+    return next(err);
+  }
 };
 
-exports.createOrder = async (req, res) => {
-  const productsId = req.body.product_purchased.map((item) => item.product_id);
-  const getproductDetails = await Product.find({
-    _id: {
-      $in: productsId
-    }
-  }, {
-    _id: 1,
-    prod_price: 1
-  });
-  const modifiedProductObject = getproductDetails.map((prod, index) => {
-    const {
-      _id,
-      prod_price
-    } = prod;
-    return {
-      product_id: _id,
-      quantity: req.body.product_purchased[index].qty,
-      total_price: prod_price * req.body.product_purchased[index].qty
-    };
-  });
-  req.body.product_purchased = modifiedProductObject;
-  const totalAmount = modifiedProductObject.map((prod) => prod.total_price).reduce((total, price) => total + price, 0);
-  const createOrder = { ...req.body, user_id: req.user._id, total_amount: totalAmount };
-  const newOrder = new Order(createOrder);
-  newOrder.save((err, order) => {
-    if (err || !order) {
-      return errorHandler(res, {
-        error: err,
-        data: !order,
-        msg: 'Order is not placed, Please try gain'
-      });
-    }
-    res.status(200).json(order);
-  });
+exports.createOrder = async (req, res, next) => {
+  try {
+    logger.info({ requestId: req.requestId, userId: req.user?._id }, 'controller:order.createOrder start');
+    const order = await orderService.createOrder(req.user._id, req.body);
+    logger.info({ requestId: req.requestId, orderId: order?._id }, 'controller:order.createOrder success');
+    return res.status(200).json(order);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err, userId: req.user?._id }, 'controller:order.createOrder error');
+    return next(err);
+  }
 };
 
-exports.getUserOrders = (req, res) => {
-  Order.find({
-    user_id: req.user._id
-  }, {
-    user_id: 0
-  })
-    .populate({
-      path: 'product_purchased.product_id',
-      select: 'prod_name prod_price category',
-      populate: {
-        path: 'category',
-        select: 'category_name'
-      }
-    })
-    .exec((err, order) => {
-      if (err || !order) {
-        return errorHandler(res, {
-          error: err,
-          data: !order,
-          msg: 'No orders found'
-        });
-      }
-      res.status(200).json(order);
-    });
+exports.getUserOrders = async (req, res, next) => {
+  try {
+    logger.info({ requestId: req.requestId, userId: req.user?._id }, 'controller:order.getUserOrders start');
+    const orders = await orderService.getUserOrders(req.user._id);
+    logger.info(
+      {
+        requestId: req.requestId,
+        userId: req.user?._id,
+        count: Array.isArray(orders) ? orders.length : 0
+      },
+      'controller:order.getUserOrders success'
+    );
+    return res.status(200).json(orders);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err, userId: req.user?._id }, 'controller:order.getUserOrders error');
+    return next(err);
+  }
 };
 
-exports.cancelOrder = (req, res) => {
-  const { order } = req;
-  order.remove((err) => {
-    if (err) {
-      return errorHandler(res, {
-        error: err
-      });
-    }
-    res.json({
-      msg: 'Order Canceled Successfully'
-    });
-  });
+exports.cancelOrder = async (req, res, next) => {
+  try {
+    logger.info({ requestId: req.requestId, orderId: req.order?._id }, 'controller:order.cancelOrder start');
+    const result = await orderService.cancelOrder(req.order);
+    logger.info({ requestId: req.requestId, orderId: req.order?._id }, 'controller:order.cancelOrder success');
+    return res.json(result);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err, orderId: req.order?._id }, 'controller:order.cancelOrder error');
+    return next(err);
+  }
 };
 
-exports.getAllOrders = (req, res) => {
-  Order.find()
-    .populate({
-      path: 'user_id',
-      select: 'first_name last_name email'
-    })
-    .populate({
-      path: 'product_purchased.product_id',
-      select: 'prod_name prod_price category',
-      populate: {
-        path: 'category',
-        select: 'category_name'
-      }
-    })
-    .exec((err, orders) => {
-      if (err) {
-        return errorHandler(res, {
-          error: err
-        });
-      }
-      res.status(200).json(orders);
-    });
+exports.getAllOrders = async (req, res, next) => {
+  try {
+    logger.info({ requestId: req.requestId }, 'controller:order.getAllOrders start');
+    const orders = await orderService.getAllOrders();
+    logger.info(
+      {
+        requestId: req.requestId,
+        count: Array.isArray(orders) ? orders.length : 0
+      },
+      'controller:order.getAllOrders success'
+    );
+    return res.status(200).json(orders);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err }, 'controller:order.getAllOrders error');
+    return next(err);
+  }
 };
 
-exports.updateOrderStatus = (req, res) => {
-  const updateOrder = _.assign(req.order, req.body);
-  updateOrder.save((err, order) => {
-    if (err || !order) {
-      return errorHandler(res, {
-        error: err,
-        data: !order,
-        msg: 'Status not updated'
-      });
-    }
-    res.status(200).json({ msg: 'Status updated successfully' });
-  });
+exports.updateOrderStatus = async (req, res, next) => {
+  try {
+    logger.info({ requestId: req.requestId, orderId: req.order?._id }, 'controller:order.updateOrderStatus start');
+    const result = await orderService.updateOrderStatus(req.order, req.body);
+    logger.info({ requestId: req.requestId, orderId: req.order?._id }, 'controller:order.updateOrderStatus success');
+    return res.status(200).json(result);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err, orderId: req.order?._id }, 'controller:order.updateOrderStatus error');
+    return next(err);
+  }
 };

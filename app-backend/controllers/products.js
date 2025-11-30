@@ -1,115 +1,88 @@
 const formidable = require('formidable');
-const fs = require('fs');
 
-const Product = require('../models/product/product');
+const productService = require('../services/product.service');
+const logger = require('../utils/logger');
 
-const { errorHandler } = require('./helperFunction/helper');
-
-exports.getProduct = (req, res, next, id) => {
-  Product.findById(id).exec((err, product) => {
-    if (err || !product) {
-      return errorHandler(res, { error: err, data: !product, msg: 'Product not found' });
-    }
+exports.getProduct = async (req, res, next, id) => {
+  try {
+    logger.info({ requestId: req.requestId, id }, 'controller:products.getProduct param start');
+    const product = await productService.getProductById(id);
     req.product = product;
-    next();
-  });
+    logger.info({ requestId: req.requestId, id }, 'controller:products.getProduct param success');
+    return next();
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err, id }, 'controller:products.getProduct param error');
+    return next(err);
+  }
 };
 
-exports.getAllProducts = (req, res) => {
-  Product.aggregate([
-    {
-      $lookup: {
-        from: 'categories',
-        localField: 'prod_category',
-        foreignField: '_id',
-        as: 'prod_category'
-      }
-    }, {
-      $unwind: {
-        path: '$prod_category'
-      }
-    }, {
-      $project: {
-        product_name: '$prod_name',
-        product_price: '$prod_price',
-        product_image: '$prod_image',
-        product_stock: '$prod_stock',
-        product_description: '$prod_description',
-        product_category: '$prod_category',
-        product_type: '$prod_type',
-        createdAt: 1,
-        updatedAt: 1
-      }
-    }
-  ])
-    .exec((err, product) => {
-      if (err) {
-        return errorHandler(res, { error: err });
-      }
-      res.json(product);
-    });
+exports.getAllProducts = async (req, res, next) => {
+  try {
+    logger.info({ requestId: req.requestId }, 'controller:products.getAllProducts start');
+    const products = await productService.getAllProducts();
+    logger.info(
+      {
+        requestId: req.requestId,
+        count: Array.isArray(products) ? products.length : 0
+      },
+      'controller:products.getAllProducts success'
+    );
+    return res.json(products);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err }, 'controller:products.getAllProducts error');
+    return next(err);
+  }
 };
 
-exports.createProduct = (req, res) => {
+exports.createProduct = (req, res, next) => {
   const form = new formidable.IncomingForm({ keepExtensions: true });
-  form.parse(req, (err, fields, file) => {
-    if (err) {
-      return errorHandler(res, { data: err, msg: 'Something wrong with image' });
-    }
-    const product = new Product(fields);
-    if (file.prod_image) {
-      if (file.prod_image.size > 10000000) {
-        return errorHandler(res, { data: true, msg: 'Image Size is too big' });
-      }
-      product.prod_image.name = fs.readFileSync(file.prod_image.path);
-      product.prod_image.contentType = file.prod_image.type;
-    }
-    product.save((err, product) => {
+  form.parse(req, async (err, fields, file) => {
+    try {
       if (err) {
-        return errorHandler(res, { error: err });
+        throw err;
       }
-      res.status(200).json({ msg: 'Product updated successfully' });
-    });
+      logger.info({ requestId: req.requestId, name: fields?.prod_name }, 'controller:products.createProduct start');
+      const result = await productService.createProduct(fields, file);
+      logger.info({ requestId: req.requestId }, 'controller:products.createProduct success');
+      return res.status(200).json(result);
+    } catch (e) {
+      logger.error({ requestId: req.requestId, err: e }, 'controller:products.createProduct error');
+      return next(e);
+    }
   });
 };
 
 exports.getProductDetails = (req, res) => {
+  logger.info({ requestId: req.requestId, productId: req.product?._id }, 'controller:products.getProductDetails success');
   res.status(200).json(req.product);
 };
 
-exports.updateProduct = (req, res) => {
+exports.updateProduct = (req, res, next) => {
   const form = new formidable.IncomingForm({ keepExtensions: true });
-  form.parse(req, (err, fields, file) => {
-    if (err) {
-      return errorHandler(res, { data: err, msg: 'Something wrong with image' });
-    }
-    const updatedData = { ...fields };
-    if (file.prod_image) {
-      if (file.prod_image.size > 10000000) {
-        return errorHandler(res, { data: true, msg: 'Image Size is too big' });
+  form.parse(req, async (err, fields, file) => {
+    try {
+      if (err) {
+        throw err;
       }
-      updatedData.prod_image = {};
-      updatedData.prod_image.name = fs.readFileSync(file.prod_image.path);
-      updatedData.prod_image.contentType = file.prod_image.type;
+      logger.info({ requestId: req.requestId, productId: req.product?._id }, 'controller:products.updateProduct start');
+      const result = await productService.updateProduct(req.product._id, fields, file);
+      logger.info({ requestId: req.requestId, productId: req.product?._id }, 'controller:products.updateProduct success');
+      return res.status(200).json(result);
+    } catch (e) {
+      logger.error({ requestId: req.requestId, err: e, productId: req.product?._id }, 'controller:products.updateProduct error');
+      return next(e);
     }
-    Product.findOneAndUpdate(
-      { _id: req.product._id },
-      { $set: updatedData },
-      { new: true }
-    ).exec((err, product) => {
-      if (err || !product) {
-        return errorHandler(res, { error: err, data: !product, msg: 'Product not available' });
-      }
-      return res.status(200).json({ msg: 'Product updated successfully' });
-    });
   });
 };
 
-exports.deleteProduct = (req, res) => {
-  Product.deleteOne({ _id: req.product._id }).exec((err, product) => {
-    if (err) {
-      return errorHandler(res, { error: err });
-    }
-    return res.status(200).json({ product, msg: 'Product deleted successfully' });
-  });
+exports.deleteProduct = async (req, res, next) => {
+  try {
+    logger.info({ requestId: req.requestId, productId: req.product?._id }, 'controller:products.deleteProduct start');
+    const result = await productService.deleteProduct(req.product._id);
+    logger.info({ requestId: req.requestId, productId: req.product?._id }, 'controller:products.deleteProduct success');
+    return res.status(200).json(result);
+  } catch (err) {
+    logger.error({ requestId: req.requestId, err, productId: req.product?._id }, 'controller:products.deleteProduct error');
+    return next(err);
+  }
 };
