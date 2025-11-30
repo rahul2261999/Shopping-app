@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const mongoose = require('mongoose');
+
 const logger = require('../utils/logger');
 const Category = require('../models/product/category');
 const Product = require('../models/product/product');
@@ -44,7 +45,7 @@ function getMockProducts(categoryByName) {
     {
       prod_name: 'Wireless Mouse',
       prod_price: 1299,
-      prod_category: categoryByName['Electronics'],
+      prod_category: categoryByName.Electronics,
       prod_type: 'physical',
       prod_stock: 50,
       prod_description: 'Ergonomic 2.4G wireless mouse with USB receiver',
@@ -53,7 +54,7 @@ function getMockProducts(categoryByName) {
     {
       prod_name: 'Bluetooth Headphones',
       prod_price: 3999,
-      prod_category: categoryByName['Electronics'],
+      prod_category: categoryByName.Electronics,
       prod_type: 'physical',
       prod_stock: 30,
       prod_description: 'Over-ear noise-isolating headphones with 30h battery',
@@ -62,7 +63,7 @@ function getMockProducts(categoryByName) {
     {
       prod_name: 'Cotton T-Shirt',
       prod_price: 799,
-      prod_category: categoryByName['Clothing'],
+      prod_category: categoryByName.Clothing,
       prod_type: 'physical',
       prod_stock: 100,
       prod_description: '100% cotton crew-neck t-shirt',
@@ -71,7 +72,7 @@ function getMockProducts(categoryByName) {
     {
       prod_name: 'Denim Jeans',
       prod_price: 1999,
-      prod_category: categoryByName['Clothing'],
+      prod_category: categoryByName.Clothing,
       prod_type: 'physical',
       prod_stock: 40,
       prod_description: 'Slim fit mid-rise denim jeans',
@@ -130,5 +131,3 @@ seed().then(() => {
   // Ensure disconnect attempt even if connect failed partially
   mongoose.connection.readyState ? mongoose.disconnect().finally(() => process.exit(1)) : process.exit(1);
 });
-
-
